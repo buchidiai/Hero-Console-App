@@ -59,14 +59,6 @@ public class HeroDaoDBTest {
             superPowerDao.deleteSuperPowerById(superPower.getId());
         }
 
-//        List<Location> locations = locationDao.getAllLocations();
-//        for (Location location : locations) {
-//            locationDao.deleteLocationById(location.getId());
-//        }
-//        List<Organization> courses = organizationDao.getAllOrganizations();
-//        for (Organization Organization : courses) {
-//            organizationDao.deleteOrganizationById(Organization.getId());
-//        }
         //add super power
         superPower = new SuperPower();
         superPower.setSuperPower("Flying");

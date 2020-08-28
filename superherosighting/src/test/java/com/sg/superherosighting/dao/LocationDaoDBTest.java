@@ -40,6 +40,7 @@ public class LocationDaoDBTest {
     Location location2 = null;
 
     public LocationDaoDBTest() {
+
     }
 
     @BeforeEach
@@ -55,7 +56,7 @@ public class LocationDaoDBTest {
         location1 = new Location();
         location1.setName("Dallas");
         location1.setDescription("Robbery at City Bank");
-        location1.setAddress("200 dallas dr, dallas tx 75126");
+        location1.setAddress("200 dallas dr, dallas tx 79654");
         location1.setLatitude("31.9686");
         location1.setLongitude("99.9018");
 

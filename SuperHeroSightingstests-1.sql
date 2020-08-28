@@ -51,7 +51,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `superherosightingstest`.`organization` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
-  `descrption` VARCHAR(255) NULL,
+  `description` VARCHAR(255) NULL,
   `address` VARCHAR(75) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
