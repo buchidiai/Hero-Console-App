@@ -5,10 +5,23 @@
  */
 package com.sg.superherosighting.dao;
 
+import com.sg.superherosighting.entities.Organization;
+import java.util.List;
+
 /**
  *
  * @author louie
  */
 public interface OrganizationDao {
+
+    Organization getOrganizationById(int id);
+
+    List<Organization> getAllOrganizations();
+
+    Organization addOrganization(Organization organization);
+
+    void updateOrganization(Organization organization);
+
+    void deleteOrganizationById(int id);
 
 }

@@ -16,7 +16,7 @@ public class Hero {
     private int id;
     private String name;
     private String description;
-    private String superPower;
+    private int superPower;
 
     public int getId() {
         return id;
@@ -42,21 +42,21 @@ public class Hero {
         this.description = description;
     }
 
-    public String getSuperPower() {
+    public int getSuperPower() {
         return superPower;
     }
 
-    public void setSuperPower(String superPower) {
+    public void setSuperPower(int superPower) {
         this.superPower = superPower;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 41 * hash + this.id;
-        hash = 41 * hash + Objects.hashCode(this.name);
-        hash = 41 * hash + Objects.hashCode(this.description);
-        hash = 41 * hash + Objects.hashCode(this.superPower);
+        hash = 59 * hash + this.id;
+        hash = 59 * hash + Objects.hashCode(this.name);
+        hash = 59 * hash + Objects.hashCode(this.description);
+        hash = 59 * hash + this.superPower;
         return hash;
     }
 
@@ -75,13 +75,13 @@ public class Hero {
         if (this.id != other.id) {
             return false;
         }
+        if (this.superPower != other.superPower) {
+            return false;
+        }
         if (!Objects.equals(this.name, other.name)) {
             return false;
         }
         if (!Objects.equals(this.description, other.description)) {
-            return false;
-        }
-        if (!Objects.equals(this.superPower, other.superPower)) {
             return false;
         }
         return true;

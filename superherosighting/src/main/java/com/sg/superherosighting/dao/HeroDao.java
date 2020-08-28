@@ -5,10 +5,23 @@
  */
 package com.sg.superherosighting.dao;
 
+import com.sg.superherosighting.entities.Hero;
+import java.util.List;
+
 /**
  *
  * @author louie
  */
 public interface HeroDao {
+
+    Hero getHeroById(int id);
+
+    List<Hero> getAllHeros();
+
+    Hero addHero(Hero hero);
+
+    void updateHero(Hero hero);
+
+    void deleteHeroById(int id);
 
 }
