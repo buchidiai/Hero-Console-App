@@ -41,8 +41,18 @@ public class LocationDaoDB implements LocationDao {
 
     @Override
     public List<Location> getAllLocations() {
-        final String SELECT_ALL_LOCATIONS = "SELECT * FROM location";
-        return jdbc.query(SELECT_ALL_LOCATIONS, new LocationMapper());
+
+        try {
+
+            final String SELECT_ALL_LOCATIONS = "SELECT * FROM location";
+            List<Location> locations = jdbc.query(SELECT_ALL_LOCATIONS, new LocationMapper());
+
+            return locations;
+        } catch (DataAccessException ex) {
+
+            return null;
+        }
+
     }
 
     @Override

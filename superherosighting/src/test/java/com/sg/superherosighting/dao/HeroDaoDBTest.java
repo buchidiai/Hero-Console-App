@@ -77,18 +77,34 @@ public class HeroDaoDBTest {
         hero1.setName("Super Man");
         hero1.setDescription("born on the planet Krypton and was given the name Kal-El.");
         hero1.setSuperPower(String.valueOf(superPower.getId()));
-        hero1 = heroDao.addHero(hero1);
 
         //add hero
         hero2 = new Hero();
         hero2.setName("Bat Man");
         hero2.setDescription("Rich guy who acts like a hero.");
-        hero2 = heroDao.addHero(hero2);
+
+    }
+
+    @Test
+    public void testAddHero() {
+        //add hero
+        hero1 = heroDao.addHero(hero1);
+
+        //get hero
+        Hero foundHero = heroDao.getHeroById(hero1.getId());
+
+        assertEquals(hero1.getId(), foundHero.getId());
+        assertEquals(hero1.getDescription(), foundHero.getDescription());
+        assertEquals(hero1.getName(), foundHero.getName());
+        assertEquals(hero1.getSuperPower(), String.valueOf(superPower.getId()));
 
     }
 
     @Test
     public void testGetHero() {
+        //add hero
+        hero1 = heroDao.addHero(hero1);
+
         //get hero
         Hero foundHero = heroDao.getHeroById(hero1.getId());
 
@@ -101,6 +117,11 @@ public class HeroDaoDBTest {
 
     @Test
     public void testGetAllHeros() {
+        //add heros
+        hero1 = heroDao.addHero(hero1);
+
+        hero2 = heroDao.addHero(hero2);
+
         List<Hero> heros = heroDao.getAllHeros();
 
         assertEquals(2, heros.size());
@@ -118,6 +139,9 @@ public class HeroDaoDBTest {
 
     @Test
     public void testUpdateHero() {
+        //add hero
+        hero1 = heroDao.addHero(hero1);
+
         Hero foundHero = heroDao.getHeroById(hero1.getId());
 
         assertEquals(hero1.getId(), foundHero.getId());
@@ -139,6 +163,10 @@ public class HeroDaoDBTest {
 
     @Test
     public void testDeleteHero() {
+
+        //add hero
+        hero1 = heroDao.addHero(hero1);
+
         Hero foundHero = heroDao.getHeroById(hero1.getId());
 
         assertEquals(hero1.getId(), foundHero.getId());

@@ -113,4 +113,9 @@ public class Location {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "Location{" + "id=" + id + ", name=" + name + ", description=" + description + ", address=" + address + ", latitude=" + latitude + ", longitude=" + longitude + '}';
+    }
+
 }
