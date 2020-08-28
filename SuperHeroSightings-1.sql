@@ -22,7 +22,7 @@ USE `superherosightings` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `superherosightings`.`superPower` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `superPower` VARCHAR(45) NULL,
+  `name` VARCHAR(45) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `superherosightings`.`hero` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `description` VARCHAR(255) NULL,
-  `superPower_id` INT NOT NULL,
+  `superPower_id` INT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_hero_superPower1_idx` (`superPower_id` ASC) VISIBLE,
   CONSTRAINT `fk_hero_superPower1`

@@ -11,11 +11,9 @@ import java.util.Objects;
  *
  * @author louie
  */
-public class Hero {
+public class SuperPower {
 
     private int id;
-    private String name;
-    private String description;
     private String superPower;
 
     public int getId() {
@@ -24,22 +22,6 @@ public class Hero {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getSuperPower() {
@@ -52,11 +34,9 @@ public class Hero {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 83 * hash + this.id;
-        hash = 83 * hash + Objects.hashCode(this.name);
-        hash = 83 * hash + Objects.hashCode(this.description);
-        hash = 83 * hash + Objects.hashCode(this.superPower);
+        int hash = 5;
+        hash = 89 * hash + this.id;
+        hash = 89 * hash + Objects.hashCode(this.superPower);
         return hash;
     }
 
@@ -71,14 +51,8 @@ public class Hero {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Hero other = (Hero) obj;
+        final SuperPower other = (SuperPower) obj;
         if (this.id != other.id) {
-            return false;
-        }
-        if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
-        if (!Objects.equals(this.description, other.description)) {
             return false;
         }
         if (!Objects.equals(this.superPower, other.superPower)) {
@@ -89,7 +63,7 @@ public class Hero {
 
     @Override
     public String toString() {
-        return "Hero{" + "id=" + id + ", name=" + name + ", description=" + description + ", superPower=" + superPower + '}';
+        return "SuperPower{" + "id=" + id + ", superPower=" + superPower + '}';
     }
 
 }

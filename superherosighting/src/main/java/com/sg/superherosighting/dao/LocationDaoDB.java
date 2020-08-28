@@ -80,9 +80,8 @@ public class LocationDaoDB implements LocationDao {
     @Transactional
     public void deleteLocationById(int id) {
 
-        final String DELETE_LOCATION_HERO = "DELETE FROM hero_has_location WHERE location_id = ?";
-        jdbc.update(DELETE_LOCATION_HERO, id);
-
+//        final String DELETE_LOCATION_HERO = "DELETE FROM hero_has_location WHERE location_id = ?";
+//        jdbc.update(DELETE_LOCATION_HERO, id);
         final String DELETE_LOCATION = "DELETE FROM location WHERE id = ?";
         jdbc.update(DELETE_LOCATION, id);
     }
