@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @author louie
  */
 @Controller
-public class LocationController {
+public class SightingsController {
 
     @Autowired
     SuperPowerDao superPowerDao;
@@ -32,10 +32,10 @@ public class LocationController {
     @Autowired
     OrganizationDao organizationDao;
 
-    @GetMapping("locations")
+    @GetMapping("sightings")
     public String getAllCharacters() {
 
-        return "locations";
+        return "sightings";
     }
 
 }

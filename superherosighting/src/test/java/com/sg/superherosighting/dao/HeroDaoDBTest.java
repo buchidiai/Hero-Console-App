@@ -5,7 +5,7 @@
  */
 package com.sg.superherosighting.dao;
 
-import com.sg.superherosighting.entities.Hero;
+import com.sg.superherosighting.entities.Character;
 import com.sg.superherosighting.entities.SuperPower;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,7 +30,7 @@ public class HeroDaoDBTest {
     SuperPowerDao superPowerDao;
 
     @Autowired
-    HeroDao heroDao;
+    CharacterDao characterDao;
 
     @Autowired
     LocationDao locationDao;
@@ -39,18 +39,18 @@ public class HeroDaoDBTest {
     OrganizationDao organizationDao;
 
     SuperPower superPower = null;
-    Hero hero1 = null;
-    Hero hero2 = null;
+    Character character1 = null;
+    Character character2 = null;
 
     public HeroDaoDBTest() {
     }
 
     @BeforeEach
     public void setUp() {
-        List<Hero> heros = heroDao.getAllHeros();
+        List<Character> heros = characterDao.getAllCharacters();
 
-        for (Hero hero : heros) {
-            heroDao.deleteHeroById(hero.getId());
+        for (Character hero : heros) {
+            characterDao.deleteCharacterById(hero.getId());
         }
 
         List<SuperPower> superPowers = superPowerDao.getAllSuperPowers();
@@ -65,88 +65,88 @@ public class HeroDaoDBTest {
         superPower = superPowerDao.addSuperPower(superPower);
 
         //add hero
-        hero1 = new Hero();
-        hero1.setName("Super Man");
-        hero1.setDescription("born on the planet Krypton and was given the name Kal-El.");
-        hero1.setSuperPower(String.valueOf(superPower.getId()));
+        character1 = new Character();
+        character1.setName("Super Man");
+        character1.setDescription("born on the planet Krypton and was given the name Kal-El.");
+        character1.setSuperPower(String.valueOf(superPower.getId()));
 
         //add hero
-        hero2 = new Hero();
-        hero2.setName("Bat Man");
-        hero2.setDescription("Rich guy who acts like a hero.");
+        character2 = new Character();
+        character2.setName("Bat Man");
+        character2.setDescription("Rich guy who acts like a hero.");
 
     }
 
     @Test
     public void testAddHero() {
         //add hero
-        hero1 = heroDao.addHero(hero1);
+        character1 = characterDao.addCharacter(character1);
 
         //get hero
-        Hero foundHero = heroDao.getHeroById(hero1.getId());
+        Character foundHero = characterDao.getCharacterById(character1.getId());
 
-        assertEquals(hero1.getId(), foundHero.getId());
-        assertEquals(hero1.getDescription(), foundHero.getDescription());
-        assertEquals(hero1.getName(), foundHero.getName());
-        assertEquals(hero1.getSuperPower(), String.valueOf(superPower.getId()));
+        assertEquals(character1.getId(), foundHero.getId());
+        assertEquals(character1.getDescription(), foundHero.getDescription());
+        assertEquals(character1.getName(), foundHero.getName());
+        assertEquals(character1.getSuperPower(), String.valueOf(superPower.getId()));
 
     }
 
     @Test
     public void testGetHero() {
         //add hero
-        hero1 = heroDao.addHero(hero1);
+        character1 = characterDao.addCharacter(character1);
 
         //get hero
-        Hero foundHero = heroDao.getHeroById(hero1.getId());
+        Character foundHero = characterDao.getCharacterById(character1.getId());
 
-        assertEquals(hero1.getId(), foundHero.getId());
-        assertEquals(hero1.getDescription(), foundHero.getDescription());
-        assertEquals(hero1.getName(), foundHero.getName());
-        assertEquals(hero1.getSuperPower(), String.valueOf(superPower.getId()));
+        assertEquals(character1.getId(), foundHero.getId());
+        assertEquals(character1.getDescription(), foundHero.getDescription());
+        assertEquals(character1.getName(), foundHero.getName());
+        assertEquals(character1.getSuperPower(), String.valueOf(superPower.getId()));
 
     }
 
     @Test
     public void testGetAllHeros() {
         //add heros
-        hero1 = heroDao.addHero(hero1);
+        character1 = characterDao.addCharacter(character1);
 
-        hero2 = heroDao.addHero(hero2);
+        character2 = characterDao.addCharacter(character2);
 
-        List<Hero> heros = heroDao.getAllHeros();
+        List<Character> heros = characterDao.getAllCharacters();
 
         assertEquals(2, heros.size());
 
-        assertEquals(hero1.getId(), heros.get(0).getId());
-        assertEquals(hero1.getDescription(), heros.get(0).getDescription());
-        assertEquals(hero1.getName(), heros.get(0).getName());
+        assertEquals(character1.getId(), heros.get(0).getId());
+        assertEquals(character1.getDescription(), heros.get(0).getDescription());
+        assertEquals(character1.getName(), heros.get(0).getName());
 
-        assertEquals(hero2.getId(), heros.get(1).getId());
-        assertEquals(hero2.getDescription(), heros.get(1).getDescription());
-        assertEquals(hero2.getName(), heros.get(1).getName());
-        assertNull(hero2.getSuperPower());
+        assertEquals(character2.getId(), heros.get(1).getId());
+        assertEquals(character2.getDescription(), heros.get(1).getDescription());
+        assertEquals(character2.getName(), heros.get(1).getName());
+        assertNull(character2.getSuperPower());
 
     }
 
     @Test
     public void testUpdateHero() {
         //add hero
-        hero1 = heroDao.addHero(hero1);
+        character1 = characterDao.addCharacter(character1);
 
-        Hero foundHero = heroDao.getHeroById(hero1.getId());
+        Character foundHero = characterDao.getCharacterById(character1.getId());
 
-        assertEquals(hero1.getId(), foundHero.getId());
-        assertEquals(hero1.getDescription(), foundHero.getDescription());
-        assertEquals(hero1.getName(), foundHero.getName());
-        assertEquals(hero1.getSuperPower(), String.valueOf(superPower.getId()));
+        assertEquals(character1.getId(), foundHero.getId());
+        assertEquals(character1.getDescription(), foundHero.getDescription());
+        assertEquals(character1.getName(), foundHero.getName());
+        assertEquals(character1.getSuperPower(), String.valueOf(superPower.getId()));
 
-        hero1.setName("Green Lantern");
-        hero1.setDescription("They fight evil with the aid of rings that grant them a variety of extraordinary powers");
+        character1.setName("Green Lantern");
+        character1.setDescription("They fight evil with the aid of rings that grant them a variety of extraordinary powers");
 
-        heroDao.updateHero(hero1);
+        characterDao.updateCharacter(character1);
 
-        Hero updatedHero = heroDao.getHeroById(hero1.getId());
+        Character updatedHero = characterDao.getCharacterById(character1.getId());
 
         assertNotEquals(foundHero.getName(), updatedHero.getName());
         assertNotEquals(foundHero.getDescription(), updatedHero.getDescription());
@@ -157,18 +157,18 @@ public class HeroDaoDBTest {
     public void testDeleteHero() {
 
         //add hero
-        hero1 = heroDao.addHero(hero1);
+        character1 = characterDao.addCharacter(character1);
 
-        Hero foundHero = heroDao.getHeroById(hero1.getId());
+        Character foundHero = characterDao.getCharacterById(character1.getId());
 
-        assertEquals(hero1.getId(), foundHero.getId());
-        assertEquals(hero1.getDescription(), foundHero.getDescription());
-        assertEquals(hero1.getName(), foundHero.getName());
-        assertEquals(hero1.getSuperPower(), String.valueOf(superPower.getId()));
+        assertEquals(character1.getId(), foundHero.getId());
+        assertEquals(character1.getDescription(), foundHero.getDescription());
+        assertEquals(character1.getName(), foundHero.getName());
+        assertEquals(character1.getSuperPower(), String.valueOf(superPower.getId()));
 
-        heroDao.deleteHeroById(hero1.getId());
+        characterDao.deleteCharacterById(character1.getId());
 
-        Hero deletedHero = heroDao.getHeroById(hero1.getId());
+        Character deletedHero = characterDao.getCharacterById(character1.getId());
 
         assertNull(deletedHero);
 

@@ -5,10 +5,37 @@
  */
 package com.sg.superherosighting.controller;
 
+import com.sg.superherosighting.dao.CharacterDao;
+import com.sg.superherosighting.dao.LocationDao;
+import com.sg.superherosighting.dao.OrganizationDao;
+import com.sg.superherosighting.dao.SuperPowerDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
 /**
  *
  * @author louie
  */
+@Controller
 public class OrganizationController {
+
+    @Autowired
+    SuperPowerDao superPowerDao;
+
+    @Autowired
+    CharacterDao characterDao;
+
+    @Autowired
+    LocationDao locationDao;
+
+    @Autowired
+    OrganizationDao organizationDao;
+
+    @GetMapping("organizations")
+    public String getAllCharacters() {
+
+        return "organizations";
+    }
 
 }

@@ -6,22 +6,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-        <link rel="shortcut icon" sizes="57x57" th:href="@{/static/favicon.ico}">
-        <link rel="shortcut icon" type="image/png" th:href="@{/static/favicon.png}"/>
+        <!--        <link rel="shortcut icon" sizes="57x57" th:href="@{/static/favicon.ico}">
+                <link rel="shortcut icon" type="image/png" th:href="@{/static/favicon.png}"/>-->
+        <title>HERO Console</title>
 
-        <title>HERO Manager Console</title>
-
-        <style>
-            .navbar-collapse div:hover>.dropdown-menu {
-                display: block;
-                 margin-top: 0;
-            }
-        </style>
     </head>
 
     <nav th:fragment="nav">
-        <div class="">
-            <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+        <div>
+            <nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
                 <!--  icon-->
                 <a th:href="@{/}" class="navbar-brand">
                     <i class="fa fa-mask fa-2x" ></i>
@@ -31,78 +24,36 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <div class="nav-item dropdown  pr-4">
-                        <div class='d-flex flex-row align-items-center '> 
-                            <a href="#" class="nav-link  text-light" data-toggle="dropdown"> Characters</a>
+                    <div class='d-flex flex-row align-items-center nav-item dropdown pr-4'> 
+                        <a th:href="@{/characters}" class="nav-link  text-light">
+                            Characters
                             <i class="fas fa-user-friends text-light"></i>
-                        </div>
-
-                        <div class="dropdown-menu" aria-labelledby="dropdown">
-                            <a class="dropdown-item" href="#">Create</a>
-                            <a class="dropdown-item" href="#">View</a>
-                            <a class="dropdown-item" href="#">Edit</a>
-                            <a class="dropdown-item" href="#">Delete</a>
-
-                        </div>
+                        </a>
                     </div>
-                    <div class="nav-item dropdown pr-4">
-                        <div class='d-flex flex-row align-items-center'> 
-                            <a href="#" class="nav-link  text-light" data-toggle="dropdown"> Super Powers</a>
-
-
-                            <i class="fab fa-superpowers text-light"></i>
-                        </div>
-
-
-                        <div class="dropdown-menu" aria-labelledby="dropdown">
-                            <a class="dropdown-item" href="#">Create</a>
-                            <a class="dropdown-item" href="#">View</a>
-                            <a class="dropdown-item" href="#">Edit</a>
-                            <a class="dropdown-item" href="#">Delete</a>
-                        </div>
+                    <div class='d-flex flex-row align-items-center nav-item dropdown pr-4'> 
+                        <a th:href="@{/superpowers}" class="nav-link  text-light">
+                            Super Powers
+                            <i class="fas fa-user-friends text-light"></i>
+                        </a>
                     </div>
-                    <div class="nav-item dropdown pr-4">
-                        <div class='d-flex flex-row align-items-center'> 
-                            <a href="#" class="nav-link  text-light" data-toggle="dropdown">Locations </a>
-                            <i class="fas fa-location-arrow text-light"></i>
-                        </div>
-
-
-                        <div class="dropdown-menu" aria-labelledby="dropdown">
-                            <a class="dropdown-item" href="#">Create</a>
-                            <a class="dropdown-item" href="#">View</a>
-                            <a class="dropdown-item" href="#">Edit</a>
-                            <a class="dropdown-item" href="#">Delete</a>
-                        </div>
+                    <div class='d-flex flex-row align-items-center nav-item dropdown pr-4'> 
+                        <a th:href="@{/locations}" class="nav-link  text-light">
+                            Locations
+                            <i class="fas fa-user-friends text-light"></i>
+                        </a>
                     </div>
-                    <div class="nav-item dropdown pr-4">
-                        <div class='d-flex flex-row align-items-center'> 
-                            <a href="#" class="nav-link  text-light" data-toggle="dropdown"> Sightings</a>
-
-                            <i class="fas fa-eye text-light"></i>
-                        </div>
-
-
-                        <div class="dropdown-menu" aria-labelledby="dropdown">
-                            <a class="dropdown-item" href="#">Create</a>
-                            <a class="dropdown-item" href="#">View</a>
-                            <a class="dropdown-item" href="#">Edit</a>
-                            <a class="dropdown-item" href="#">Delete</a>
-                        </div>
+                    <div class='d-flex flex-row align-items-center nav-item dropdown pr-4'> 
+                        <a th:href="@{/organizations}" class="nav-link  text-light">
+                            Organizations
+                            <i class="fas fa-user-friends text-light"></i>
+                        </a>
                     </div>
-
-
-
-
-
-                    <!--                    <div class="navbar-nav">
-                    
-                                            <a th:href="@{/hero}" class="nav-item nav-link dropdown"></a>
-                                            <a th:href="@{/superpower}" class="nav-item nav-link">Super Powers</a>
-                                            <a th:href="@{/location}" class="nav-item nav-link">Locations</a>
-                                            <a th:href="@{/organization}" class="nav-item nav-link">Organizations</a>
-                                            <a th:href="@{/sighting}" class="nav-item nav-link">Sightings</a>
-                                        </div>-->
+                    <div class='d-flex flex-row align-items-center nav-item dropdown pr-4'> 
+                        <a th:href="@{/sightings}" class="nav-link  text-light">
+                            Sightings
+                            <i class="fas fa-user-friends text-light"></i>
+                        </a>
+                    </div>
 
                     <form class="form-inline ml-auto">
                         <input type="text" class="form-control mr-sm-2" placeholder="find a character">
