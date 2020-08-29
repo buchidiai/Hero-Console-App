@@ -24,7 +24,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class HeroDaoDBTest {
+public class CharacterDaoDBTest {
 
     @Autowired
     SuperPowerDao superPowerDao;
@@ -42,15 +42,15 @@ public class HeroDaoDBTest {
     Character character1 = null;
     Character character2 = null;
 
-    public HeroDaoDBTest() {
+    public CharacterDaoDBTest() {
     }
 
     @BeforeEach
     public void setUp() {
-        List<Character> heros = characterDao.getAllCharacters();
+        List<Character> characters = characterDao.getAllCharacters();
 
-        for (Character hero : heros) {
-            characterDao.deleteCharacterById(hero.getId());
+        for (Character character : characters) {
+            characterDao.deleteCharacterById(character.getId());
         }
 
         List<SuperPower> superPowers = superPowerDao.getAllSuperPowers();
@@ -61,7 +61,7 @@ public class HeroDaoDBTest {
 
         //add super power
         superPower = new SuperPower();
-        superPower.setSuperPower("Flying");
+        superPower.setSuperPower("invisibilty");
         superPower = superPowerDao.addSuperPower(superPower);
 
         //add hero
@@ -78,37 +78,37 @@ public class HeroDaoDBTest {
     }
 
     @Test
-    public void testAddHero() {
+    public void testAddCharacter() {
         //add hero
         character1 = characterDao.addCharacter(character1);
 
         //get hero
-        Character foundHero = characterDao.getCharacterById(character1.getId());
+        Character foundCharacter = characterDao.getCharacterById(character1.getId());
 
-        assertEquals(character1.getId(), foundHero.getId());
-        assertEquals(character1.getDescription(), foundHero.getDescription());
-        assertEquals(character1.getName(), foundHero.getName());
+        assertEquals(character1.getId(), foundCharacter.getId());
+        assertEquals(character1.getDescription(), foundCharacter.getDescription());
+        assertEquals(character1.getName(), foundCharacter.getName());
         assertEquals(character1.getSuperPower(), String.valueOf(superPower.getId()));
 
     }
 
     @Test
-    public void testGetHero() {
+    public void testGetCharacter() {
         //add hero
         character1 = characterDao.addCharacter(character1);
 
         //get hero
-        Character foundHero = characterDao.getCharacterById(character1.getId());
+        Character foundCharacter = characterDao.getCharacterById(character1.getId());
 
-        assertEquals(character1.getId(), foundHero.getId());
-        assertEquals(character1.getDescription(), foundHero.getDescription());
-        assertEquals(character1.getName(), foundHero.getName());
+        assertEquals(character1.getId(), foundCharacter.getId());
+        assertEquals(character1.getDescription(), foundCharacter.getDescription());
+        assertEquals(character1.getName(), foundCharacter.getName());
         assertEquals(character1.getSuperPower(), String.valueOf(superPower.getId()));
 
     }
 
     @Test
-    public void testGetAllHeros() {
+    public void testGetAllCharacters() {
         //add heros
         character1 = characterDao.addCharacter(character1);
 
@@ -130,15 +130,15 @@ public class HeroDaoDBTest {
     }
 
     @Test
-    public void testUpdateHero() {
+    public void testUpdateCharacter() {
         //add hero
         character1 = characterDao.addCharacter(character1);
 
-        Character foundHero = characterDao.getCharacterById(character1.getId());
+        Character foundCharacter = characterDao.getCharacterById(character1.getId());
 
-        assertEquals(character1.getId(), foundHero.getId());
-        assertEquals(character1.getDescription(), foundHero.getDescription());
-        assertEquals(character1.getName(), foundHero.getName());
+        assertEquals(character1.getId(), foundCharacter.getId());
+        assertEquals(character1.getDescription(), foundCharacter.getDescription());
+        assertEquals(character1.getName(), foundCharacter.getName());
         assertEquals(character1.getSuperPower(), String.valueOf(superPower.getId()));
 
         character1.setName("Green Lantern");
@@ -146,31 +146,31 @@ public class HeroDaoDBTest {
 
         characterDao.updateCharacter(character1);
 
-        Character updatedHero = characterDao.getCharacterById(character1.getId());
+        Character updatedCharacter = characterDao.getCharacterById(character1.getId());
 
-        assertNotEquals(foundHero.getName(), updatedHero.getName());
-        assertNotEquals(foundHero.getDescription(), updatedHero.getDescription());
+        assertNotEquals(foundCharacter.getName(), updatedCharacter.getName());
+        assertNotEquals(foundCharacter.getDescription(), updatedCharacter.getDescription());
 
     }
 
     @Test
-    public void testDeleteHero() {
+    public void testDeleteCharacter() {
 
         //add hero
         character1 = characterDao.addCharacter(character1);
 
-        Character foundHero = characterDao.getCharacterById(character1.getId());
+        Character foundCharacter = characterDao.getCharacterById(character1.getId());
 
-        assertEquals(character1.getId(), foundHero.getId());
-        assertEquals(character1.getDescription(), foundHero.getDescription());
-        assertEquals(character1.getName(), foundHero.getName());
+        assertEquals(character1.getId(), foundCharacter.getId());
+        assertEquals(character1.getDescription(), foundCharacter.getDescription());
+        assertEquals(character1.getName(), foundCharacter.getName());
         assertEquals(character1.getSuperPower(), String.valueOf(superPower.getId()));
 
         characterDao.deleteCharacterById(character1.getId());
 
-        Character deletedHero = characterDao.getCharacterById(character1.getId());
+        Character deletedCharacter = characterDao.getCharacterById(character1.getId());
 
-        assertNull(deletedHero);
+        assertNull(deletedCharacter);
 
     }
 }

@@ -8,19 +8,19 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- Schema mydb
 -- -----------------------------------------------------
 -- -----------------------------------------------------
--- Schema superherosightings
+-- Schema herodb
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema superherosightings
+-- Schema herodb
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `superherosightingstest` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
-USE `superherosightingstest` ;
+CREATE SCHEMA IF NOT EXISTS `herodbtest` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+USE `herodbtest` ;
 
 -- -----------------------------------------------------
--- Table `superherosightings`.`superPower`
+-- Table `herodb`.`superPower`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `superherosightingstest`.`superPower` (
+CREATE TABLE IF NOT EXISTS `herodbtest`.`superPower` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
   PRIMARY KEY (`id`))
@@ -28,27 +28,27 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `superherosightings`.`hero`
+-- Table `herodb`.`character`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `superherosightingstest`.`hero` (
+CREATE TABLE IF NOT EXISTS `herodbtest`.`character` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `description` VARCHAR(255) NULL,
-  `superPower_id` INT NULL,
+  `superPower_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_hero_superPower1_idx` (`superPower_id` ASC) VISIBLE,
-  CONSTRAINT `fk_hero_superPower1`
+  INDEX `fk_character_superPower_idx` (`superPower_id` ASC) VISIBLE,
+  CONSTRAINT `fk_character_superPower`
     FOREIGN KEY (`superPower_id`)
-    REFERENCES `superherosightingstest`.`superPower` (`id`)
+    REFERENCES `herodbtest`.`superPower` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `superherosightings`.`organization`
+-- Table `herodb`.`organization`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `superherosightingstest`.`organization` (
+CREATE TABLE IF NOT EXISTS `herodbtest`.`organization` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `description` VARCHAR(255) NULL,
@@ -58,9 +58,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `superherosightings`.`location`
+-- Table `herodb`.`location`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `superherosightingstest`.`location` (
+CREATE TABLE IF NOT EXISTS `herodbtest`.`location` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `description` VARCHAR(255) NULL,
@@ -72,45 +72,45 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `superherosightings`.`hero_has_organization`
+-- Table `herodb`.`character_has_organization`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `superherosightingstest`.`hero_has_organization` (
-  `hero_id` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `herodbtest`.`character_has_organization` (
+  `character_id` INT NOT NULL,
   `organization_id` INT NOT NULL,
-  PRIMARY KEY (`hero_id`, `organization_id`),
-  INDEX `fk_hero_has_organization_organization1_idx` (`organization_id` ASC) VISIBLE,
-  INDEX `fk_hero_has_organization_hero_idx` (`hero_id` ASC) VISIBLE,
-  CONSTRAINT `fk_hero_has_organization_hero`
-    FOREIGN KEY (`hero_id`)
-    REFERENCES `superherosightingstest`.`hero` (`id`)
+  PRIMARY KEY (`character_id`, `organization_id`),
+  INDEX `fk_character_has_organization_organization1_idx` (`organization_id` ASC) VISIBLE,
+  INDEX `fk_character_has_organization_character1_idx` (`character_id` ASC) VISIBLE,
+  CONSTRAINT `fk_character_has_organization_character1`
+    FOREIGN KEY (`character_id`)
+    REFERENCES `herodbtest`.`character` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_hero_has_organization_organization1`
+  CONSTRAINT `fk_character_has_organization_organization1`
     FOREIGN KEY (`organization_id`)
-    REFERENCES `superherosightingstest`.`organization` (`id`)
+    REFERENCES `herodbtest`.`organization` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `superherosightings`.`hero_has_location`
+-- Table `herodb`.`character_has_location`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `superherosightingstest`.`hero_has_location` (
-  `hero_id` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `herodbtest`.`character_has_location` (
+  `character_id` INT NOT NULL,
   `location_id` INT NOT NULL,
-  `date` DATETIME NULL,
-  PRIMARY KEY (`hero_id`, `location_id`),
-  INDEX `fk_hero_has_location_location1_idx` (`location_id` ASC) VISIBLE,
-  INDEX `fk_hero_has_location_hero1_idx` (`hero_id` ASC) VISIBLE,
-  CONSTRAINT `fk_hero_has_location_hero1`
-    FOREIGN KEY (`hero_id`)
-    REFERENCES `superherosightingstest`.`hero` (`id`)
+  `date` DATETIME(4) NULL,
+  PRIMARY KEY (`character_id`, `location_id`),
+  INDEX `fk_character_has_location_location1_idx` (`location_id` ASC) VISIBLE,
+  INDEX `fk_character_has_location_character1_idx` (`character_id` ASC) VISIBLE,
+  CONSTRAINT `fk_character_has_location_character1`
+    FOREIGN KEY (`character_id`)
+    REFERENCES `herodbtest`.`character` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_hero_has_location_location1`
+  CONSTRAINT `fk_character_has_location_location1`
     FOREIGN KEY (`location_id`)
-    REFERENCES `superherosightingstest`.`location` (`id`)
+    REFERENCES `herodbtest`.`location` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

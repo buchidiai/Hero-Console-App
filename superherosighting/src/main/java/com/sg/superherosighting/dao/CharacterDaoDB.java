@@ -32,7 +32,7 @@ public class CharacterDaoDB implements CharacterDao {
     public Character getCharacterById(int id) {
         try {
 
-            final String SELECT_CHARACTER_BY_ID = "SELECT * FROM character WHERE id = ?";
+            final String SELECT_CHARACTER_BY_ID = "SELECT * FROM " + "`character`" + "WHERE id = ?";
             Character character = jdbc.queryForObject(SELECT_CHARACTER_BY_ID, new CharacterMapper(), id);
 
             final String SELECT_SUPERPOWER_BY_ID = "SELECT * FROM superPower WHERE id = ?";
@@ -50,15 +50,28 @@ public class CharacterDaoDB implements CharacterDao {
 
     @Override
     public List<Character> getAllCharacters() {
-        final String SELECT_ALL_CHARACTERS = "SELECT * FROM character";
-        return jdbc.query(SELECT_ALL_CHARACTERS, new CharacterMapper());
+
+        try {
+
+            final String SELECT_ALL_CHARACTERS = "SELECT * FROM " + "`character`";
+
+            List<Character> characters = jdbc.query(SELECT_ALL_CHARACTERS, new CharacterMapper());
+
+            return characters;
+        } catch (DataAccessException ex) {
+
+            System.out.println("ex " + ex);
+
+            return null;
+        }
+
     }
 
     @Override
     @Transactional
     public Character addCharacter(Character character) {
 
-        final String INSERT_CHARACTER = "INSERT INTO character(name, description, superPower_id) "
+        final String INSERT_CHARACTER = "INSERT INTO" + "`character`" + "(name, description, superPower_id) "
                 + "VALUES(?,?,?)";
         jdbc.update(INSERT_CHARACTER,
                 character.getName(),
@@ -72,7 +85,7 @@ public class CharacterDaoDB implements CharacterDao {
 
     @Override
     public void updateCharacter(Character character) {
-        final String UPDATE_CHARACTER = "UPDATE character SET name = ?, description = ? "
+        final String UPDATE_CHARACTER = "UPDATE " + "`character`" + " SET name = ?, description = ? "
                 + "WHERE id = ?";
         jdbc.update(UPDATE_CHARACTER,
                 character.getName(),
@@ -89,7 +102,7 @@ public class CharacterDaoDB implements CharacterDao {
 //        final String DELETE_LOCATION_CHARACTER = "DELETE FROM hero_has_location WHERE organization_id = ?";
 //        jdbc.update(DELETE_LOCATION_CHARACTER, id);
 
-        final String DELETE_CHARACTER = "DELETE FROM character WHERE id = ?";
+        final String DELETE_CHARACTER = "DELETE FROM " + "`character`" + " WHERE id = ?";
         jdbc.update(DELETE_CHARACTER, id);
     }
 
