@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <body>
-    <head  th:fragment="header">
+    <head  th:fragment="htmlHead">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        <link th:href="@{style.css}" rel="stylesheet">
         <!--        <link rel="shortcut icon" sizes="57x57" th:href="@{/static/favicon.ico}">
                 <link rel="shortcut icon" type="image/png" th:href="@{/static/favicon.png}"/>-->
         <title>HERO Console</title>
 
     </head>
 
-    <nav th:fragment="nav">
+    <nav th:fragment="navBar">
         <div>
             <nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
                 <!--  icon-->
@@ -63,6 +64,23 @@
             </nav>
         </div>
     </nav>
+
+
+
+    <div th:fragment="newsFeedtemplate">
+        <div class=' pt-3'>
+            <div class='row p-1 pl-4 d-flex flex-row align-items-center justify-content-start' >
+                <img class="img-fluid img-thumbnail rounded-circle border border-secondary " style="width:5%" th:src="@imageurl" alt="hero">
+                <h6 class='text-center text-dark pl-4' th:text="${name}"> was sighted</h6>
+                <h6 class='text-center text-dark pl-4' th:text="${time}"></h6>
+            </div>
+
+            <div class='col pt-2'>
+                <h5 class=' text-dark' th:text="${description}" >Lorem Ipsum is simply dummy text of the printing and typesetting industry,Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h5>
+            </div>
+            <hr />
+        </div>
+    </div>
 
     <div th:fragment="scripts">
 
