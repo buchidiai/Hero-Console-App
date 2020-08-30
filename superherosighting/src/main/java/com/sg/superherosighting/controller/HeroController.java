@@ -52,7 +52,7 @@ public class HeroController {
 
         //add super power
         superPower = service.addSuperPower(superPower);
-        ;
+
         Hero hero = new Hero();
 
         hero.setName(name);
@@ -61,38 +61,41 @@ public class HeroController {
 
         System.out.println("hero " + hero.toString());
 
-//        System.out.println("hero before add  " + hero.toString());
         //add charater
         service.addHero(hero);
 
         return "redirect:/heros";
     }
 
-//    @GetMapping("editHero")
-//    public String editHero(HttpServletRequest request, Model model) {
-//        int id = Integer.parseInt(request.getParameter("id"));
-//        Hero hero = service.getHeroById(id);
-//
-//        model.addAttribute("hero", hero);
-//        return "editHero";
-//    }
-    @PostMapping("editHero")
-    public String performEditHero(HttpServletRequest request) {
-
-        int id = Integer.parseInt(request.getParameter("id"));
+    @GetMapping("editHero")
+    public String editHero(Integer id, Model model) {
         Hero hero = service.getHeroById(id);
+        model.addAttribute("hero", hero);
+        return "editHero";
+    }
 
+    @PostMapping("editHero")
+    public String performEditHero(HttpServletRequest request, Integer id) {
+
+        Hero hero = service.getHeroById(id);
         hero.setName(request.getParameter("name"));
         hero.setDescription(request.getParameter("description"));
 
         service.updateHero(hero);
-
         return "redirect:/heros";
     }
 
+    @GetMapping("deleteHeroConfirm")
+    public String deleteHeroConfirm(Integer id, Model model) {
+
+        model.addAttribute("heroId", id);
+
+        return "deleteHeroConfirm";
+    }
+
     @GetMapping("deleteHero")
-    public String deleteHero(HttpServletRequest request) {
-        int id = Integer.parseInt(request.getParameter("id"));
+    public String deleteHero(Integer id) {
+
         service.deleteHeroById(id);
 
         return "redirect:/heros";

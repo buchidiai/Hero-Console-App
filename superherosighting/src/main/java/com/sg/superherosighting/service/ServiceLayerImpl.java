@@ -64,7 +64,7 @@ public class ServiceLayerImpl implements ServiceLayer {
 
     @Override
     public void deleteHeroById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        heroDao.deleteHeroById(id);
     }
 
     @Override
