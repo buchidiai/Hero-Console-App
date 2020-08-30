@@ -5,7 +5,7 @@
  */
 package com.sg.superherosighting.service;
 
-import com.sg.superherosighting.entities.Character;
+import com.sg.superherosighting.entities.Hero;
 import com.sg.superherosighting.entities.Location;
 import com.sg.superherosighting.entities.Organization;
 import com.sg.superherosighting.entities.SuperPower;
@@ -17,15 +17,15 @@ import java.util.List;
  */
 public interface ServiceLayer {
 
-    Character getCharacterById(int id);
+    Hero getHeroById(int id);
 
-    List<Character> getAllCharacters();
+    List<Hero> getAllHeros();
 
-    Character addCharacter(Character character);
+    Hero addHero(Hero hero);
 
-    void updateCharacter(Character character);
+    void updateHero(Hero hero);
 
-    void deleteCharacterById(int id);
+    void deleteHeroById(int id);
 
     Location getLocationById(int id);
 

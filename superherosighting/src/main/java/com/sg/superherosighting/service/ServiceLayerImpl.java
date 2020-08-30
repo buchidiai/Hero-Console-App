@@ -5,11 +5,11 @@
  */
 package com.sg.superherosighting.service;
 
-import com.sg.superherosighting.dao.CharacterDao;
+import com.sg.superherosighting.dao.HeroDao;
 import com.sg.superherosighting.dao.LocationDao;
 import com.sg.superherosighting.dao.OrganizationDao;
 import com.sg.superherosighting.dao.SuperPowerDao;
-import com.sg.superherosighting.entities.Character;
+import com.sg.superherosighting.entities.Hero;
 import com.sg.superherosighting.entities.Location;
 import com.sg.superherosighting.entities.Organization;
 import com.sg.superherosighting.entities.SuperPower;
@@ -28,7 +28,7 @@ public class ServiceLayerImpl implements ServiceLayer {
     SuperPowerDao superPowerDao;
 
     @Autowired
-    CharacterDao characterDao;
+    HeroDao heroDao;
 
     @Autowired
     LocationDao locationDao;
@@ -37,31 +37,33 @@ public class ServiceLayerImpl implements ServiceLayer {
     OrganizationDao organizationDao;
 
     @Override
-    public Character getCharacterById(int id) {
+    public Hero getHeroById(int id) {
 
-        return characterDao.getCharacterById(id);
+        return heroDao.getHeroById(id);
     }
 
     @Override
-    public List<Character> getAllCharacters() {
+    public List<Hero> getAllHeros() {
 
-        List<Character> characters = characterDao.getAllCharacters();
-        return characters;
+        List<Hero> heros = heroDao.getAllHeros();
+        return heros;
     }
 
     @Override
-    public Character addCharacter(Character character) {
+    public Hero addHero(Hero hero) {
 
-        return characterDao.addCharacter(character);
+        return heroDao.addHero(hero);
     }
 
     @Override
-    public void updateCharacter(Character character) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void updateHero(Hero hero) {
+
+        heroDao.updateHero(hero);
+
     }
 
     @Override
-    public void deleteCharacterById(int id) {
+    public void deleteHeroById(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

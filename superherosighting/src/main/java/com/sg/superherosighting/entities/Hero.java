@@ -11,7 +11,7 @@ import java.util.Objects;
  *
  * @author louie
  */
-public class Character {
+public class Hero {
 
     private int id;
     private String name;
@@ -71,7 +71,7 @@ public class Character {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Character other = (Character) obj;
+        final Hero other = (Hero) obj;
         if (this.id != other.id) {
             return false;
         }

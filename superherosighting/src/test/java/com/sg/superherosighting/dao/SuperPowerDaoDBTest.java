@@ -5,7 +5,7 @@
  */
 package com.sg.superherosighting.dao;
 
-import com.sg.superherosighting.entities.Character;
+import com.sg.superherosighting.entities.Hero;
 import com.sg.superherosighting.entities.SuperPower;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,7 +31,7 @@ public class SuperPowerDaoDBTest {
     SuperPowerDao superPowerDao;
 
     @Autowired
-    CharacterDao characterDao;
+    HeroDao heroDao;
 
     SuperPower superPower1 = null;
     SuperPower superPower2 = null;
@@ -42,10 +42,10 @@ public class SuperPowerDaoDBTest {
     @BeforeEach
     public void setUp() {
 
-        List<Character> characters = characterDao.getAllCharacters();
+        List<Hero> heros = heroDao.getAllHeros();
 
-        for (Character character : characters) {
-            characterDao.deleteCharacterById(character.getId());
+        for (Hero hero : heros) {
+            heroDao.deleteHeroById(hero.getId());
         }
 
         List<SuperPower> superPowers = superPowerDao.getAllSuperPowers();

@@ -5,13 +5,13 @@
  */
 package com.sg.superherosighting.controller;
 
-import com.sg.superherosighting.dao.CharacterDao;
 import com.sg.superherosighting.dao.LocationDao;
 import com.sg.superherosighting.dao.OrganizationDao;
 import com.sg.superherosighting.dao.SuperPowerDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import com.sg.superherosighting.dao.HeroDao;
 
 /**
  *
@@ -24,7 +24,7 @@ public class LocationController {
     SuperPowerDao superPowerDao;
 
     @Autowired
-    CharacterDao characterDao;
+    HeroDao characterDao;
 
     @Autowired
     LocationDao locationDao;
