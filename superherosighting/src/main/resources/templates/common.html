@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <body>
+        <!-- html header-->
     <head  th:fragment="htmlHead">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -9,10 +10,10 @@
         <link th:href="@{style.css}" rel="stylesheet">
         <!--        <link rel="shortcut icon" sizes="57x57" th:href="@{/static/favicon.ico}">
                 <link rel="shortcut icon" type="image/png" th:href="@{/static/favicon.png}"/>-->
-        <title>HERO Console</title>
+        <title>Hero Console</title>
 
     </head>
-
+    <!-- navBar-->
     <nav th:fragment="navBar">
         <div>
             <nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
@@ -34,14 +35,14 @@
                     <div class='d-flex flex-row align-items-center nav-item dropdown pr-4'> 
                         <a th:href="@{/superpowers}" class="nav-link  text-light">
                             Super Powers
-                     
+
                             <i class="fab fa-superpowers  text-light"></i>
                         </a>
                     </div>
                     <div class='d-flex flex-row align-items-center nav-item dropdown pr-4'> 
                         <a th:href="@{/locations}" class="nav-link  text-light">
                             Locations
-                         
+
                             <i class="far fa-map text-light"></i>
                         </a>
                     </div>
@@ -67,8 +68,34 @@
         </div>
     </nav>
 
+    <!-- page header-->
+    <div th:fragment="pageHeader">
+        <div class='row'>
+            <div class='col-12 '>
+                <h1 class='text-center text-dark display-1' th:text="${title}"></h1>
+                <hr />
+            </div>
+        </div>
+    </div>
+
+    <!-- page sub header-->
+    <div th:fragment="pageSubHeader">
+        <div class='pt-3'>
+            <h3 class='text-center text-dark' th:text="${title}"></h3>
+            <hr />
+        </div>
+    </div>
 
 
+    <!-- section header-->
+    <div  th:fragment="sectionHeader">
+        <div class='pt-3'>
+            <h3 class='text-center text-dark' th:text="${title}"></h3>
+            <hr />
+        </div>
+    </div>
+
+    <!-- newsFeed-->
     <div th:fragment="newsFeedtemplate">
         <div class=' pt-3'>
             <div class='row p-1 pl-4 d-flex flex-row align-items-center justify-content-start' >
@@ -84,6 +111,8 @@
         </div>
     </div>
 
+    <!-- scripts-->
+
     <div th:fragment="scripts">
 
         <!-- Optional JavaScript -->
@@ -95,7 +124,7 @@
     </div>
 
     <footer th:fragment="footer">
-        <p>&copy; 2020 attacomsian.com</p>
+        <p class='text-center text-dark'>&copy; 2020 HeroConsole.com</p>
     </footer>
 </body>
 </html>

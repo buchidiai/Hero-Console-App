@@ -7,19 +7,21 @@
 
         <div class='container ' >
             <!-- Header -->
-            <div class='row'>
-                <div class='col-12 '>
-                    <h1 class='text-center text-dark display-1'>Heros</h1>
-                    <hr />
-                </div>
-            </div>
-            <div class='pt-3'>
-                <h3 class='text-center text-dark'>Add Hero</h3>
-                <hr />
-            </div>
-            <!-- form -->
+
+            <div th:insert="common :: pageHeader(title='Heros')"></div>
+
+            <!-- Sub Header -->
+
+            <div th:insert="common :: pageSubHeader(title='Add Hero')"></div>
+            <!-- form start -->
             <div class='d-flex justify-content-center'>
+                
                 <div class='border border-secondary col-7 '>
+                      <div class="col-12 m-1 text-center" 
+                         th:if="${!errors.isEmpty()}">
+                        <p class="alert alert-danger" th:each="error : ${errors}" 
+                           th:text="${error.message}">Error message</p>
+                    </div>
                     <form class='p-5'  action="addHero" method="POST">
                         <div class="form-group row" >
                             <label for="name" class="col-sm-2  col-form-label">Name</label>
@@ -55,16 +57,17 @@
 
                 </div>
             </div>
-
             <!-- Form end-->
 
         </div>
-        <div class='pt-3'>
-            <h3 class='text-center text-dark'>All Heros</h3>
-            <hr />
+        <!-- Section Header-->
+        <div th:insert="common :: sectionHeader(title='All Heros')" >
+
         </div>
+        
+          <!-- table Hero start-->
         <div class="row p-2">
-            <!-- table Hero start-->
+          
             <div class="col text-center  d-flex justify-content-center">
                 <table class="table table-striped w-75 border border-dark ">
                     <thead class='bg-dark'>
@@ -86,15 +89,11 @@
                             <td th:text="${hero.description}">null</td>
                             <td th:text="${hero.superPower}">Teacher Specialty</td>
                             <td> 
-
                                 <a th:href="@{/editHero(id=${hero.id})}" class="fas fa-edit text-primary">
-
                                 </a>
-
                             </td>
                             <td>
                                 <a th:href="@{/deleteHeroConfirm(id=${hero.id})}"  class="fas fa-trash-alt text-danger">
-
                                 </a>
                             </td>
                         </tr>
@@ -105,5 +104,9 @@
     </div>
     <!-- End main body -->
     <div th:insert="common :: scripts"></div>
+    <!-- footer -->
+    <div th:insert="common :: footer" >
+
+    </div>
 </body>
 </html>
