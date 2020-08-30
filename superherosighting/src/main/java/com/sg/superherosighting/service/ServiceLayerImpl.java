@@ -96,52 +96,54 @@ public class ServiceLayerImpl implements ServiceLayer {
 
     @Override
     public Location getLocationById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        return locationDao.getLocationById(id);
+
     }
 
     @Override
     public List<Location> getAllLocations() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return locationDao.getAllLocations();
     }
 
     @Override
     public Location addLocation(Location location) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return locationDao.addLocation(location);
     }
 
     @Override
     public void updateLocation(Location location) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        locationDao.updateLocation(location);
     }
 
     @Override
     public void deleteLocationById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        locationDao.deleteLocationById(id);
     }
 
     @Override
     public Organization getOrganizationById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return organizationDao.getOrganizationById(id);
     }
 
     @Override
     public List<Organization> getAllOrganizations() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return organizationDao.getAllOrganizations();
     }
 
     @Override
     public Organization addOrganization(Organization organization) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return organizationDao.addOrganization(organization);
     }
 
     @Override
     public void updateOrganization(Organization organization) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        organizationDao.updateOrganization(organization);
     }
 
     @Override
     public void deleteOrganizationById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        organizationDao.deleteOrganizationById(id);
     }
 
 }

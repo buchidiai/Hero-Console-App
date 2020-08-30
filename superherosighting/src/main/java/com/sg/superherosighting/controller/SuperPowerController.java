@@ -99,6 +99,8 @@ public class SuperPowerController {
     @GetMapping("deleteSuperPower")
     public String deleteSuperPower(Integer id) {
 
+        System.out.println("id delete " + id);
+
         service.deleteSuperPowerById(id);
 
         return "redirect:/superPowers";

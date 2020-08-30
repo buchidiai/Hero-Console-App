@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <div th:insert="common :: htmlHead"></div>
+    <body>
+        <div th:insert="common :: navBar"></div>
+        <!-- Main Body of Page -->
+
+        <div class='container ' >
+
+
+            <!-- Header -->
+
+            <div th:insert="common :: pageHeader(title='Locations')"></div>
+
+            <!-- Sub Header -->
+
+            <div th:insert="common :: pageSubHeader(title='Edit Location')"></div>
+
+            <!-- form -->
+            <div class='d-flex justify-content-center'>
+                <div class='border border-secondary col-7 '>
+                    <form class='p-5'  action="editLocation" method="POST">
+                        <div class="form-group row" >
+                            <label for="name" class="col-sm-2  col-form-label">Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="name" th:value="${location.name}">
+                                <div  th:if="${#fields.hasErrors('location.name')}">
+                                    <p th:each="error : ${#fields.errors('location.name')}" class="alert alert-danger text-center"
+                                       th:text="${error}"> Bad name </p>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group row  d-flex justify-content-center">
+                            <label for="description" class="col-sm-2 col-form-label">Description</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" name="description" rows="3" th:value="${location.description}"></input>
+                                <div  th:if="${#fields.hasErrors('location.description')}">
+                                    <p th:each="error : ${#fields.errors('location.description')}" class="alert alert-danger text-center"
+                                       th:text="${error}"> Bad description </p>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group row  d-flex justify-content-center">
+                            <label for="address" class="col-sm-2 col-form-label">Address</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="address" th:value="${location.address}">
+                                <div  th:if="${#fields.hasErrors('location.address')}">
+                                    <p th:each="error : ${#fields.errors('location.address')}" class="alert alert-danger text-center"
+                                       th:text="${error}"> Bad address </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row  d-flex justify-content-center">
+                            <label for="latitude" class="col-sm-2 col-form-label">Latitude</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="latitude" th:value="${location.latitude}">
+                                <div  th:if="${#fields.hasErrors('location.latitude')}">
+                                    <p th:each="error : ${#fields.errors('location.latitude')}" class="alert alert-danger text-center"
+                                       th:text="${error}"> Bad latitude </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row  d-flex justify-content-center">
+                            <label for="longitude" class="col-sm-2 col-form-label">Longitude</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="longitude" th:value="${location.longitude}">
+                                <div  th:if="${#fields.hasErrors('location.longitude')}">
+                                    <p th:each="error : ${#fields.errors('location.longitude')}" class="alert alert-danger text-center"
+                                       th:text="${error}"> Bad longitude </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row d-flex justify-content-center ">
+                            <div class="col-sm-10">
+                                <input type="hidden" name="id" th:value="${location.id}"/>
+                                <button  type="submit" class="btn btn-primary btn-lg btn-block ">Update</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+            <!-- Form end-->
+
+        </div>
+
+    </div>
+    <!-- End main body -->
+    <div th:insert="common :: scripts"></div>
+</body>
+</html>
