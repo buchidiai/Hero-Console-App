@@ -68,6 +68,33 @@ public class ServiceLayerImpl implements ServiceLayer {
     }
 
     @Override
+    public SuperPower getSuperPowerById(int id) {
+        return superPowerDao.getSuperPowerById(id);
+    }
+
+    @Override
+    public List<SuperPower> getAllSuperPowers() {
+        return superPowerDao.getAllSuperPowers();
+    }
+
+    @Override
+    public SuperPower addSuperPower(SuperPower superPower) {
+
+        return superPowerDao.addSuperPower(superPower);
+    }
+
+    @Override
+    public void updateSuperPower(SuperPower superPower) {
+
+        superPowerDao.updateSuperPower(superPower);
+    }
+
+    @Override
+    public void deleteSuperPowerById(int id) {
+        superPowerDao.deleteSuperPowerById(id);
+    }
+
+    @Override
     public Location getLocationById(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -114,32 +141,6 @@ public class ServiceLayerImpl implements ServiceLayer {
 
     @Override
     public void deleteOrganizationById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public SuperPower getSuperPowerById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<SuperPower> getAllSuperPowers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public SuperPower addSuperPower(SuperPower superPower) {
-
-        return superPowerDao.addSuperPower(superPower);
-    }
-
-    @Override
-    public void updateSuperPower(SuperPower superPower) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void deleteSuperPowerById(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

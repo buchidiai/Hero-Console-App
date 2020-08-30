@@ -6,6 +6,8 @@
 package com.sg.superherosighting.entities;
 
 import java.util.Objects;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -14,7 +16,9 @@ import java.util.Objects;
 public class SuperPower {
 
     private int id;
-    private String superPower;
+    @NotBlank(message = "Super Power must not be empty.")
+    @Size(max = 45, message = "Super Power must be less than 45 characters.")
+    private String name;
 
     public int getId() {
         return id;
@@ -24,19 +28,19 @@ public class SuperPower {
         this.id = id;
     }
 
-    public String getSuperPower() {
-        return superPower;
+    public String getName() {
+        return name;
     }
 
-    public void setSuperPower(String superPower) {
-        this.superPower = superPower;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
     public int hashCode() {
         int hash = 5;
         hash = 89 * hash + this.id;
-        hash = 89 * hash + Objects.hashCode(this.superPower);
+        hash = 89 * hash + Objects.hashCode(this.name);
         return hash;
     }
 
@@ -55,7 +59,7 @@ public class SuperPower {
         if (this.id != other.id) {
             return false;
         }
-        if (!Objects.equals(this.superPower, other.superPower)) {
+        if (!Objects.equals(this.name, other.name)) {
             return false;
         }
         return true;
@@ -63,7 +67,7 @@ public class SuperPower {
 
     @Override
     public String toString() {
-        return "SuperPower{" + "id=" + id + ", superPower=" + superPower + '}';
+        return "SuperPower{" + "id=" + id + ", superPower=" + name + '}';
     }
 
 }

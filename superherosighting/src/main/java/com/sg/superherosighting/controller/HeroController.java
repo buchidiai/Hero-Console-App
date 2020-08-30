@@ -57,17 +57,20 @@ public class HeroController {
         SuperPower superPower = new SuperPower();
         //super power params
         String super_Power = request.getParameter("superPower");
-        superPower.setSuperPower(super_Power);
 
         Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
 
-        //check if valid
-        superPowerViolations = validate.validate(superPower);
+        if (!super_Power.isEmpty()) {
+            superPower.setName(super_Power);
 
-        //check if empty then add
-        if (superPowerViolations.isEmpty()) {
-            //add super power
-            superPower = service.addSuperPower(superPower);
+            //check if valid
+            superPowerViolations = validate.validate(superPower);
+
+            //check if empty then add
+            if (superPowerViolations.isEmpty()) {
+                //add super power
+                superPower = service.addSuperPower(superPower);
+            }
         }
 
         Hero hero = new Hero();
@@ -77,8 +80,6 @@ public class HeroController {
 
         //check if valid
         heroViolations = validate.validate(hero);
-
-        System.out.println("heroViolations size " + heroViolations.size());
 
         //check if empty then add
         if (heroViolations.isEmpty()) {
@@ -103,9 +104,6 @@ public class HeroController {
             return "editHero";
         }
 
-//        Hero hero = service.getHeroById(id);
-//        hero.setName(request.getParameter("name"));
-//        hero.setDescription(request.getParameter("description"));
         service.updateHero(hero);
         return "redirect:/heros";
     }

@@ -56,11 +56,11 @@ public class SuperPowerDaoDBTest {
 
         //add super power
         superPower1 = new SuperPower();
-        superPower1.setSuperPower("Super Strength");
+        superPower1.setName("Super Strength");
 
         //add super power
         superPower2 = new SuperPower();
-        superPower2.setSuperPower("Super speed");
+        superPower2.setName("Super speed");
 
     }
 
@@ -112,7 +112,7 @@ public class SuperPowerDaoDBTest {
 
         assertEquals(superPower1, foundSuperPower);
 
-        superPower1.setSuperPower("laser beams");
+        superPower1.setName("laser beams");
 
         superPowerDao.updateSuperPower(superPower1);
 

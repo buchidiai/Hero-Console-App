@@ -61,7 +61,7 @@ public class HeroDaoDBTest {
 
         //add super power
         superPower = new SuperPower();
-        superPower.setSuperPower("invisibilty");
+        superPower.setName("invisibilty");
         superPower = superPowerDao.addSuperPower(superPower);
 
         //add hero
@@ -88,7 +88,7 @@ public class HeroDaoDBTest {
         assertEquals(hero1.getId(), foundHero.getId());
         assertEquals(hero1.getDescription(), foundHero.getDescription());
         assertEquals(hero1.getName(), foundHero.getName());
-        assertEquals(foundHero.getSuperPower(), superPower.getSuperPower());
+        assertEquals(foundHero.getSuperPower(), superPower.getName());
 
     }
 
@@ -103,7 +103,7 @@ public class HeroDaoDBTest {
         assertEquals(hero1.getId(), foundHero.getId());
         assertEquals(hero1.getDescription(), foundHero.getDescription());
         assertEquals(hero1.getName(), foundHero.getName());
-        assertEquals(foundHero.getSuperPower(), superPower.getSuperPower());
+        assertEquals(foundHero.getSuperPower(), superPower.getName());
 
     }
 
@@ -139,7 +139,7 @@ public class HeroDaoDBTest {
         assertEquals(hero1.getId(), foundHero.getId());
         assertEquals(hero1.getDescription(), foundHero.getDescription());
         assertEquals(hero1.getName(), foundHero.getName());
-        assertEquals(foundHero.getSuperPower(), superPower.getSuperPower());
+        assertEquals(foundHero.getSuperPower(), superPower.getName());
 
         hero1.setName("Green Lantern");
         hero1.setDescription("They fight evil with the aid of rings that grant them a variety of extraordinary powers");
@@ -164,7 +164,7 @@ public class HeroDaoDBTest {
         assertEquals(hero1.getId(), foundHero.getId());
         assertEquals(hero1.getDescription(), foundHero.getDescription());
         assertEquals(hero1.getName(), foundHero.getName());
-        assertEquals(foundHero.getSuperPower(), superPower.getSuperPower());
+        assertEquals(foundHero.getSuperPower(), superPower.getName());
 
         heroDao.deleteHeroById(hero1.getId());
 
