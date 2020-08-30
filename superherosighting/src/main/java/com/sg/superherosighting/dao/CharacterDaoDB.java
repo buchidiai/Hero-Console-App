@@ -49,19 +49,27 @@ public class CharacterDaoDB implements CharacterDao {
     }
 
     @Override
+    @Transactional
     public List<Character> getAllCharacters() {
 
         try {
 
-            final String SELECT_ALL_CHARACTERS = "SELECT * FROM " + "`character`";
+//            final String SELECT_ALL_CHARACTERS = "SELECT * FROM " + "`character`";
+            final String SELECT_ALL_CHARACTERS = "SELECT c.id, c.name, c.description, s.name FROM  " + "`character` c" + " JOIN superPower s On c.superPower_id = s.id  ";
 
             List<Character> characters = jdbc.query(SELECT_ALL_CHARACTERS, new CharacterMapper());
 
+            System.out.println("characters size " + characters.size());
+
+//
+//            final String SELECT_SUPERPOWER_BY_ID = "SELECT * FROM superPower WHERE id = ?";
+//
+//            SuperPower superPower = jdbc.queryForObject(SELECT_SUPERPOWER_BY_ID, new SuperPowerMapper(), character.getSuperPower());
+//
+//            character.setSuperPower(superPower.getSuperPower());
             return characters;
         } catch (DataAccessException ex) {
-
             System.out.println("ex " + ex);
-
             return null;
         }
 
@@ -110,6 +118,8 @@ public class CharacterDaoDB implements CharacterDao {
 
         @Override
         public Character mapRow(ResultSet rs, int index) throws SQLException {
+
+            System.out.println("rs " + rs.getString("name"));
 
             Character character = new Character();
             character.setId(rs.getInt("id"));

@@ -1,13 +1,12 @@
-
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <div th:insert="common :: header"></div>
+    <div th:insert="common :: htmlHead"></div>
     <body>
-        <div th:replace="common :: nav"></div>
+        <div th:insert="common :: navBar"></div>
         <!-- Main Body of Page -->
-
+     
+   
         <h1>Sightings  page test</h1>
-
         <!-- End main body -->
 
         <div th:insert="common :: scripts"></div>

@@ -5,13 +5,16 @@
  */
 package com.sg.superherosighting.controller;
 
-import com.sg.superherosighting.dao.CharacterDao;
-import com.sg.superherosighting.dao.LocationDao;
-import com.sg.superherosighting.dao.OrganizationDao;
-import com.sg.superherosighting.dao.SuperPowerDao;
+import com.sg.superherosighting.entities.Character;
+import com.sg.superherosighting.entities.SuperPower;
+import com.sg.superherosighting.service.ServiceLayer;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 /**
  *
@@ -21,20 +24,44 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class CharacterController {
 
     @Autowired
-    SuperPowerDao superPowerDao;
-
-    @Autowired
-    CharacterDao characterDao;
-
-    @Autowired
-    LocationDao locationDao;
-
-    @Autowired
-    OrganizationDao organizationDao;
+    ServiceLayer service;
 
     @GetMapping("characters")
-    public String getAllCharacters() {
+    public String getAllCharacters(Model model) {
+
+        List<Character> characters = service.getAllCharacters();
+
+        model.addAttribute("characters", characters);
 
         return "characters";
+    }
+
+    @PostMapping("addCharacter")
+    public String addCharacter(HttpServletRequest request) {
+
+        //super power params
+        String super_Power = request.getParameter("superPower");
+
+        //character parms
+        String name = request.getParameter("name");
+        String description = request.getParameter("description");
+        SuperPower superPower = new SuperPower();
+        superPower.setSuperPower(super_Power);
+
+        //add super power
+        superPower = service.addSuperPower(superPower);
+
+//        System.out.println("superPower after add  " + superPower.toString());
+        Character character = new Character();
+
+        character.setName(name);
+        character.setDescription(description);
+        character.setSuperPower(String.valueOf(superPower.getId()));
+
+//        System.out.println("character before add  " + character.toString());
+        //add charater
+        service.addCharacter(character);
+
+        return "redirect:/characters";
     }
 }
