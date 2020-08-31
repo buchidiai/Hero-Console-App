@@ -6,6 +6,9 @@
 package com.sg.superherosighting.entities;
 
 import java.util.Objects;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -14,8 +17,15 @@ import java.util.Objects;
 public class Organization {
 
     private int id;
+    @NotBlank(message = "Name must not be empty.")
+    @Size(max = 45, message = "Name must be less than 45 characters.")
+    @NotNull(message = "Name cannot be null")
     private String name;
+    @NotBlank(message = "Description must not be empty.")
+    @Size(max = 255, message = "Description must be less than 255 characters.")
+    @NotNull(message = "Description cannot be null")
     private String description;
+    @NotBlank(message = "Address must not be empty.")
     private String address;
 
     public int getId() {
