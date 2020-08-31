@@ -12,8 +12,14 @@ import com.sg.superherosighting.dao.SuperPowerDao;
 import com.sg.superherosighting.entities.Hero;
 import com.sg.superherosighting.entities.Location;
 import com.sg.superherosighting.entities.Organization;
+import com.sg.superherosighting.entities.Sighting;
 import com.sg.superherosighting.entities.SuperPower;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,16 +31,22 @@ import org.springframework.stereotype.Service;
 public class ServiceLayerImpl implements ServiceLayer {
 
     @Autowired
-    SuperPowerDao superPowerDao;
+    private SuperPowerDao superPowerDao;
 
     @Autowired
-    HeroDao heroDao;
+    private HeroDao heroDao;
 
     @Autowired
-    LocationDao locationDao;
+    private LocationDao locationDao;
 
     @Autowired
-    OrganizationDao organizationDao;
+    private OrganizationDao organizationDao;
+
+    private Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+
+    private Set<ConstraintViolation<SuperPower>> superPowerViolations = new HashSet<>();
+    private Set<ConstraintViolation<Hero>> heroViolations = new HashSet<>();
+    private Set<ConstraintViolation<Location>> locationViolations = new HashSet<>();
 
     @Override
     public Hero getHeroById(int id) {
@@ -46,6 +58,13 @@ public class ServiceLayerImpl implements ServiceLayer {
     public List<Hero> getAllHeros() {
 
         List<Hero> heros = heroDao.getAllHeros();
+
+        heros.forEach(h -> {
+            if (h.getSuperPower().isEmpty()) {
+                h.setSuperPower("none");
+
+            }
+        });
         return heros;
     }
 
@@ -144,6 +163,66 @@ public class ServiceLayerImpl implements ServiceLayer {
     @Override
     public void deleteOrganizationById(int id) {
         organizationDao.deleteOrganizationById(id);
+    }
+
+    @Override
+    public Sighting getSightingById(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Sighting> getAllSightings() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Sighting addSighting(Sighting sighting) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateSighting(Sighting sighting) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteSightingById(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Set<ConstraintViolation<SuperPower>> validateSuperPower(SuperPower superPower) {
+
+        //check if valid
+        return superPowerViolations = validate.validate(superPower);
+    }
+
+    @Override
+    public Set<ConstraintViolation<SuperPower>> getSuperPowerViolations() {
+        return superPowerViolations;
+    }
+
+    @Override
+    public Set<ConstraintViolation<Hero>> validateHero(Hero hero) {
+
+        //check if valid
+        return heroViolations = validate.validate(hero);
+    }
+
+    @Override
+    public Set<ConstraintViolation<Hero>> getHeroViolations() {
+        return heroViolations;
+    }
+
+    @Override
+    public Set<ConstraintViolation<Location>> validateLocation(Location location) {
+
+        return locationViolations = validate.validate(location);
+    }
+
+    @Override
+    public Set<ConstraintViolation<Location>> getLocationViolations() {
+        return locationViolations;
     }
 
 }

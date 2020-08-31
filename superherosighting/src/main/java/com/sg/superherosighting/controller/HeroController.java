@@ -8,14 +8,9 @@ package com.sg.superherosighting.controller;
 import com.sg.superherosighting.entities.Hero;
 import com.sg.superherosighting.entities.SuperPower;
 import com.sg.superherosighting.service.ServiceLayer;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
-import javax.validation.Validation;
-import javax.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,18 +26,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class HeroController {
 
     @Autowired
-    ServiceLayer service;
-
-    Set<ConstraintViolation<Hero>> heroViolations = new HashSet<>();
-    Set<ConstraintViolation<SuperPower>> superPowerViolations = new HashSet<>();
+    private ServiceLayer service;
 
     @GetMapping("heros")
     public String getAllHeros(Model model) {
 
         List<Hero> heros = service.getAllHeros();
-
         model.addAttribute("heros", heros);
-        model.addAttribute("errors", heroViolations);
+        model.addAttribute("errors", service.getHeroViolations());
 
         return "heros";
     }
@@ -50,39 +41,26 @@ public class HeroController {
     @PostMapping("addHero")
     public String addHero(HttpServletRequest request) {
 
-        //hero parms from client
+        //hero
         String name = request.getParameter("name");
         String description = request.getParameter("description");
 
+        //super power
+        String heroSuperPower = request.getParameter("superPower");
+
         SuperPower superPower = new SuperPower();
-        //super power params
-        String super_Power = request.getParameter("superPower");
 
-        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        superPower.setName(heroSuperPower);
 
-        if (!super_Power.isEmpty()) {
-            superPower.setName(super_Power);
-
-            //check if valid
-            superPowerViolations = validate.validate(superPower);
-
-            //check if empty then add
-            if (superPowerViolations.isEmpty()) {
-                //add super power
-                superPower = service.addSuperPower(superPower);
-            }
-        }
+        superPower = service.addSuperPower(superPower);
 
         Hero hero = new Hero();
         hero.setName(name);
         hero.setDescription(description);
         hero.setSuperPower(String.valueOf(superPower.getId()));
 
-        //check if valid
-        heroViolations = validate.validate(hero);
-
         //check if empty then add
-        if (heroViolations.isEmpty()) {
+        if (service.validateHero(hero).isEmpty()) {
             //add hero
             service.addHero(hero);
         }

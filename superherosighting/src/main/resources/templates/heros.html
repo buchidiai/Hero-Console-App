@@ -4,14 +4,10 @@
     <body>
         <div th:insert="common :: navBar"></div>
         <!-- Main Body of Page -->
-
         <div class='container ' >
             <!-- Header -->
-
             <div th:insert="common :: pageHeader(title='Heros')"></div>
-
             <!-- Sub Header -->
-
             <div th:insert="common :: pageSubHeader(title='Add Hero')"></div>
             <!-- form start -->
             <div class='d-flex justify-content-center'>
@@ -84,10 +80,10 @@
                     <tbody>
                         <tr th:each="hero : ${heros}">
                             <td th:text="${hero.id}">ID</td>
-                            <td >null</td>
-                            <td th:text="${hero.name}">Teacher Last Name</td>
-                            <td th:text="${hero.description}">null</td>
-                            <td th:text="${hero.superPower}">Teacher Specialty</td>
+                            <td >none</td>
+                            <td th:text="${hero.name}">none</td>
+                            <td th:text="${hero.description}">none</td>
+                            <td th:text="${hero.superPower}">none</td>
                             <td> 
                                 <a th:href="@{/editHero(id=${hero.id})}" class="fas fa-edit text-primary">
                                 </a>

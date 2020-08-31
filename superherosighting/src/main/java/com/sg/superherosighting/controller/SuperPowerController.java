@@ -7,14 +7,9 @@ package com.sg.superherosighting.controller;
 
 import com.sg.superherosighting.entities.SuperPower;
 import com.sg.superherosighting.service.ServiceLayer;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
-import javax.validation.Validation;
-import javax.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,9 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class SuperPowerController {
 
     @Autowired
-    ServiceLayer service;
-
-    Set<ConstraintViolation<SuperPower>> superPowerViolations = new HashSet<>();
+    private ServiceLayer service;
 
     @GetMapping("superPowers")
     public String getAllSuperPowers(Model model) {
@@ -40,7 +33,7 @@ public class SuperPowerController {
         List<SuperPower> superPowers = service.getAllSuperPowers();
 
         model.addAttribute("superPowers", superPowers);
-        model.addAttribute("errors", superPowerViolations);
+        model.addAttribute("errors", service.getSuperPowerViolations());
 
         return "superPowers";
     }
@@ -54,13 +47,8 @@ public class SuperPowerController {
         SuperPower superPower = new SuperPower();
         superPower.setName(name);
 
-        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
-
-        //check if valid
-        superPowerViolations = validate.validate(superPower);
-
-        //check if empty then add
-        if (superPowerViolations.isEmpty()) {
+        //check if validation is empty then add super power
+        if (service.validateSuperPower(superPower).isEmpty()) {
             //add super power
             superPower = service.addSuperPower(superPower);
         }

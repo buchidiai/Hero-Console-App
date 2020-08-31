@@ -8,14 +8,29 @@ package com.sg.superherosighting.service;
 import com.sg.superherosighting.entities.Hero;
 import com.sg.superherosighting.entities.Location;
 import com.sg.superherosighting.entities.Organization;
+import com.sg.superherosighting.entities.Sighting;
 import com.sg.superherosighting.entities.SuperPower;
 import java.util.List;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
 
 /**
  *
  * @author louie
  */
 public interface ServiceLayer {
+
+    Set<ConstraintViolation<SuperPower>> validateSuperPower(SuperPower superPower);
+
+    Set<ConstraintViolation<SuperPower>> getSuperPowerViolations();
+
+    Set<ConstraintViolation<Hero>> validateHero(Hero hero);
+
+    Set<ConstraintViolation<Hero>> getHeroViolations();
+
+    Set<ConstraintViolation<Location>> validateLocation(Location location);
+
+    Set<ConstraintViolation<Location>> getLocationViolations();
 
     Hero getHeroById(int id);
 
@@ -56,5 +71,15 @@ public interface ServiceLayer {
     void updateSuperPower(SuperPower superPower);
 
     void deleteSuperPowerById(int id);
+
+    Sighting getSightingById(int id);
+
+    List<Sighting> getAllSightings();
+
+    Sighting addSighting(Sighting sighting);
+
+    void updateSighting(Sighting sighting);
+
+    void deleteSightingById(int id);
 
 }

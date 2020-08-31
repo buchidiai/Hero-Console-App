@@ -30,14 +30,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class OrganizationController {
 
     @Autowired
-    ServiceLayer service;
+    private ServiceLayer service;
 
     Set<ConstraintViolation<Organization>> organizationViolations = new HashSet<>();
 
     @GetMapping("organizations")
     public String getAllOrganizations(Model model) {
 
-        List<Organization> organizations = service.getAllOrganizations();
+        List<Organization> organizations = getService().getAllOrganizations();
 
         model.addAttribute("organizations", organizations);
         model.addAttribute("errors", organizationViolations);
@@ -67,7 +67,7 @@ public class OrganizationController {
         //check if empty then add
         if (organizationViolations.isEmpty()) {
             //add organization
-            service.addOrganization(organization);
+            getService().addOrganization(organization);
         }
 
         return "redirect:/organizations";
@@ -75,7 +75,7 @@ public class OrganizationController {
 
     @GetMapping("editOrganization")
     public String editOrganization(Integer id, Model model) {
-        Organization organization = service.getOrganizationById(id);
+        Organization organization = getService().getOrganizationById(id);
         model.addAttribute("organization", organization);
         return "editOrganization";
     }
@@ -87,7 +87,7 @@ public class OrganizationController {
             return "editOrganization";
         }
 
-        service.updateOrganization(organization);
+        getService().updateOrganization(organization);
         return "redirect:/organizations";
     }
 
@@ -102,8 +102,22 @@ public class OrganizationController {
     @GetMapping("deleteOrganization")
     public String deleteOrganization(Integer id) {
 
-        service.deleteOrganizationById(id);
+        getService().deleteOrganizationById(id);
 
         return "redirect:/organizations";
+    }
+
+    /**
+     * @return the service
+     */
+    public ServiceLayer getService() {
+        return service;
+    }
+
+    /**
+     * @param service the service to set
+     */
+    public void setService(ServiceLayer service) {
+        this.service = service;
     }
 }

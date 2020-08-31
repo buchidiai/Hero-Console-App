@@ -7,14 +7,9 @@ package com.sg.superherosighting.controller;
 
 import com.sg.superherosighting.entities.Location;
 import com.sg.superherosighting.service.ServiceLayer;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
-import javax.validation.Validation;
-import javax.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,19 +25,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class LocationController {
 
     @Autowired
-    ServiceLayer service;
-
-    Set<ConstraintViolation<Location>> locationViolations = new HashSet<>();
+    private ServiceLayer service;
 
     @GetMapping("locations")
     public String getAllLocations(Model model) {
 
         List<Location> locations = service.getAllLocations();
 
-        System.out.println("locationViolations " + locationViolations.size());
-
         model.addAttribute("locations", locations);
-        model.addAttribute("errors", locationViolations);
+        model.addAttribute("errors", service.getLocationViolations());
 
         return "locations";
     }
@@ -59,19 +50,14 @@ public class LocationController {
 
         Location location = new Location();
 
-        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
-
         location.setName(name);
         location.setDescription(description);
         location.setAddress(address);
         location.setLatitude(latitude);
         location.setLongitude(longitude);
 
-        //check if valid
-        locationViolations = validate.validate(location);
-
         //check if empty then add
-        if (locationViolations.isEmpty()) {
+        if (service.validateLocation(location).isEmpty()) {
             //add location
             service.addLocation(location);
         }

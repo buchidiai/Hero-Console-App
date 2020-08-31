@@ -4,11 +4,126 @@
     <body>
         <div th:insert="common :: navBar"></div>
         <!-- Main Body of Page -->
-     
-   
-        <h1>Sightings  page test</h1>
-        <!-- End main body -->
 
-        <div th:insert="common :: scripts"></div>
-    </body>
+        <div class='container ' >
+            <!-- Header -->
+
+            <div th:insert="common :: pageHeader(title='Sightings')"></div>
+
+            <!-- Sub Header -->
+
+            <div th:insert="common :: pageSubHeader(title='Add Sighting')"></div>
+            <!-- form start -->
+            <div class='d-flex justify-content-center'>
+
+                <div class='border border-secondary col-7 '>
+                    <!--                    <div class="col-12 m-1 text-center" 
+                                             th:if="${!errors.isEmpty()}">
+                                            <p class="alert alert-danger" th:each="error : ${errors}" 
+                                               th:text="${error.message}">Error message</p>
+                                        </div>-->
+                    <form class='p-5'  action="addSighting" method="POST">
+                        <!--create hero start-->
+
+                        <div class="form-group row">
+                            <label for="heros" class="col-3 col-form-label">Heros</label>
+                            <div class="col-9">
+                                <select id="hero" name="heroId" class="form-control" >
+                                    <option th:each="hero : ${heros}" 
+                                            th:value="${hero.id}" 
+                                            th:text="${hero.name}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="locations" class="col-3 col-form-label">
+                                Locations</label>
+                            <div class="col-9">
+                                <select multiple id="locations" name="locationId" 
+                                        class="form-control" >
+                                    <option th:each="location : ${locations}" 
+                                            th:value="${location.id}" 
+                                            th:text="${location.name}"
+
+                                            >
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!--  create date start-->
+                        <div class="form-group row ">
+
+                            <label for="date" class="col-sm-3 col-form-label">Date</label>
+                            <div class="col-9">
+                                <input 
+                                    type="datetime-local"
+                                    id="date"
+                                    name="date" 
+                                    value="2020-09-01T19:30"
+                                    min="1900-06-07T00:00"
+                                    max="2080-06-14T00:00">
+                            </div>
+                        </div>
+                        <div class="form-group row d-flex justify-content-center ">
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-success btn-lg btn-block ">Add</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            <!-- Form end-->
+        </div>
+        <!-- Section Header-->
+        <div th:insert="common :: sectionHeader(title='All Sightings')" >
+
+        </div>
+
+        <!-- table Hero start-->
+        <!--        <div class="row p-2">
+        
+                    <div class="col text-center  d-flex justify-content-center">
+                        <table class="table table-striped w-75 border border-dark ">
+                            <thead class='bg-dark'>
+                                <tr>
+                                    <th class='text-light'>ID</th>
+                                    <th class='text-light'>Photo</th>
+                                    <th class='text-light'>Name</th>
+                                    <th class='text-light'>Description</th>
+                                    <th class='text-light'>Power</th>
+                                    <th class='text-light'>Edit</th>
+                                    <th class='text-light'>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="hero : ${heros}">
+                                    <td th:text="${hero.id}">ID</td>
+                                    <td >null</td>
+                                    <td th:text="${hero.name}">Teacher Last Name</td>
+                                    <td th:text="${hero.description}">null</td>
+                                    <td th:text="${hero.superPower}">Teacher Specialty</td>
+                                    <td> 
+                                        <a th:href="@{/editHero(id=${hero.id})}" class="fas fa-edit text-primary">
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a th:href="@{/deleteHeroConfirm(id=${hero.id})}"  class="fas fa-trash-alt text-danger">
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>-->
+    </div>
+    <!-- End main body -->
+    <div th:insert="common :: scripts"></div>
+    <!-- footer -->
+    <div th:insert="common :: footer" >
+
+    </div>
+</body>
 </html>
