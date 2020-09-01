@@ -98,8 +98,6 @@ public class SightingsController {
     @PostMapping("editSighting")
     public String performEditSighting(@Valid Sighting sighting, BindingResult result, HttpServletRequest request) {
 
-        System.out.println("Top sighting performEditSighting " + sighting.toString());
-
         String date = request.getParameter("date");
         String existingHeroId = request.getParameter("existingHeroId");
         String existingLocationId = request.getParameter("existingLocationId");
@@ -119,16 +117,18 @@ public class SightingsController {
     }
 
     @GetMapping("deleteSightingConfirm")
-    public String deleteSightingConfirm(Integer id, Model model) {
+    public String deleteSightingConfirm(Integer heroId, Integer locationId, Model model) {
 
-//        model.addAttribute("heroId", id);
+        model.addAttribute("heroId", heroId);
+        model.addAttribute("locationId", locationId);
+
         return "deleteSightingConfirm";
     }
 
     @GetMapping("deleteSighting")
-    public String deleteSighting(Integer id) {
+    public String deleteSighting(Integer heroId, Integer locationId) {
 
-//        service.deleteSightingById(id);
+        service.deleteSightingById(heroId, locationId);
         return "redirect:/sightings";
     }
 
