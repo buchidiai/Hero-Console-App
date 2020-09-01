@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface SightingDao {
 
-    Sighting getSightingById(int id);
+    Sighting getSightingById(int heroId, int locationId);
 
     List<Sighting> getAllSightings();
 
@@ -22,6 +22,6 @@ public interface SightingDao {
 
     void updateSighting(Sighting sighting);
 
-    void deleteSightingById(int id);
+    void deleteSightingById(int heroId, int locationId);
 
 }

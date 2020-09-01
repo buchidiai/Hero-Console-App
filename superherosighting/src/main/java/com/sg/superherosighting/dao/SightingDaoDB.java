@@ -5,10 +5,16 @@
  */
 package com.sg.superherosighting.dao;
 
+import com.sg.superherosighting.entities.Hero;
+import com.sg.superherosighting.entities.Location;
 import com.sg.superherosighting.entities.Sighting;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -19,21 +25,79 @@ import org.springframework.stereotype.Repository;
 public class SightingDaoDB implements SightingDao {
 
     @Autowired
-    JdbcTemplate jdbc;
+    private JdbcTemplate jdbc;
 
     @Override
-    public Sighting getSightingById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Sighting getSightingById(int heroId, int locationId) {
+        final String SELECT_SIGHTING_BY_IDS = "SELECT * FROM location_has_hero WHERE location_id = ? AND hero_id = ? ";
+
+        Sighting sighting = jdbc.queryForObject(SELECT_SIGHTING_BY_IDS, new SightingMapper(), locationId, heroId);
+
+        sighting.setHero(getHeroById(sighting.getHeroId()));
+
+        sighting.setLocation(getLocationById(sighting.getLocationId()));
+
+        return sighting;
+
+    }
+
+    private Location getLocationById(int id) {
+        try {
+            final String SELECT_LOCATION_BY_ID = "SELECT * FROM location WHERE id = ?";
+            Location location = jdbc.queryForObject(SELECT_LOCATION_BY_ID, new LocationDaoDB.LocationMapper(), id);
+
+            return location;
+        } catch (DataAccessException ex) {
+            return null;
+        }
+    }
+
+    private Hero getHeroById(int id) {
+        try {
+            final String SELECT_HERO_BY_ID = "SELECT h.id, h.name, h.description, s.name FROM  hero h JOIN superPower s On h.superPower_id = s.id WHERE h.id = ?";
+            Hero hero = jdbc.queryForObject(SELECT_HERO_BY_ID, new HeroDaoDB.HeroMapper(), id);
+            return hero;
+
+        } catch (DataAccessException ex) {
+            return null;
+        }
     }
 
     @Override
     public List<Sighting> getAllSightings() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        final String SELECT_ALL_SIGHTINGS = "SELECT * FROM location_has_hero";
+
+        List<Sighting> sightings = jdbc.query(SELECT_ALL_SIGHTINGS, new SightingMapper());
+
+        getAndSetHerosAndLocation(sightings);
+
+        return sightings;
+    }
+
+    private void getAndSetHerosAndLocation(List<Sighting> sightings) {
+
+        for (Sighting sighting : sightings) {
+
+            sighting.setHero(getHeroById(sighting.getHeroId()));
+            sighting.setLocation(getLocationById(sighting.getLocationId()));
+
+        }
+
     }
 
     @Override
     public Sighting addSighting(Sighting sighting) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        final String INSERT_INTO_LOCATION_HAS_HERO = "INSERT INTO location_has_hero(location_id, hero_id, date) VALUES(?,?,?)";
+
+        jdbc.update(INSERT_INTO_LOCATION_HAS_HERO,
+                sighting.getLocation().getId(),
+                sighting.getHero().getId(),
+                sighting.getLocalDate());
+
+        return sighting;
+
     }
 
     @Override
@@ -42,8 +106,22 @@ public class SightingDaoDB implements SightingDao {
     }
 
     @Override
-    public void deleteSightingById(int id) {
+    public void deleteSightingById(int heroId, int locationId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public static final class SightingMapper implements RowMapper<Sighting> {
+
+        @Override
+        public Sighting mapRow(ResultSet rs, int index) throws SQLException {
+
+            Sighting sighting = new Sighting();
+            sighting.setHeroId(rs.getInt("hero_id"));
+            sighting.setLocationId(rs.getInt("location_id"));
+            sighting.setLocalDate(rs.getTimestamp("date").toLocalDateTime());
+
+            return sighting;
+        }
     }
 
 }

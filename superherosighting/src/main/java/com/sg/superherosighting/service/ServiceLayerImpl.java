@@ -8,6 +8,7 @@ package com.sg.superherosighting.service;
 import com.sg.superherosighting.dao.HeroDao;
 import com.sg.superherosighting.dao.LocationDao;
 import com.sg.superherosighting.dao.OrganizationDao;
+import com.sg.superherosighting.dao.SightingDao;
 import com.sg.superherosighting.dao.SuperPowerDao;
 import com.sg.superherosighting.entities.Hero;
 import com.sg.superherosighting.entities.Location;
@@ -41,6 +42,9 @@ public class ServiceLayerImpl implements ServiceLayer {
 
     @Autowired
     private OrganizationDao organizationDao;
+
+    @Autowired
+    private SightingDao sightingDao;
 
     private Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
 
@@ -166,27 +170,27 @@ public class ServiceLayerImpl implements ServiceLayer {
     }
 
     @Override
+    public List<Sighting> getAllSightings() {
+        return sightingDao.getAllSightings();
+    }
+
+    @Override
+    public Sighting addSighting(Sighting sighting) {
+        return sightingDao.addSighting(sighting);
+    }
+
+    @Override
     public Sighting getSightingById(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<Sighting> getAllSightings() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Sighting addSighting(Sighting sighting) {
+    public void deleteSightingById(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void updateSighting(Sighting sighting) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void deleteSightingById(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -40,12 +40,11 @@
                             <label for="locations" class="col-3 col-form-label">
                                 Locations</label>
                             <div class="col-9">
-                                <select multiple id="locations" name="locationId" 
+                                <select multiple id="locationsId" name="locationId" 
                                         class="form-control" >
                                     <option th:each="location : ${locations}" 
                                             th:value="${location.id}" 
                                             th:text="${location.name}"
-
                                             >
                                     </option>
                                 </select>
@@ -61,7 +60,7 @@
                                     type="datetime-local"
                                     id="date"
                                     name="date" 
-                                    value="2020-09-01T19:30"
+                                    value=""
                                     min="1900-06-07T00:00"
                                     max="2080-06-14T00:00">
                             </div>
@@ -81,49 +80,60 @@
         <div th:insert="common :: sectionHeader(title='All Sightings')" >
 
         </div>
-
         <!-- table Hero start-->
-        <!--        <div class="row p-2">
-        
-                    <div class="col text-center  d-flex justify-content-center">
-                        <table class="table table-striped w-75 border border-dark ">
-                            <thead class='bg-dark'>
-                                <tr>
-                                    <th class='text-light'>ID</th>
-                                    <th class='text-light'>Photo</th>
-                                    <th class='text-light'>Name</th>
-                                    <th class='text-light'>Description</th>
-                                    <th class='text-light'>Power</th>
-                                    <th class='text-light'>Edit</th>
-                                    <th class='text-light'>Delete</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="hero : ${heros}">
-                                    <td th:text="${hero.id}">ID</td>
-                                    <td >null</td>
-                                    <td th:text="${hero.name}">Teacher Last Name</td>
-                                    <td th:text="${hero.description}">null</td>
-                                    <td th:text="${hero.superPower}">Teacher Specialty</td>
-                                    <td> 
-                                        <a th:href="@{/editHero(id=${hero.id})}" class="fas fa-edit text-primary">
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a th:href="@{/deleteHeroConfirm(id=${hero.id})}"  class="fas fa-trash-alt text-danger">
-                                        </a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>-->
-    </div>
-    <!-- End main body -->
-    <div th:insert="common :: scripts"></div>
-    <!-- footer -->
-    <div th:insert="common :: footer" >
+        <div class="row p-2">
 
+            <div class="col text-center  d-flex justify-content-center">
+                <table class="table table-striped w-75 border border-dark ">
+                    <thead class='bg-dark'>
+                        <tr>
+                            <th class='text-light'>heroId</th>
+                            <th class='text-light'>HeroName</th>
+                            <th class='text-light'>Description</th>
+                            <th class='text-light'>Location</th>
+                            <th class='text-light'>Address</th>
+                            <th class='text-light'>Lat/Long</th>
+                            <th class='text-light'>Date</th>
+                            <th class='text-light'>Edit</th>
+                            <th class='text-light'>Delete</th>
+                            <th class='text-light'>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="sighting : ${sightings}">
+                            <td th:text="${sighting.hero.id}">ID</td>
+                            <td th:text="${sighting.hero.name}">none</td>
+                            <td th:text="${sighting.location.description}">none</td>
+                            <td th:text="${sighting.location.name}">none</td>
+                            <td th:text="${sighting.location.address}">none</td>
+                            <td th:text="${sighting.location.latitude + ' / ' + sighting.location.longitude}">none</td>
+                            <td th:text="${sighting.localDate}">none</td>
+
+                            <td> 
+                                <a th:href="@{/editHero(locationId=${sighting.locationId},heroId=${sighting.heroId} )}" class="fas fa-edit text-primary">
+                                </a>
+                            </td>
+                            <td>
+                                <a th:href="@{/deleteHeroConfirm(locationId=${sighting.locationId},heroId=${sighting.heroId} )}"  class="fas fa-trash-alt text-danger">
+                                </a>
+                            </td>
+                            <td>
+                                <a th:href="@{/heroDetail(locationId=${sighting.locationId},heroId=${sighting.heroId} )}"  class="fas fa-info-circle text-secondary">
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
+</div>
+
+<!-- End main body -->
+<div th:insert="common :: scripts"></div>
+<!-- footer -->
+<div th:insert="common :: footer" >
+
+</div>
 </body>
 </html>

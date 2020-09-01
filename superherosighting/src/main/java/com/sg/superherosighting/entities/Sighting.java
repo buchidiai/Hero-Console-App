@@ -5,8 +5,10 @@
  */
 package com.sg.superherosighting.entities;
 
-import java.time.LocalDate;
-import java.util.Objects;
+import java.time.LocalDateTime;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 /**
  *
@@ -14,9 +16,52 @@ import java.util.Objects;
  */
 public class Sighting {
 
+    @NotNull
+    @NotBlank(message = "Hero must not be empty.")
+    private int heroId;
+    @NotNull
+    @NotBlank(message = "Location must not be empty.")
+    private int locationId;
+    @NotBlank(message = "Date must not be empty.")
+    @Past(message = "Date must be today or in the past.")
+    private LocalDateTime localDate;
+
+    private String timeAgo;
+
     private Hero hero;
     private Location location;
-    private LocalDate localDate;
+
+    public LocalDateTime getLocalDate() {
+        return localDate;
+    }
+
+    public void setLocalDate(LocalDateTime localDate) {
+        this.localDate = localDate;
+    }
+
+    public String getTimeAgo() {
+        return timeAgo;
+    }
+
+    public void setTimeAgo(String timeAgo) {
+        this.timeAgo = timeAgo;
+    }
+
+    public int getHeroId() {
+        return heroId;
+    }
+
+    public void setHeroId(int heroId) {
+        this.heroId = heroId;
+    }
+
+    public int getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(int locationId) {
+        this.locationId = locationId;
+    }
 
     public Hero getHero() {
         return hero;
@@ -34,50 +79,9 @@ public class Sighting {
         this.location = location;
     }
 
-    public LocalDate getLocalDate() {
-        return localDate;
-    }
-
-    public void setLocalDate(LocalDate localDate) {
-        this.localDate = localDate;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 79 * hash + Objects.hashCode(this.hero);
-        hash = 79 * hash + Objects.hashCode(this.location);
-        hash = 79 * hash + Objects.hashCode(this.localDate);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Sighting other = (Sighting) obj;
-        if (!Objects.equals(this.hero, other.hero)) {
-            return false;
-        }
-        if (!Objects.equals(this.location, other.location)) {
-            return false;
-        }
-        if (!Objects.equals(this.localDate, other.localDate)) {
-            return false;
-        }
-        return true;
-    }
-
     @Override
     public String toString() {
-        return "Sighting{" + "hero=" + hero + ", location=" + location + ", localDate=" + localDate + '}';
+        return "Sighting{" + "heroId=" + heroId + ", locationId=" + locationId + ", localDate=" + localDate + ", hero=" + hero + ", location=" + location + '}';
     }
 
 }

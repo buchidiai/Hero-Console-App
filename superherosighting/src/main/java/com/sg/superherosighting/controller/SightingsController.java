@@ -8,8 +8,8 @@ package com.sg.superherosighting.controller;
 import com.sg.superherosighting.entities.Hero;
 import com.sg.superherosighting.entities.Location;
 import com.sg.superherosighting.entities.Sighting;
-import com.sg.superherosighting.entities.SuperPower;
 import com.sg.superherosighting.service.ServiceLayer;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -33,8 +33,11 @@ public class SightingsController {
     @GetMapping("sightings")
     public String getAllSightings(Model model) {
 
+        List<Sighting> sightings = service.getAllSightings();
         List<Hero> heros = service.getAllHeros();
         List<Location> locations = service.getAllLocations();
+
+        model.addAttribute("sightings", sightings);
 
         model.addAttribute("heros", heros);
         model.addAttribute("locations", locations);
@@ -43,68 +46,34 @@ public class SightingsController {
     }
 
     @PostMapping("addSighting")
-    public String addSighting(HttpServletRequest request) {
+    public String addSighting(Sighting sighting, HttpServletRequest request) {
 
-        //super pwer
-        String heroSuperPower = request.getParameter("heroSuperPower");
-
-        SuperPower superPower = new SuperPower();
-        superPower.setName(heroSuperPower);
-
-        superPower = service.addSuperPower(superPower);
-
-        //hero
-        String heroName = request.getParameter("heroName");
-        String heroDescription = request.getParameter("heroDescription");
-
-        //photo
-        String heroPhoto = request.getParameter("heroPhoto");
-
-        Hero hero = new Hero();
-        hero.setName(heroName);
-        hero.setDescription(heroDescription);
-        hero.setSuperPower(String.valueOf(superPower.getId()));
-
-        //check if empty then add
-        if (service.validateHero(hero).isEmpty()) {
-            //add hero
-            service.addHero(hero);
-        }
-
-        //location
-        String locationName = request.getParameter("locationName");
-        String locationDescription = request.getParameter("locationDescription");
-        String locationAddress = request.getParameter("locationAddress");
-        String locationLatitude = request.getParameter("locationLatitude");
-        String locationLongitude = request.getParameter("locationLongitude");
-
-        Location location = new Location();
-
-        location.setName(locationName);
-        location.setDescription(locationDescription);
-        location.setAddress(locationAddress);
-        location.setLatitude(locationLatitude);
-        location.setLongitude(locationLongitude);
-
-        //check if empty then add
-        if (service.validateLocation(location).isEmpty()) {
-            //add location
-            service.addLocation(location);
-        }
-
-        //date
+        //get values
+        String heroId = request.getParameter("heroId");
+        String locationId = request.getParameter("locationId");
         String date = request.getParameter("date");
 
+        System.out.println("heroId " + heroId);
+        System.out.println("locationId " + locationId);
         System.out.println("date " + date);
 
-        Sighting sighting = new Sighting();
+        //parse date
+        LocalDateTime sightingDate = LocalDateTime.parse(date);
 
+        //get hero and location
+        Hero hero = service.getHeroById((Integer.parseInt(heroId)));
+        Location location = service.getLocationById((Integer.parseInt(locationId)));
+
+        System.out.println("hero " + hero.toString());
+        System.out.println("date " + date);
+
+        //set them
         sighting.setHero(hero);
-
         sighting.setLocation(location);
+        sighting.setLocalDate(sightingDate);
 
-//        sighting.setLocalDate("sds");
-        System.out.println("sighting " + sighting.toString());
+        //add to db
+        service.addSighting(sighting);
 
         return "redirect:/sightings";
     }

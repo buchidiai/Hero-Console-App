@@ -5,7 +5,14 @@
  */
 package com.sg.superherosighting.controller;
 
+import com.sg.superherosighting.entities.Sighting;
+import com.sg.superherosighting.service.ServiceLayer;
+import com.sg.superherosighting.service.until.TimeAgo;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
@@ -15,8 +22,29 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class IndexController {
 
+    @Autowired
+    private ServiceLayer service;
+
     @GetMapping("/")
-    public String index() {
+    public String index(Model model) {
+
+        List<Sighting> sightings = service.getAllSightings();
+
+        TimeAgo tago = new TimeAgo();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+
+        for (Sighting sighting : sightings) {
+
+            System.out.println("sighting " + sighting.toString());
+
+            sighting.setTimeAgo(tago.format(sighting.getLocalDate()));
+
+        }
+
+        model.addAttribute(
+                "sightings", sightings);
+
         return "index";
     }
 

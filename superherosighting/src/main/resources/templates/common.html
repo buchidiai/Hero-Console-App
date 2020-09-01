@@ -91,17 +91,27 @@
     <div th:fragment="newsFeedtemplate">
         <div class=' pt-3'>
             <div class='row p-1 pl-4 d-flex flex-row align-items-center justify-content-start' >
-                <img class="img-fluid img-thumbnail rounded-circle border border-secondary " style="width:5%" th:src="@imageurl" alt="hero">
-                <h6 class='text-center text-dark pl-4' th:text="${name}"> was sighted</h6>
-                <h6 class='text-center text-dark pl-4' th:text="${time}"></h6>
+                <img class="img-fluid img-thumbnail rounded-circle " style="width:5%" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="hero">
+                <div class='row'>
+                    <h6 class='text-center text-dark pl-4 ' th:text="${superHeroName + ' was sighted '}"> 
+                    </h6>
+                    <p  class='text-center text-secondary pl-4 font-italic h6' th:text="${time}"></p> 
+                    <div class='col-12 pl-4 '>
+                        <h6  class=' text-dark d-flex align-self-end font-weight-light ' th:text="${'Location:  '  + location}"></h6>
+                    </div>
+                </div>
             </div>
-
             <div class='col pt-2'>
-                <h5 class=' text-dark' th:text="${description}" >Lorem Ipsum is simply dummy text of the printing and typesetting industry,Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h5>
+                <p th:text="${'About ' + superHeroName + ' :' }">  </p>
+                <p th:text="${superHeroDescription}">  </p>
+                
+                  <p> Happening: </p>
+                <h5 class=' text-dark' th:text="${locationDescription}" ></h5>
             </div>
             <hr />
         </div>
     </div>
+
 
     <!-- scripts-->
 
@@ -115,8 +125,12 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     </div>
 
+
+
     <footer th:fragment="footer">
         <p class='text-center text-dark'>&copy; 2020 HeroConsole.com</p>
     </footer>
+
+
 </body>
 </html>

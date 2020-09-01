@@ -75,6 +75,7 @@
                             <th class='text-light'>Power</th>
                             <th class='text-light'>Edit</th>
                             <th class='text-light'>Delete</th>
+                            <th class='text-light'>Details</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -90,6 +91,10 @@
                             </td>
                             <td>
                                 <a th:href="@{/deleteHeroConfirm(id=${hero.id})}"  class="fas fa-trash-alt text-danger">
+                                </a>
+                            </td>
+                             <td>
+                                <a th:href="@{/heroDetail(id=${hero.id})}"  class="fas fa-info-circle text-secondary">
                                 </a>
                             </td>
                         </tr>

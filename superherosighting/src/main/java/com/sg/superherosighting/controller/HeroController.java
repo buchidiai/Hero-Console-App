@@ -32,6 +32,7 @@ public class HeroController {
     public String getAllHeros(Model model) {
 
         List<Hero> heros = service.getAllHeros();
+
         model.addAttribute("heros", heros);
         model.addAttribute("errors", service.getHeroViolations());
 
