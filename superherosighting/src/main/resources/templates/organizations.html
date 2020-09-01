@@ -72,6 +72,7 @@
                             <th class='text-light'>address</th>
                             <th class='text-light'>Edit</th>
                             <th class='text-light'>Delete</th>
+                            <th class='text-light'>Details</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -86,6 +87,10 @@
                             </td>
                             <td>
                                 <a th:href="@{/deleteOrganizationConfirm(id=${organization.id})}"  class="fas fa-trash-alt text-danger">
+                                </a>
+                            </td>
+                            <td>
+                                <a th:href="@{/organizationDetail(id=${organization.id})}"  class="fas fa-info-circle text-secondary">
                                 </a>
                             </td>
                         </tr>

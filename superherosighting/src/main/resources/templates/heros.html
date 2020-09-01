@@ -11,9 +11,9 @@
             <div th:insert="common :: pageSubHeader(title='Add Hero')"></div>
             <!-- form start -->
             <div class='d-flex justify-content-center'>
-                
+
                 <div class='border border-secondary col-7 '>
-                      <div class="col-12 m-1 text-center" 
+                    <div class="col-12 m-1 text-center" 
                          th:if="${!errors.isEmpty()}">
                         <p class="alert alert-danger" th:each="error : ${errors}" 
                            th:text="${error.message}">Error message</p>
@@ -60,10 +60,10 @@
         <div th:insert="common :: sectionHeader(title='All Heros')" >
 
         </div>
-        
-          <!-- table Hero start-->
+
+        <!-- table Hero start-->
         <div class="row p-2">
-          
+
             <div class="col text-center  d-flex justify-content-center">
                 <table class="table table-striped w-75 border border-dark ">
                     <thead class='bg-dark'>
@@ -93,7 +93,7 @@
                                 <a th:href="@{/deleteHeroConfirm(id=${hero.id})}"  class="fas fa-trash-alt text-danger">
                                 </a>
                             </td>
-                             <td>
+                            <td>
                                 <a th:href="@{/heroDetail(id=${hero.id})}"  class="fas fa-info-circle text-secondary">
                                 </a>
                             </td>

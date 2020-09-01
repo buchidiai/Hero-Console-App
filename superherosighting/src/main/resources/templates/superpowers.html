@@ -16,13 +16,13 @@
             <!-- form start -->
             <div class='d-flex justify-content-center'>
                 <div class='border border-secondary col-7 '>
-                      <div class="col-12 m-1 text-center" 
+                    <div class="col-12 m-1 text-center" 
                          th:if="${!errors.isEmpty()}">
                         <p class="alert alert-danger" th:each="error : ${errors}" 
                            th:text="${error.message}">Error message</p>
                     </div>
                     <form class='p-5'  action="addSuperPower" method="POST">
-                      
+
                         <div class="form-group row  d-flex justify-content-center">
                             <label for="name" class="col-sm-2 col-form-label">Name</label>
                             <div class="col-sm-10">
@@ -45,10 +45,10 @@
         <div th:insert="common :: sectionHeader(title='All Super Powers')" >
 
         </div>
-        
-          <!-- table SuperPower start-->
+
+        <!-- table SuperPower start-->
         <div class="row p-2">
-          
+
             <div class="col text-center  d-flex justify-content-center">
                 <table class="table table-striped w-75 border border-dark ">
                     <thead class='bg-dark'>
@@ -57,6 +57,7 @@
                             <th class='text-light'>Power</th>
                             <th class='text-light'>Edit</th>
                             <th class='text-light'>Delete</th>
+                            <th class='text-light'>Details</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,6 +70,10 @@
                             </td>
                             <td>
                                 <a th:href="@{/deleteSuperPowerConfirm(id=${superPower.id})}"  class="fas fa-trash-alt text-danger">
+                                </a>
+                            </td>
+                            <td>
+                                <a th:href="@{/superPowerDetail(id=${superPower.id})}"  class="fas fa-info-circle text-secondary">
                                 </a>
                             </td>
                         </tr>
