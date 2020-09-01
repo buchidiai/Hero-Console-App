@@ -6,6 +6,8 @@
 package com.sg.superherosighting.controller;
 
 import com.sg.superherosighting.entities.Hero;
+import com.sg.superherosighting.entities.Location;
+import com.sg.superherosighting.entities.Organization;
 import com.sg.superherosighting.entities.SuperPower;
 import com.sg.superherosighting.service.ServiceLayer;
 import java.util.List;
@@ -32,8 +34,12 @@ public class HeroController {
     public String getAllHeros(Model model) {
 
         List<Hero> heros = service.getAllHeros();
+        List<Organization> organizations = service.getAllOrganizations();
+        List<Location> locations = service.getAllLocations();
 
+        model.addAttribute("locations", locations);
         model.addAttribute("heros", heros);
+        model.addAttribute("organizations", organizations);
         model.addAttribute("errors", service.getHeroViolations());
 
         return "heros";

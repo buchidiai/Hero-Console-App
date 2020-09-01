@@ -37,7 +37,7 @@ public class OrganizationController {
     @GetMapping("organizations")
     public String getAllOrganizations(Model model) {
 
-        List<Organization> organizations = getService().getAllOrganizations();
+        List<Organization> organizations = service.getAllOrganizations();
 
         model.addAttribute("organizations", organizations);
         model.addAttribute("errors", organizationViolations);
