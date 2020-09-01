@@ -20,7 +20,7 @@ public interface SightingDao {
 
     Sighting addSighting(Sighting sighting);
 
-    void updateSighting(Sighting sighting);
+    void updateSighting(Sighting sighting, Integer existingHeroId, Integer existingLocationId);
 
     void deleteSightingById(int heroId, int locationId);
 

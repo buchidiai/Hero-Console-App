@@ -6,7 +6,7 @@
 package com.sg.superherosighting.entities;
 
 import java.time.LocalDateTime;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
@@ -17,12 +17,12 @@ import javax.validation.constraints.Past;
 public class Sighting {
 
     @NotNull
-    @NotBlank(message = "Hero must not be empty.")
+    @Min(value = 1, message = "Please select a Hero")
     private int heroId;
     @NotNull
-    @NotBlank(message = "Location must not be empty.")
+    @Min(value = 1, message = "Please select a Location")
     private int locationId;
-    @NotBlank(message = "Date must not be empty.")
+    @NotNull(message = "Please select a Date")
     @Past(message = "Date must be today or in the past.")
     private LocalDateTime localDate;
 

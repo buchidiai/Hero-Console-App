@@ -91,7 +91,7 @@
     <div th:fragment="newsFeedtemplate">
         <div class=' pt-3'>
             <div class='row p-1 pl-4 d-flex flex-row align-items-center justify-content-start' >
-                <img class="img-fluid img-thumbnail rounded-circle " style="width:5%" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="hero">
+                <img class="img-fluid img-thumbnail rounded-circle " style="width:5%" src="https://via.placeholder.com/150" alt="hero">
                 <div class='row'>
                     <h6 class='text-center text-dark pl-4 ' th:text="${superHeroName + ' was sighted '}"> 
                     </h6>
@@ -102,10 +102,10 @@
                 </div>
             </div>
             <div class='col pt-2'>
-                <p th:text="${'About ' + superHeroName + ' :' }">  </p>
+                <u><p th:text="${'About ' + superHeroName + ' :' }"> </p></u>
                 <p th:text="${superHeroDescription}">  </p>
-                
-                  <p> Happening: </p>
+
+                <u><p> Happening: </p></u>
                 <h5 class=' text-dark' th:text="${locationDescription}" ></h5>
             </div>
             <hr />

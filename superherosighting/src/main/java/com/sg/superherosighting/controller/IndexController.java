@@ -8,7 +8,6 @@ package com.sg.superherosighting.controller;
 import com.sg.superherosighting.entities.Sighting;
 import com.sg.superherosighting.service.ServiceLayer;
 import com.sg.superherosighting.service.until.TimeAgo;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,20 +29,15 @@ public class IndexController {
 
         List<Sighting> sightings = service.getAllSightings();
 
+        System.out.println("hit index controller");
+
         TimeAgo tago = new TimeAgo();
 
-        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
-
         for (Sighting sighting : sightings) {
-
-            System.out.println("sighting " + sighting.toString());
-
             sighting.setTimeAgo(tago.format(sighting.getLocalDate()));
-
         }
 
-        model.addAttribute(
-                "sightings", sightings);
+        model.addAttribute("sightings", sightings);
 
         return "index";
     }

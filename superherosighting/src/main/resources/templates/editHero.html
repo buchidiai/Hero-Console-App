@@ -51,7 +51,9 @@
                         <div class="form-group row d-flex justify-content-center ">
                             <div class="col-sm-10">
                                 <input type="hidden" name="id" th:value="${hero.id}"/>
-                                <button  type="submit" class="btn btn-primary btn-lg btn-block ">Update</button>
+
+                                <button  type="submit" class="btn btn-primary btn-lg btn-block ">OK</button>
+                                <a  th:href="@{/heros}" class="btn btn-danger btn-lg btn-block ">CANCEL</a>
                             </div>
                         </div>
                     </form>

@@ -51,6 +51,7 @@ public class ServiceLayerImpl implements ServiceLayer {
     private Set<ConstraintViolation<SuperPower>> superPowerViolations = new HashSet<>();
     private Set<ConstraintViolation<Hero>> heroViolations = new HashSet<>();
     private Set<ConstraintViolation<Location>> locationViolations = new HashSet<>();
+    private Set<ConstraintViolation<Sighting>> sightingViolations = new HashSet<>();
 
     @Override
     public Hero getHeroById(int id) {
@@ -180,24 +181,27 @@ public class ServiceLayerImpl implements ServiceLayer {
     }
 
     @Override
-    public Sighting getSightingById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Sighting getSightingById(int heroId, int locationId) {
+
+        return sightingDao.getSightingById(heroId, locationId);
     }
 
     @Override
-    public void deleteSightingById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void deleteSightingById(int heroId, int locationId) {
+
+        sightingDao.deleteSightingById(heroId, locationId);
+
     }
 
     @Override
-    public void updateSighting(Sighting sighting) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void updateSighting(Sighting sighting, Integer existingHeroId, Integer existingLocationId) {
+
+        sightingDao.updateSighting(sighting, existingHeroId, existingLocationId);
     }
 
     @Override
     public Set<ConstraintViolation<SuperPower>> validateSuperPower(SuperPower superPower) {
 
-        //check if valid
         return superPowerViolations = validate.validate(superPower);
     }
 
@@ -208,8 +212,6 @@ public class ServiceLayerImpl implements ServiceLayer {
 
     @Override
     public Set<ConstraintViolation<Hero>> validateHero(Hero hero) {
-
-        //check if valid
         return heroViolations = validate.validate(hero);
     }
 
@@ -227,6 +229,17 @@ public class ServiceLayerImpl implements ServiceLayer {
     @Override
     public Set<ConstraintViolation<Location>> getLocationViolations() {
         return locationViolations;
+    }
+
+    @Override
+    public Set<ConstraintViolation<Sighting>> validateSighting(Sighting sighting) {
+
+        return sightingViolations = validate.validate(sighting);
+    }
+
+    @Override
+    public Set<ConstraintViolation<Sighting>> getSightingViolations() {
+        return sightingViolations;
     }
 
 }

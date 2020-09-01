@@ -17,21 +17,23 @@
             <div class='d-flex justify-content-center'>
 
                 <div class='border border-secondary col-7 '>
-                    <!--                    <div class="col-12 m-1 text-center" 
+                                        <div class="col-12 m-1 text-center" 
                                              th:if="${!errors.isEmpty()}">
                                             <p class="alert alert-danger" th:each="error : ${errors}" 
                                                th:text="${error.message}">Error message</p>
-                                        </div>-->
+                                        </div>
                     <form class='p-5'  action="addSighting" method="POST">
                         <!--create hero start-->
 
                         <div class="form-group row">
                             <label for="heros" class="col-3 col-form-label">Heros</label>
                             <div class="col-9">
-                                <select id="hero" name="heroId" class="form-control" >
+                                <select multiple  id="heroId" name="heroId" class="form-control" >
                                     <option th:each="hero : ${heros}" 
                                             th:value="${hero.id}" 
-                                            th:text="${hero.name}">
+                                            th:text="${hero.name}"
+                                           
+                                            >
                                     </option>
                                 </select>
                             </div>
@@ -40,8 +42,7 @@
                             <label for="locations" class="col-3 col-form-label">
                                 Locations</label>
                             <div class="col-9">
-                                <select multiple id="locationsId" name="locationId" 
-                                        class="form-control" >
+                                <select  multiple id="locationId" name="locationId" class="form-control" >
                                     <option th:each="location : ${locations}" 
                                             th:value="${location.id}" 
                                             th:text="${location.name}"
@@ -58,11 +59,12 @@
                             <div class="col-9">
                                 <input 
                                     type="datetime-local"
-                                    id="date"
-                                    name="date" 
+                                    id="localDate"
+                                    name="localDate" 
                                     value=""
                                     min="1900-06-07T00:00"
-                                    max="2080-06-14T00:00">
+                                    max="2080-06-14T00:00"
+                                    >
                             </div>
                         </div>
                         <div class="form-group row d-flex justify-content-center ">
@@ -110,15 +112,15 @@
                             <td th:text="${sighting.localDate}">none</td>
 
                             <td> 
-                                <a th:href="@{/editHero(locationId=${sighting.locationId},heroId=${sighting.heroId} )}" class="fas fa-edit text-primary">
+                                <a th:href="@{/editSighting(locationId=${sighting.locationId},heroId=${sighting.heroId})}" class="fas fa-edit text-primary">
                                 </a>
                             </td>
                             <td>
-                                <a th:href="@{/deleteHeroConfirm(locationId=${sighting.locationId},heroId=${sighting.heroId} )}"  class="fas fa-trash-alt text-danger">
+                                <a th:href="@{/deleteSightingConfirm(locationId=${sighting.locationId},heroId=${sighting.heroId} )}"  class="fas fa-trash-alt text-danger">
                                 </a>
                             </td>
                             <td>
-                                <a th:href="@{/heroDetail(locationId=${sighting.locationId},heroId=${sighting.heroId} )}"  class="fas fa-info-circle text-secondary">
+                                <a th:href="@{/SightingDetail(locationId=${sighting.locationId},heroId=${sighting.heroId} )}"  class="fas fa-info-circle text-secondary">
                                 </a>
                             </td>
                         </tr>

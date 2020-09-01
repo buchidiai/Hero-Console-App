@@ -101,13 +101,25 @@ public class SightingDaoDB implements SightingDao {
     }
 
     @Override
-    public void updateSighting(Sighting sighting) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void updateSighting(Sighting sighting, Integer existingHeroId, Integer existingLocationId) {
+
+        final String DELETE_SIGHTING = "DELETE FROM location_has_hero  WHERE location_id = ? AND  hero_id = ?";
+
+        jdbc.update(DELETE_SIGHTING, existingLocationId, existingHeroId);
+
+        final String INSERT_INTO_LOCATION_HAS_HERO = "INSERT INTO location_has_hero(location_id, hero_id, date) VALUES(?,?,?)";
+
+        jdbc.update(INSERT_INTO_LOCATION_HAS_HERO,
+                sighting.getLocationId(),
+                sighting.getHeroId(),
+                sighting.getLocalDate());
     }
 
     @Override
     public void deleteSightingById(int heroId, int locationId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String DELETE_SIGHTING = "DELETE FROM location_has_hero  WHERE location_id = ? AND  hero_id = ?";
+
+        jdbc.update(DELETE_SIGHTING, locationId, heroId);
     }
 
     public static final class SightingMapper implements RowMapper<Sighting> {

@@ -37,10 +37,12 @@ public class SightingsController {
         List<Hero> heros = service.getAllHeros();
         List<Location> locations = service.getAllLocations();
 
+        System.out.println("service.getSightingViolations() " + service.getSightingViolations().size());
         model.addAttribute("sightings", sightings);
 
         model.addAttribute("heros", heros);
         model.addAttribute("locations", locations);
+        model.addAttribute("errors", service.getSightingViolations());
 
         return "sightings";
     }
@@ -53,46 +55,66 @@ public class SightingsController {
         String locationId = request.getParameter("locationId");
         String date = request.getParameter("date");
 
-        System.out.println("heroId " + heroId);
-        System.out.println("locationId " + locationId);
-        System.out.println("date " + date);
-
         //parse date
-        LocalDateTime sightingDate = LocalDateTime.parse(date);
+        if (!(date == null)) {
+            LocalDateTime sightingDate = LocalDateTime.parse(date);
+            sighting.setLocalDate(sightingDate);
+        }
 
-        //get hero and location
-        Hero hero = service.getHeroById((Integer.parseInt(heroId)));
-        Location location = service.getLocationById((Integer.parseInt(locationId)));
+        if (date == null || date.isEmpty()) {
 
-        System.out.println("hero " + hero.toString());
-        System.out.println("date " + date);
+            service.validateSighting(sighting);
 
+            return "redirect:/sightings";
+        }
         //set them
-        sighting.setHero(hero);
-        sighting.setLocation(location);
-        sighting.setLocalDate(sightingDate);
+        sighting.setHero(service.getHeroById((Integer.parseInt(heroId))));
+        sighting.setLocation(service.getLocationById((Integer.parseInt(locationId))));
 
-        //add to db
-        service.addSighting(sighting);
+        //check if empty then add
+        if (service.validateSighting(sighting).isEmpty()) {
+            //add to db
+            service.addSighting(sighting);
+        }
 
         return "redirect:/sightings";
     }
 
     @GetMapping("editSighting")
-    public String editSighting(Integer id, Model model) {
-//        Sighting hero = service.getSightingById(id);
-//        model.addAttribute("hero", hero);
+    public String editSighting(Integer locationId, Integer heroId, Model model) {
+
+        Sighting sighting = service.getSightingById(heroId, locationId);
+
+        List<Hero> heros = service.getAllHeros();
+        List<Location> locations = service.getAllLocations();
+
+        model.addAttribute("sighting", sighting);
+        model.addAttribute("heros", heros);
+        model.addAttribute("locations", locations);
+
         return "editSighting";
     }
 
     @PostMapping("editSighting")
-    public String performEditSighting(@Valid Sighting hero, BindingResult result) {
+    public String performEditSighting(@Valid Sighting sighting, BindingResult result, HttpServletRequest request) {
 
-//        if (result.hasErrors()) {
-//            return "editSighting";
-//        }
-//
-//        service.updateSighting(hero);
+        System.out.println("Top sighting performEditSighting " + sighting.toString());
+
+        String date = request.getParameter("date");
+        String existingHeroId = request.getParameter("existingHeroId");
+        String existingLocationId = request.getParameter("existingLocationId");
+
+        //parse date
+        LocalDateTime sightingDate = LocalDateTime.parse(date);
+
+        //set date to object
+        sighting.setLocalDate(sightingDate);
+
+        if (result.hasErrors()) {
+            return "editSighting";
+        }
+        service.updateSighting(sighting, Integer.parseInt(existingHeroId), Integer.parseInt(existingLocationId));
+
         return "redirect:/sightings";
     }
 
