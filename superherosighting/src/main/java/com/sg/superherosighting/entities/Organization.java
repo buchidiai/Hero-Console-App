@@ -5,6 +5,7 @@
  */
 package com.sg.superherosighting.entities;
 
+import java.util.List;
 import java.util.Objects;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -27,6 +28,8 @@ public class Organization {
     private String description;
     @NotBlank(message = "Address must not be empty.")
     private String address;
+
+    private List<Hero> heros;
 
     public int getId() {
         return id;
@@ -58,6 +61,14 @@ public class Organization {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public List<Hero> getHeros() {
+        return heros;
+    }
+
+    public void setHeros(List<Hero> heros) {
+        this.heros = heros;
     }
 
     @Override

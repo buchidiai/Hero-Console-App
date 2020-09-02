@@ -52,6 +52,7 @@ public class ServiceLayerImpl implements ServiceLayer {
     private Set<ConstraintViolation<Hero>> heroViolations = new HashSet<>();
     private Set<ConstraintViolation<Location>> locationViolations = new HashSet<>();
     private Set<ConstraintViolation<Sighting>> sightingViolations = new HashSet<>();
+    Set<ConstraintViolation<Organization>> organizationViolations = new HashSet<>();
 
     @Override
     public Hero getHeroById(int id) {
@@ -86,7 +87,7 @@ public class ServiceLayerImpl implements ServiceLayer {
     }
 
     @Override
-    public void insertHero_Organization(Hero hero) {
+    public void insertHeroOrganization(Hero hero) {
 
         heroDao.insertHeroOrganization(hero);
 
@@ -149,6 +150,11 @@ public class ServiceLayerImpl implements ServiceLayer {
     @Override
     public Organization getOrganizationById(int id) {
         return organizationDao.getOrganizationById(id);
+    }
+
+    @Override
+    public void insertOrganizationHero(Organization organization) {
+        organizationDao.insertOrganizationHero(organization);
     }
 
     @Override
@@ -241,6 +247,16 @@ public class ServiceLayerImpl implements ServiceLayer {
     @Override
     public Set<ConstraintViolation<Sighting>> getSightingViolations() {
         return sightingViolations;
+    }
+
+    @Override
+    public Set<ConstraintViolation<Organization>> validateOrganization(Organization organization) {
+        return organizationViolations = validate.validate(organization);
+    }
+
+    @Override
+    public Set<ConstraintViolation<Organization>> getOrganizationViolations() {
+        return organizationViolations;
     }
 
 }

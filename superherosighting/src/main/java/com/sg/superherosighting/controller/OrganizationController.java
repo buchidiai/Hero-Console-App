@@ -5,16 +5,13 @@
  */
 package com.sg.superherosighting.controller;
 
+import com.sg.superherosighting.entities.Hero;
 import com.sg.superherosighting.entities.Organization;
 import com.sg.superherosighting.service.ServiceLayer;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
-import javax.validation.Validation;
-import javax.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,15 +29,15 @@ public class OrganizationController {
     @Autowired
     private ServiceLayer service;
 
-    Set<ConstraintViolation<Organization>> organizationViolations = new HashSet<>();
-
     @GetMapping("organizations")
     public String getAllOrganizations(Model model) {
 
         List<Organization> organizations = service.getAllOrganizations();
+        List<Hero> heros = service.getAllHeros();
 
         model.addAttribute("organizations", organizations);
-        model.addAttribute("errors", organizationViolations);
+        model.addAttribute("heros", heros);
+        model.addAttribute("errors", service.getOrganizationViolations());
 
         return "organizations";
     }
@@ -53,21 +50,40 @@ public class OrganizationController {
         String description = request.getParameter("description");
         String address = request.getParameter("address");
 
-        Organization organization = new Organization();
+        //heros ids
+        String[] herosIds = request.getParameterValues("herosId");
 
-        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        Organization organization = new Organization();
 
         organization.setName(name);
         organization.setDescription(description);
         organization.setAddress(address);
 
-        //check if valid
-        organizationViolations = validate.validate(organization);
+        List<Hero> heros = new ArrayList<>();
+
+        if (herosIds != null) {
+            for (String heroId : herosIds) {
+                heros.add(service.getHeroById(Integer.parseInt(heroId)));
+            }
+        }
 
         //check if empty then add
-        if (organizationViolations.isEmpty()) {
+        if (service.validateOrganization(organization).isEmpty()) {
+
+            if (herosIds != null) {
+                //set orgs
+                organization.setHeros(heros);
+
+            }
+
             //add organization
-            getService().addOrganization(organization);
+            service.addOrganization(organization);
+            //add bridge table relationship
+
+            if (herosIds != null) {
+                service.insertOrganizationHero(organization);
+            }
+
         }
 
         return "redirect:/organizations";

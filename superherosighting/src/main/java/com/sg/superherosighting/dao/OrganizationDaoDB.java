@@ -5,6 +5,7 @@
  */
 package com.sg.superherosighting.dao;
 
+import com.sg.superherosighting.entities.Hero;
 import com.sg.superherosighting.entities.Organization;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -34,6 +35,18 @@ public class OrganizationDaoDB implements OrganizationDao {
             return organization;
         } catch (DataAccessException ex) {
             return null;
+        }
+    }
+
+    @Override
+    public void insertOrganizationHero(Organization organization) {
+        final String INSERT_ORGANIZATION_HERO = "INSERT INTO hero_has_organization(hero_id, organization_id) VALUES(?,?)";
+
+        for (Hero hero : organization.getHeros()) {
+
+            jdbc.update(INSERT_ORGANIZATION_HERO,
+                    hero.getId(),
+                    organization.getId());
         }
     }
 

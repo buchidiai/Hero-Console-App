@@ -10,7 +10,6 @@ import com.sg.superherosighting.entities.Organization;
 import com.sg.superherosighting.entities.SuperPower;
 import com.sg.superherosighting.service.ServiceLayer;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -53,14 +52,11 @@ public class HeroController {
         //organization ids
         String[] organizationIds = request.getParameterValues("organizationIds");
 
-        System.out.println("organizationIds " + Arrays.toString(organizationIds));
-
         //super power
         String heroSuperPower = request.getParameter("superPower");
         SuperPower superPower = new SuperPower();
 
         if (heroSuperPower.isEmpty()) {
-
             superPower.setName("none");
         } else {
             superPower.setName(heroSuperPower);
@@ -97,7 +93,7 @@ public class HeroController {
             //add bridge table relationship
 
             if (organizationIds != null) {
-                service.insertHero_Organization(hero);
+                service.insertHeroOrganization(hero);
             }
 
         }
