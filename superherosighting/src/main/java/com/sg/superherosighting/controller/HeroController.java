@@ -6,10 +6,11 @@
 package com.sg.superherosighting.controller;
 
 import com.sg.superherosighting.entities.Hero;
-import com.sg.superherosighting.entities.Location;
 import com.sg.superherosighting.entities.Organization;
 import com.sg.superherosighting.entities.SuperPower;
 import com.sg.superherosighting.service.ServiceLayer;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -35,9 +36,7 @@ public class HeroController {
 
         List<Hero> heros = service.getAllHeros();
         List<Organization> organizations = service.getAllOrganizations();
-        List<Location> locations = service.getAllLocations();
 
-        model.addAttribute("locations", locations);
         model.addAttribute("heros", heros);
         model.addAttribute("organizations", organizations);
         model.addAttribute("errors", service.getHeroViolations());
@@ -51,13 +50,21 @@ public class HeroController {
         //hero
         String name = request.getParameter("name");
         String description = request.getParameter("description");
+        //organization ids
+        String[] organizationIds = request.getParameterValues("organizationIds");
+
+        System.out.println("organizationIds " + Arrays.toString(organizationIds));
 
         //super power
         String heroSuperPower = request.getParameter("superPower");
-
         SuperPower superPower = new SuperPower();
 
-        superPower.setName(heroSuperPower);
+        if (heroSuperPower.isEmpty()) {
+
+            superPower.setName("none");
+        } else {
+            superPower.setName(heroSuperPower);
+        }
 
         superPower = service.addSuperPower(superPower);
 
@@ -66,10 +73,33 @@ public class HeroController {
         hero.setDescription(description);
         hero.setSuperPower(String.valueOf(superPower.getId()));
 
+        List<Organization> organizations = new ArrayList<>();
+
+        if (organizationIds != null) {
+            for (String organizationId : organizationIds) {
+
+                organizations.add(service.getOrganizationById(Integer.parseInt(organizationId)));
+            }
+
+        }
+
         //check if empty then add
         if (service.validateHero(hero).isEmpty()) {
+
+            if (organizationIds != null) {
+                //set orgs
+                hero.setOrganization(organizations);
+
+            }
+
             //add hero
             service.addHero(hero);
+            //add bridge table relationship
+
+            if (organizationIds != null) {
+                service.insertHero_Organization(hero);
+            }
+
         }
 
         return "redirect:/heros";

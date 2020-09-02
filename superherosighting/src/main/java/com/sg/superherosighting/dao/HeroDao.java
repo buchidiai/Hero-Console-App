@@ -16,6 +16,8 @@ public interface HeroDao {
 
     Hero getHeroById(int id);
 
+    void insertHeroOrganization(Hero hero);
+
     List<Hero> getAllHeros();
 
     Hero addHero(Hero hero);

@@ -46,6 +46,8 @@ public interface ServiceLayer {
 
     void deleteHeroById(int id);
 
+    void insertHero_Organization(Hero hero);
+
     Location getLocationById(int id);
 
     List<Location> getAllLocations();

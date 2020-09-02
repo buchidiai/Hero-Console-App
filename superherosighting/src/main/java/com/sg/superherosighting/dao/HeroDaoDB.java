@@ -6,6 +6,7 @@
 package com.sg.superherosighting.dao;
 
 import com.sg.superherosighting.entities.Hero;
+import com.sg.superherosighting.entities.Organization;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -65,8 +66,21 @@ public class HeroDaoDB implements HeroDao {
 
         int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
         hero.setId(newId);
-
         return hero;
+    }
+
+    @Override
+    public void insertHeroOrganization(Hero hero) {
+
+        final String INSERT_HERO_ORGANIZATION = "INSERT INTO hero_has_organization(hero_id, organization_id) VALUES(?,?)";
+
+        for (Organization organization : hero.getOrganization()) {
+
+            jdbc.update(INSERT_HERO_ORGANIZATION,
+                    hero.getId(),
+                    organization.getId());
+        }
+
     }
 
     @Override

@@ -64,12 +64,6 @@ public class ServiceLayerImpl implements ServiceLayer {
 
         List<Hero> heros = heroDao.getAllHeros();
 
-        heros.forEach(h -> {
-            if (h.getSuperPower().isEmpty()) {
-                h.setSuperPower("none");
-
-            }
-        });
         return heros;
     }
 
@@ -89,6 +83,13 @@ public class ServiceLayerImpl implements ServiceLayer {
     @Override
     public void deleteHeroById(int id) {
         heroDao.deleteHeroById(id);
+    }
+
+    @Override
+    public void insertHero_Organization(Hero hero) {
+
+        heroDao.insertHeroOrganization(hero);
+
     }
 
     @Override

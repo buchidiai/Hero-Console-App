@@ -5,6 +5,7 @@
  */
 package com.sg.superherosighting.entities;
 
+import java.util.List;
 import java.util.Objects;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -26,6 +27,8 @@ public class Hero {
     @NotNull(message = "Description cannot be null")
     private String description;
     private String superPower;
+
+    private List<Organization> organization;
 
     public int getId() {
         return id;
@@ -57,6 +60,14 @@ public class Hero {
 
     public void setSuperPower(String superPower) {
         this.superPower = superPower;
+    }
+
+    public List<Organization> getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(List<Organization> organization) {
+        this.organization = organization;
     }
 
     @Override
