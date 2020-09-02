@@ -22,6 +22,7 @@ public class Sighting {
     @NotNull
     @Min(value = 1, message = "Please select a Location")
     private int locationId;
+
     @NotNull(message = "Please select a Date")
     @Past(message = "Date must be today or in the past.")
     private LocalDateTime localDate;

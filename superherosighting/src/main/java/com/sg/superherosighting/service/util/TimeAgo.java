@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sg.superherosighting.service.until;
+package com.sg.superherosighting.service.util;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -20,12 +20,18 @@ public class TimeAgo {
     private static final long ONE_DAY = 86400000L;
     private static final long ONE_WEEK = 604800000L;
 
-    private static final String ONE_SECOND_AGO = " Seconds ago";
-    private static final String ONE_MINUTE_AGO = " minutes ago";
-    private static final String ONE_HOUR_AGO = " An hour ago";
-    private static final String ONE_DAY_AGO = " Days ago";
+    private static final String ONE_SECOND_AGO = " Second ago";
+    private static final String ONE_SECONDS_AGO = " Seconds ago";
+    private static final String ONE_MINUTE_AGO = " minute ago";
+    private static final String ONE_MINUTES_AGO = " minutes ago";
+    private static final String ONE_HOUR_AGO = " hour ago";
+    private static final String ONE_HOURS_AGO = " hours ago";
+    private static final String ONE_DAY_AGO = " Day ago";
+    private static final String ONE_DAYS_AGO = " Days ago";
     private static final String ONE_MONTH_AGO = " Month ago";
-    private static final String ONE_YEAR_AGO = " Years ago";
+    private static final String ONE_MONTHS_AGO = " Months ago";
+    private static final String ONE_YEAR_AGO = " Year ago";
+    private static final String ONE_YEARS_AGO = " Years ago";
 
     public static String format(LocalDateTime createTime) {
 
@@ -36,30 +42,47 @@ public class TimeAgo {
 
         long delta = rightTime - compareTime;
         if (delta < 1L * ONE_MINUTE) {
+
             long seconds = toSeconds(delta);
-            return (seconds <= 0 ? 1 : seconds) + ONE_SECOND_AGO;
+
+            long newSeconds = (seconds <= 0 ? 1 : seconds);
+
+            return newSeconds == 1 ? newSeconds + ONE_SECOND_AGO : newSeconds + ONE_SECONDS_AGO;
         }
         if (delta < 45L * ONE_MINUTE) {
             long minutes = toMinutes(delta);
-            return (minutes <= 0 ? 1 : minutes) + ONE_MINUTE_AGO;
+
+            long newMinutes = (minutes <= 0 ? 1 : minutes);
+
+            return newMinutes == 1 ? newMinutes + ONE_MINUTE_AGO : newMinutes + ONE_MINUTES_AGO;
         }
         if (delta < 24L * ONE_HOUR) {
             long hours = toHours(delta);
-            return (hours <= 0 ? 1 : hours) + ONE_HOUR_AGO;
+
+            long newHours = (hours <= 0 ? 1 : hours);
+
+            return newHours == 1 ? newHours + ONE_HOUR_AGO : newHours + ONE_HOURS_AGO;
         }
         if (delta < 48L * ONE_HOUR) {
             return "yesterday";
         }
         if (delta < 30L * ONE_DAY) {
             long days = toDays(delta);
-            return (days <= 0 ? 1 : days) + ONE_DAY_AGO;
+
+            long newDays = (days <= 0 ? 1 : days);
+
+            return newDays == 1 ? newDays + ONE_DAY_AGO : newDays + ONE_DAYS_AGO;
         }
         if (delta < 12L * 4L * ONE_WEEK) {
             long months = toMonths(delta);
-            return (months <= 0 ? 1 : months) + ONE_MONTH_AGO;
+
+            long newMonths = (months <= 0 ? 1 : months);
+
+            return newMonths == 1 ? newMonths + ONE_MONTH_AGO : newMonths + ONE_MONTHS_AGO;
         } else {
             long years = toYears(delta);
-            return (years <= 0 ? 1 : years) + ONE_YEAR_AGO;
+            long newYears = (years <= 0 ? 1 : years);
+            return newYears == 1 ? newYears + ONE_YEAR_AGO : newYears + ONE_YEARS_AGO;
         }
     }
 

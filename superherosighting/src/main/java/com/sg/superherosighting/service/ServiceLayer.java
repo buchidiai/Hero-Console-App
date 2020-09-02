@@ -76,6 +76,8 @@ public interface ServiceLayer {
 
     SuperPower getSuperPowerById(int id);
 
+    void insertSuperPowerHero(SuperPower superPower);
+
     List<SuperPower> getAllSuperPowers();
 
     SuperPower addSuperPower(SuperPower superPower);

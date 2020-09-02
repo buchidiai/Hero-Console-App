@@ -39,6 +39,15 @@ public class SuperPowerDaoDB implements SuperPowerDao {
     }
 
     @Override
+    public void insertSuperPowerHero(SuperPower superPower) {
+        final String INSERT_SUPERPOWER_HERO = "UPDATE hero SET superPower_id = ?  WHERE id = ?";
+
+        jdbc.update(INSERT_SUPERPOWER_HERO,
+                superPower.getId(),
+                superPower.getHero().getId());
+    }
+
+    @Override
     public List<SuperPower> getAllSuperPowers() {
         final String SELECT_ALL_SUPERPOWERS = "SELECT * FROM superPower";
         return jdbc.query(SELECT_ALL_SUPERPOWERS, new SuperPowerMapper());

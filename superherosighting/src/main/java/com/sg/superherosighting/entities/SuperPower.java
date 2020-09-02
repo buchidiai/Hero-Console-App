@@ -20,6 +20,8 @@ public class SuperPower {
     @Size(max = 45, message = "Super Power must be less than 45 characters.")
     private String name;
 
+    private Hero hero;
+
     public int getId() {
         return id;
     }
@@ -34,6 +36,14 @@ public class SuperPower {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Hero getHero() {
+        return hero;
+    }
+
+    public void setHero(Hero hero) {
+        this.hero = hero;
     }
 
     @Override

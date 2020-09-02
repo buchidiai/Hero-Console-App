@@ -5,6 +5,7 @@
  */
 package com.sg.superherosighting.controller;
 
+import com.sg.superherosighting.entities.Hero;
 import com.sg.superherosighting.entities.SuperPower;
 import com.sg.superherosighting.service.ServiceLayer;
 import java.util.List;
@@ -31,8 +32,10 @@ public class SuperPowerController {
     public String getAllSuperPowers(Model model) {
 
         List<SuperPower> superPowers = service.getAllSuperPowers();
+        List<Hero> heros = service.getAllHeros();
 
         model.addAttribute("superPowers", superPowers);
+        model.addAttribute("heros", heros);
         model.addAttribute("errors", service.getSuperPowerViolations());
 
         return "superPowers";
@@ -44,13 +47,32 @@ public class SuperPowerController {
         //superPower parms from client
         String name = request.getParameter("name");
 
+        //heros id
+        String heroId = request.getParameter("heroId");
+
         SuperPower superPower = new SuperPower();
         superPower.setName(name);
 
+        Hero hero = null;
+
+        if (!heroId.isEmpty()) {
+
+            hero = service.getHeroById(Integer.parseInt(heroId));
+        }
+
         //check if validation is empty then add super power
         if (service.validateSuperPower(superPower).isEmpty()) {
+
+            if (!heroId.isEmpty()) {
+                //set orgs
+                superPower.setHero(hero);
+            }
             //add super power
             superPower = service.addSuperPower(superPower);
+
+            if (!heroId.isEmpty()) {
+                service.insertSuperPowerHero(superPower);
+            }
         }
 
         return "redirect:/superPowers";

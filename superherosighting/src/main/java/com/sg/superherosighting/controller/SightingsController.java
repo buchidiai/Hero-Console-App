@@ -58,7 +58,12 @@ public class SightingsController {
         //parse date
         if (!(date == null)) {
             LocalDateTime sightingDate = LocalDateTime.parse(date);
+
+            System.out.println("sightingDate " + sightingDate);
+
             sighting.setLocalDate(sightingDate);
+
+            System.out.println("sighting --" + sighting.toString());
         }
 
         if (date == null || date.isEmpty()) {

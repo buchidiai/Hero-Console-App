@@ -7,7 +7,7 @@ package com.sg.superherosighting.controller;
 
 import com.sg.superherosighting.entities.Sighting;
 import com.sg.superherosighting.service.ServiceLayer;
-import com.sg.superherosighting.service.until.TimeAgo;
+import com.sg.superherosighting.service.util.TimeAgo;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,8 +28,6 @@ public class IndexController {
     public String index(Model model) {
 
         List<Sighting> sightings = service.getAllSightings();
-
-        System.out.println("hit index controller");
 
         TimeAgo tago = new TimeAgo();
 

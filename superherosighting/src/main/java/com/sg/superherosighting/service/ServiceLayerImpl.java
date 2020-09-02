@@ -99,6 +99,12 @@ public class ServiceLayerImpl implements ServiceLayer {
     }
 
     @Override
+    public void insertSuperPowerHero(SuperPower superPower) {
+
+        superPowerDao.insertSuperPowerHero(superPower);
+    }
+
+    @Override
     public List<SuperPower> getAllSuperPowers() {
         return superPowerDao.getAllSuperPowers();
     }
