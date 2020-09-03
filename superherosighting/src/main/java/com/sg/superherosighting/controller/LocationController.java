@@ -31,8 +31,8 @@ public class LocationController {
     @Autowired
     private ServiceLayer service;
 
-    @GetMapping("locations")
-    public String getAllLocations(Model model) {
+    @GetMapping("location")
+    public String getLocationPage(Model model) {
 
         List<Location> locations = service.getAllLocations();
         List<Hero> heros = service.getAllHeros();
@@ -44,6 +44,20 @@ public class LocationController {
         return "/location/location";
     }
 
+//    @GetMapping("location")
+//    public String getAllLocations(Model model) {
+//
+//        System.out.println("here");
+//
+//        List<Location> locations = service.getAllLocations();
+//        List<Hero> heros = service.getAllHeros();
+//
+//        model.addAttribute("locations", locations);
+//        model.addAttribute("heros", heros);
+//        model.addAttribute("errors", service.getLocationViolations());
+//
+//        return "/location/location";
+//    }
     @PostMapping("addLocation")
     public String addLocation(HttpServletRequest request) {
 

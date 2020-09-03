@@ -40,6 +40,7 @@ public interface ServiceLayer {
 
     Set<ConstraintViolation<Organization>> getOrganizationViolations();
 
+    //Hero
     Hero getHeroById(int id);
 
     List<Hero> getAllHeros();
@@ -52,8 +53,13 @@ public interface ServiceLayer {
 
     void insertHeroOrganization(Hero hero);
 
+    void updateHeroOrganization(Hero hero, Organization organization, int originalId);
+
+    void deleteHeroOrganization(Hero hero, Organization organization);
+
     Hero getHeroDetails(int id);
 
+    //Location
     Location getLocationById(int id);
 
     void insertLocationHero(Location location);
@@ -66,6 +72,11 @@ public interface ServiceLayer {
 
     void deleteLocationById(int id);
 
+    void deleteHeroLocation(Hero hero, Location location);
+
+    void updateHeroLocation(Hero hero, Location location, int originalId);
+
+    //Organization
     Organization getOrganizationById(int id);
 
     void insertOrganizationHero(Organization organization);
@@ -78,6 +89,7 @@ public interface ServiceLayer {
 
     void deleteOrganizationById(int id);
 
+    //superPower
     SuperPower getSuperPowerById(int id);
 
     void insertSuperPowerHero(SuperPower superPower);
@@ -88,6 +100,7 @@ public interface ServiceLayer {
 
     void updateSuperPower(SuperPower superPower);
 
+    //sighting
     void deleteSuperPowerById(int id);
 
     Sighting getSightingById(int heroId, int locationId);

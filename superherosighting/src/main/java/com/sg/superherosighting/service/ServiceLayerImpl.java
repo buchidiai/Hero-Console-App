@@ -273,4 +273,24 @@ public class ServiceLayerImpl implements ServiceLayer {
         return organizationViolations;
     }
 
+    @Override
+    public void updateHeroOrganization(Hero hero, Organization organization, int originalId) {
+        heroDao.updateHeroOrganization(hero, organization, originalId);
+    }
+
+    @Override
+    public void deleteHeroOrganization(Hero hero, Organization organization) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteHeroLocation(Hero hero, Location location) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateHeroLocation(Hero hero, Location location, int originalId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

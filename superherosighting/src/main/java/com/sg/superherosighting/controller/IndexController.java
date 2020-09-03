@@ -27,8 +27,6 @@ public class IndexController {
     @GetMapping("/")
     public String index(Model model) {
 
-        System.out.println("here");
-
         List<Sighting> sightings = service.getAllSightings();
 
         TimeAgo tago = new TimeAgo();
@@ -38,8 +36,6 @@ public class IndexController {
         });
 
         model.addAttribute("sightings", sightings);
-
-        System.out.println("here2");
 
         return "index";
     }

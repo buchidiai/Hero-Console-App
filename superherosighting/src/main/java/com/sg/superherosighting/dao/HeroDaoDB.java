@@ -5,8 +5,11 @@
  */
 package com.sg.superherosighting.dao;
 
+import com.sg.superherosighting.dao.LocationDaoDB.LocationMapper;
 import com.sg.superherosighting.entities.Hero;
+import com.sg.superherosighting.entities.HeroLocation;
 import com.sg.superherosighting.entities.HeroOrganization;
+import com.sg.superherosighting.entities.Location;
 import com.sg.superherosighting.entities.Organization;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -86,29 +89,47 @@ public class HeroDaoDB implements HeroDao {
     }
 
     @Override
+    @Transactional
     public void updateHero(Hero hero) {
+
         final String UPDATE_HERO = "UPDATE  hero  SET name = ?, description = ? "
                 + "WHERE id = ?";
         jdbc.update(UPDATE_HERO,
                 hero.getName(),
                 hero.getDescription(),
                 hero.getId());
+
+        updateHeroSuperPower(hero);
+    }
+
+    private void updateHeroSuperPower(Hero hero) {
+
+        final String GET_HERO_SUPER_POWER = "SELECT  superPower_id FROM  hero  WHERE hero.id = ?";
+
+        String id = jdbc.queryForObject(GET_HERO_SUPER_POWER, new Object[]{hero.getId()}, String.class);
+
+        final String UPDATE_HERO_SUPER_POWER = "UPDATE  superPower  SET name = ? "
+                + "WHERE id = ?";
+        jdbc.update(UPDATE_HERO_SUPER_POWER,
+                hero.getSuperPower(),
+                id);
     }
 
     @Override
     @Transactional
     public void deleteHeroById(int id) {
-//        final String DELETE_ORGANIZATION_HERO = "DELETE FROM hero_has_organization WHERE hero_id = ?";
-//        jdbc.update(DELETE_ORGANIZATION_HERO, id);
-//
-//        final String DELETE_LOCATION_HERO = "DELETE FROM hero_has_location WHERE organization_id = ?";
-//        jdbc.update(DELETE_LOCATION_HERO, id);
+        final String DELETE_ORGANIZATION_HERO = "DELETE FROM hero_has_organization WHERE hero_id = ?";
+        jdbc.update(DELETE_ORGANIZATION_HERO, id);
+
+        final String DELETE_LOCATION_HERO = "DELETE FROM location_has_hero WHERE hero_id = ?";
+        jdbc.update(DELETE_LOCATION_HERO, id);
 
         final String DELETE_HERO = "DELETE FROM  hero  WHERE id = ?";
         jdbc.update(DELETE_HERO, id);
     }
 
     @Override
+    @Transactional
     public Hero getHeroDetails(int id) {
 
         final String SELECT_HERO_DETAILS = "SELECT h.id, h.name, h.description, s.name FROM  hero h JOIN superPower s On h.superPower_id = s.id WHERE h.id = ?";
@@ -116,7 +137,31 @@ public class HeroDaoDB implements HeroDao {
 
         getHeroOrganizations(id, hero);
 
+        getHeroLocations(id, hero);
+
         return hero;
+
+    }
+
+    private void getHeroLocations(int id, Hero hero) {
+
+        final String SELECT_ALL_LOCATIONS = "SELECT * FROM location_has_hero WHERE hero_id = ?";
+
+        List<HeroLocation> heroLocations = jdbc.query(SELECT_ALL_LOCATIONS, new HeroLocationMapper(), id);
+
+        final String SELECT_LOCATION_BY_ID = "SELECT * FROM location WHERE id = ?";
+
+        List<Location> locations = new ArrayList<>();
+        for (HeroLocation heroLocation : heroLocations) {
+
+            Location location = jdbc.queryForObject(SELECT_LOCATION_BY_ID, new LocationMapper(), heroLocation.getLocationId());
+            location.setLocalDate(heroLocation.getLocalDate());
+
+            locations.add(location);
+
+        }
+
+        hero.setLocations(locations);
 
     }
 
@@ -138,7 +183,30 @@ public class HeroDaoDB implements HeroDao {
         }
 
         hero.setOrganizations(organizations);
+    }
 
+    @Override
+    public void updateHeroOrganization(Hero hero, Organization organization, int originalId) {
+
+        final String UPDATE_HERO_ORGANIZATION = "UPDATE  hero_has_organization  SET hero_id = ?, organization_id = ?  WHERE hero_id = ? AND organization_id = ? ";
+
+        jdbc.update(UPDATE_HERO_ORGANIZATION, hero.getId(), organization.getId(), hero.getId(), originalId);
+
+    }
+
+    @Override
+    public void deleteHeroOrganization(Hero hero, Organization organization) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteHeroLocation(Hero hero, Location location) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateHeroLocation(Hero hero, Location location, int originalId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public static final class HeroMapper implements RowMapper<Hero> {
@@ -166,6 +234,21 @@ public class HeroDaoDB implements HeroDao {
             heroOrganization.setOrganizationId(rs.getInt("organization_id"));
 
             return heroOrganization;
+        }
+
+    }
+
+    public static final class HeroLocationMapper implements RowMapper<HeroLocation> {
+
+        @Override
+        public HeroLocation mapRow(ResultSet rs, int index) throws SQLException {
+
+            HeroLocation heroLocation = new HeroLocation();
+            heroLocation.setHeroId(rs.getInt("hero_id"));
+            heroLocation.setLocationId(rs.getInt("location_id"));
+            heroLocation.setLocalDate(rs.getTimestamp("date").toLocalDateTime());
+
+            return heroLocation;
         }
 
     }

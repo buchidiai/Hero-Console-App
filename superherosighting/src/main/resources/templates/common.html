@@ -69,10 +69,10 @@
             </div>
         </div>
     </div>
-    
-    
-  
-    
+
+
+
+
 
     <!-- page sub header-->
     <div th:fragment="pageSubHeader">
@@ -89,6 +89,15 @@
             <h3 class='text-center text-dark' th:text="${title}"></h3>
             <hr />
         </div>
+    </div>
+
+
+    <div  th:fragment="headerAndCount" >
+        <div class='pt-3 row text-center d-flex justify-content-center'>
+            <h3 class='text-center text-dark pr-1' th:text="${title}"></h3>
+            <h3 class='text-center text-dark' th:text="${'(' + #arrays.length(count) + ')'}"></h3>
+        </div>
+        <hr />
     </div>
 
     <!-- newsFeed-->

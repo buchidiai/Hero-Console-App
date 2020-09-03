@@ -6,6 +6,8 @@
 package com.sg.superherosighting.dao;
 
 import com.sg.superherosighting.entities.Hero;
+import com.sg.superherosighting.entities.Location;
+import com.sg.superherosighting.entities.Organization;
 import java.util.List;
 
 /**
@@ -25,6 +27,14 @@ public interface HeroDao {
     Hero addHero(Hero hero);
 
     void updateHero(Hero hero);
+
+    void updateHeroOrganization(Hero hero, Organization organization, int originalId);
+
+    void deleteHeroOrganization(Hero hero, Organization organization);
+
+    void deleteHeroLocation(Hero hero, Location location);
+
+    void updateHeroLocation(Hero hero, Location location, int originalId);
 
     void deleteHeroById(int id);
 

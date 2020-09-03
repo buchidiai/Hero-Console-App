@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -106,20 +107,25 @@ public class HeroController {
 
     @GetMapping("editHero")
     public String editHero(Integer id, Model model) {
+
         Hero hero = service.getHeroById(id);
+
         model.addAttribute("hero", hero);
         return "/hero/editHero";
     }
 
     @PostMapping("editHero")
-    public String performEditHero(@Valid Hero hero, BindingResult result) {
+    public String performEditHero(@Valid Hero hero, BindingResult result, RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors()) {
             return "/hero/editHero";
         }
 
         service.updateHero(hero);
-        return "redirect:hero";
+
+        redirectAttributes.addAttribute("id", hero.getId());
+
+        return "redirect:heroDetails";
     }
 
     @GetMapping("deleteHeroConfirm")
@@ -143,9 +149,34 @@ public class HeroController {
 
         Hero hero = service.getHeroDetails(id);
 
-        System.out.println("hero detail  " + hero.toString());
-
         model.addAttribute("heroDetails", hero);
         return "/hero/heroDetails";
+    }
+
+    @GetMapping("editHeroOrganization")
+    public String editHeroOrganization(int organizationId, int heroId, Model model) {
+        List<Organization> organizations = service.getAllOrganizations();
+        model.addAttribute("organizations", organizations);
+        model.addAttribute("organizationId", organizationId);
+        model.addAttribute("heroId", heroId);
+
+        return "hero/editHeroOrganization";
+    }
+
+    @PostMapping("editHeroOrganization")
+    public String performEditHeroOrganization(Model model, HttpServletRequest request, Integer newOrganizationId, int heroId, int originalId,
+            RedirectAttributes redirectAttributes) {
+
+        System.out.println("originalId " + originalId);
+
+        Hero hero = service.getHeroById(heroId);
+
+        Organization organization = service.getOrganizationById(newOrganizationId);
+
+        service.updateHeroOrganization(hero, organization, originalId);
+
+        redirectAttributes.addAttribute("id", hero.getId());
+
+        return "redirect:heroDetails";
     }
 }
