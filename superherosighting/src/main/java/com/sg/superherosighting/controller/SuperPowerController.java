@@ -38,7 +38,7 @@ public class SuperPowerController {
         model.addAttribute("heros", heros);
         model.addAttribute("errors", service.getSuperPowerViolations());
 
-        return "superPowers";
+        return "/superPower/superPower";
     }
 
     @PostMapping("addSuperPower")
@@ -75,27 +75,27 @@ public class SuperPowerController {
             }
         }
 
-        return "redirect:/superPowers";
+        return "redirect:/superPower/superPower";
     }
 
     @GetMapping("editSuperPower")
     public String editSuperPower(Integer id, Model model) {
 
         SuperPower superPower = service.getSuperPowerById(id);
-
         model.addAttribute("superPower", superPower);
-        return "editSuperPower";
+
+        return "/superPower/editSuperPower";
     }
 
     @PostMapping("editSuperPower")
     public String performEditSuperPower(@Valid SuperPower superPower, BindingResult result) {
 
         if (result.hasErrors()) {
-            return "editSuperPower";
+            return "/superPower/editSuperPower";
         }
 
         service.updateSuperPower(superPower);
-        return "redirect:/superPowers";
+        return "redirect:/superPower/superPower";
     }
 
     @GetMapping("deleteSuperPowerConfirm")
@@ -103,7 +103,7 @@ public class SuperPowerController {
 
         model.addAttribute("superPowerId", id);
 
-        return "deleteSuperPowerConfirm";
+        return "/superPower/deleteSuperPowerConfirm";
     }
 
     @GetMapping("deleteSuperPower")
@@ -111,6 +111,6 @@ public class SuperPowerController {
 
         service.deleteSuperPowerById(id);
 
-        return "redirect:/superPowers";
+        return "redirect:/superPower/superPower";
     }
 }

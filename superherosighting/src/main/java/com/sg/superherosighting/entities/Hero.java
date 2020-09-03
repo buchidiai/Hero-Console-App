@@ -28,7 +28,9 @@ public class Hero {
     private String description;
     private String superPower;
 
-    private List<Organization> organization;
+    private List<Organization> organizations;
+
+    private List<Location> locations;
 
     public int getId() {
         return id;
@@ -62,12 +64,20 @@ public class Hero {
         this.superPower = superPower;
     }
 
-    public List<Organization> getOrganization() {
-        return organization;
+    public List<Organization> getOrganizations() {
+        return organizations;
     }
 
-    public void setOrganization(List<Organization> organization) {
-        this.organization = organization;
+    public void setOrganizations(List<Organization> organizations) {
+        this.organizations = organizations;
+    }
+
+    public List<Location> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(List<Location> locations) {
+        this.locations = locations;
     }
 
     @Override
@@ -77,6 +87,8 @@ public class Hero {
         hash = 83 * hash + Objects.hashCode(this.name);
         hash = 83 * hash + Objects.hashCode(this.description);
         hash = 83 * hash + Objects.hashCode(this.superPower);
+        hash = 83 * hash + Objects.hashCode(this.organizations);
+        hash = 83 * hash + Objects.hashCode(this.locations);
         return hash;
     }
 
@@ -104,12 +116,18 @@ public class Hero {
         if (!Objects.equals(this.superPower, other.superPower)) {
             return false;
         }
+        if (!Objects.equals(this.organizations, other.organizations)) {
+            return false;
+        }
+        if (!Objects.equals(this.locations, other.locations)) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "Hero{" + "id=" + id + ", name=" + name + ", description=" + description + ", superPower=" + superPower + '}';
+        return "Hero{" + "id=" + id + ", name=" + name + ", description=" + description + ", superPower=" + superPower + ", organizations=" + organizations + ", locations=" + locations + '}';
     }
 
 }

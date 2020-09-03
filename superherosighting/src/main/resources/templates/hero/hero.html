@@ -11,7 +11,6 @@
             <div th:insert="common :: pageSubHeader(title='Add Hero')"></div>
             <!-- form start -->
             <div class='d-flex justify-content-center'>
-
                 <div class='border border-secondary col-7 '>
                     <div class="col-12 m-1 text-center" 
                          th:if="${!errors.isEmpty()}">
@@ -44,7 +43,7 @@
                             </div>
                         </div>
                         <div class="form-group row  d-flex justify-content-center">
-                            <label for="organization" class="col-sm-3 col-form-label">Organizations</label>
+                            <label for="organization" class="col-sm-3 col-form-label">Organizations (optional)</label>
                             <div class="col-sm-9">
                                 <select  multiple id="organizationIds" name="organizationIds" class="form-control" >
                                     <option th:each="organization : ${organizations}" 
@@ -65,58 +64,14 @@
                             </div>
                         </div>
                     </form>
-
                 </div>
             </div>
             <!-- Form end-->
-
-        </div>
-        <!-- Section Header-->
-        <div th:insert="common :: sectionHeader(title='All Heros')" >
-
-        </div>
-
-        <!-- table Hero start-->
-        <div class="row p-2">
-
-            <div class="col text-center  d-flex justify-content-center">
-                <table class="table table-striped w-75 border border-dark ">
-                    <thead class='bg-dark'>
-                        <tr>
-                            <th class='text-light'>ID</th>
-                            <th class='text-light'>Photo</th>
-                            <th class='text-light'>Name</th>
-                            <th class='text-light'>Description</th>
-                            <th class='text-light'>Power</th>
-                            <th class='text-light'>Edit</th>
-                            <th class='text-light'>Delete</th>
-                            <th class='text-light'>Details</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="hero : ${heros}">
-                            <td th:text="${hero.id}">ID</td>
-                            <td >none</td>
-                            <td th:text="${hero.name}">none</td>
-                            <td th:text="${hero.description}">none</td>
-                            <td th:text="${hero.superPower}">none</td>
-                            <td> 
-                                <a th:href="@{/editHero(id=${hero.id})}" class="fas fa-edit text-primary">
-                                </a>
-                            </td>
-                            <td>
-                                <a th:href="@{/deleteHeroConfirm(id=${hero.id})}"  class="fas fa-trash-alt text-danger">
-                                </a>
-                            </td>
-                            <td>
-                                <a th:href="@{/heroDetail(id=${hero.id})}"  class="fas fa-info-circle text-secondary">
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="text-center p-5 ">
+                <a class=' pt-2 pr-2 text-primary ' th:href="@{/heros}" >View All Heros</a>
             </div>
         </div>
+
     </div>
     <!-- End main body -->
     <div th:insert="common :: scripts"></div>

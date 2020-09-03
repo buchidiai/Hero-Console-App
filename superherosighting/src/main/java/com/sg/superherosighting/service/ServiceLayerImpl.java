@@ -94,6 +94,11 @@ public class ServiceLayerImpl implements ServiceLayer {
     }
 
     @Override
+    public Hero getHeroDetails(int id) {
+        return heroDao.getHeroDetails(id);
+    }
+
+    @Override
     public SuperPower getSuperPowerById(int id) {
         return superPowerDao.getSuperPowerById(id);
     }
@@ -128,9 +133,12 @@ public class ServiceLayerImpl implements ServiceLayer {
 
     @Override
     public Location getLocationById(int id) {
-
         return locationDao.getLocationById(id);
+    }
 
+    @Override
+    public void insertLocationHero(Location location) {
+        locationDao.insertLocationHero(location);
     }
 
     @Override

@@ -18,6 +18,8 @@ public interface HeroDao {
 
     void insertHeroOrganization(Hero hero);
 
+    Hero getHeroDetails(int id);
+
     List<Hero> getAllHeros();
 
     Hero addHero(Hero hero);

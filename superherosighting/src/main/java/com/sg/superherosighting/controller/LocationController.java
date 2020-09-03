@@ -5,8 +5,12 @@
  */
 package com.sg.superherosighting.controller;
 
+import com.sg.superherosighting.entities.Hero;
 import com.sg.superherosighting.entities.Location;
 import com.sg.superherosighting.service.ServiceLayer;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -31,11 +35,13 @@ public class LocationController {
     public String getAllLocations(Model model) {
 
         List<Location> locations = service.getAllLocations();
+        List<Hero> heros = service.getAllHeros();
 
         model.addAttribute("locations", locations);
+        model.addAttribute("heros", heros);
         model.addAttribute("errors", service.getLocationViolations());
 
-        return "locations";
+        return "/location/location";
     }
 
     @PostMapping("addLocation")
@@ -47,6 +53,20 @@ public class LocationController {
         String address = request.getParameter("address");
         String latitude = request.getParameter("latitude");
         String longitude = request.getParameter("longitude");
+        String date = request.getParameter("date");
+
+        //heros ids
+        String[] herosIds = request.getParameterValues("herosId");
+
+        System.out.println("herosIds " + Arrays.toString(herosIds));
+
+        List<Hero> heros = new ArrayList<>();
+
+        if (herosIds != null) {
+            for (String heroId : herosIds) {
+                heros.add(service.getHeroById(Integer.parseInt(heroId)));
+            }
+        }
 
         Location location = new Location();
 
@@ -56,31 +76,61 @@ public class LocationController {
         location.setLatitude(latitude);
         location.setLongitude(longitude);
 
-        //check if empty then add
-        if (service.validateLocation(location).isEmpty()) {
-            //add location
-            service.addLocation(location);
+        System.out.println("date " + date + " < == " + date.isEmpty());
+
+        //parse date
+        if (!(date.isEmpty())) {
+            LocalDateTime locationDate = LocalDateTime.parse(date);
+
+            System.out.println("sightingDate " + locationDate);
+
+            location.setLocalDate(locationDate);
+
+            System.out.println("sighting --" + locationDate.toString());
         }
 
-        return "redirect:/locations";
+        if (herosIds != null && date.isEmpty()) {
+
+            service.validateLocation(location);
+
+            System.out.println("redirect date empty date and not herods");
+            return "redirect:/location";
+        }
+        //check if empty then add
+        if (service.validateLocation(location).isEmpty()) {
+
+            if (herosIds != null && !date.isEmpty()) {
+                //set orgs
+                location.setHeros(heros);
+
+            }
+            //add location
+            service.addLocation(location);
+
+            if (herosIds != null && !date.isEmpty()) {
+                service.insertLocationHero(location);
+            }
+        }
+
+        return "redirect:/location/location";
     }
 
     @GetMapping("editLocation")
     public String editLocation(Integer id, Model model) {
         Location location = service.getLocationById(id);
         model.addAttribute("location", location);
-        return "editLocation";
+        return "/location/editLocation";
     }
 
     @PostMapping("editLocation")
     public String performEditLocation(@Valid Location location, BindingResult result) {
 
         if (result.hasErrors()) {
-            return "editLocation";
+            return "/location/editLocation";
         }
 
         service.updateLocation(location);
-        return "redirect:/locations";
+        return "redirect:/location/location";
     }
 
     @GetMapping("deleteLocationConfirm")
@@ -88,7 +138,7 @@ public class LocationController {
 
         model.addAttribute("locationId", id);
 
-        return "deleteLocationConfirm";
+        return "/location/deleteLocationConfirm";
     }
 
     @GetMapping("deleteLocation")
@@ -96,6 +146,6 @@ public class LocationController {
 
         service.deleteLocationById(id);
 
-        return "redirect:/locations";
+        return "redirect:/location/location";
     }
 }

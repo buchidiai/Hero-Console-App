@@ -44,7 +44,7 @@ public class SightingsController {
         model.addAttribute("locations", locations);
         model.addAttribute("errors", service.getSightingViolations());
 
-        return "sightings";
+        return "/sighting/sighting";
     }
 
     @PostMapping("addSighting")
@@ -70,7 +70,7 @@ public class SightingsController {
 
             service.validateSighting(sighting);
 
-            return "redirect:/sightings";
+            return "redirect:/sighting";
         }
         //set them
         sighting.setHero(service.getHeroById((Integer.parseInt(heroId))));
@@ -82,7 +82,7 @@ public class SightingsController {
             service.addSighting(sighting);
         }
 
-        return "redirect:/sightings";
+        return "redirect:/sighting/sighting";
     }
 
     @GetMapping("editSighting")
@@ -97,7 +97,7 @@ public class SightingsController {
         model.addAttribute("heros", heros);
         model.addAttribute("locations", locations);
 
-        return "editSighting";
+        return "/sighting/editSighting";
     }
 
     @PostMapping("editSighting")
@@ -114,11 +114,11 @@ public class SightingsController {
         sighting.setLocalDate(sightingDate);
 
         if (result.hasErrors()) {
-            return "editSighting";
+            return "/sighting/editSighting";
         }
         service.updateSighting(sighting, Integer.parseInt(existingHeroId), Integer.parseInt(existingLocationId));
 
-        return "redirect:/sightings";
+        return "redirect:/sighting/sighting";
     }
 
     @GetMapping("deleteSightingConfirm")
@@ -127,14 +127,14 @@ public class SightingsController {
         model.addAttribute("heroId", heroId);
         model.addAttribute("locationId", locationId);
 
-        return "deleteSightingConfirm";
+        return "/sighting/deleteSightingConfirm";
     }
 
     @GetMapping("deleteSighting")
     public String deleteSighting(Integer heroId, Integer locationId) {
 
         service.deleteSightingById(heroId, locationId);
-        return "redirect:/sightings";
+        return "redirect:/sighting/sighting";
     }
 
 }

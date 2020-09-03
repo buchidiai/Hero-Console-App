@@ -5,6 +5,7 @@
  */
 package com.sg.superherosighting.dao;
 
+import com.sg.superherosighting.entities.Hero;
 import com.sg.superherosighting.entities.Location;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -36,6 +37,20 @@ public class LocationDaoDB implements LocationDao {
             return location;
         } catch (DataAccessException ex) {
             return null;
+        }
+    }
+
+    @Override
+    public void insertLocationHero(Location location) {
+
+        final String INSERT_LOCATION_HERO = "INSERT INTO location_has_hero(location_id, hero_id, date) VALUES(?,?,?)";
+
+        for (Hero hero : location.getHeros()) {
+
+            jdbc.update(INSERT_LOCATION_HERO,
+                    location.getId(),
+                    hero.getId(),
+                    location.getLocalDate());
         }
     }
 

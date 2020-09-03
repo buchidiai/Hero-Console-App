@@ -52,7 +52,11 @@ public interface ServiceLayer {
 
     void insertHeroOrganization(Hero hero);
 
+    Hero getHeroDetails(int id);
+
     Location getLocationById(int id);
+
+    void insertLocationHero(Location location);
 
     List<Location> getAllLocations();
 

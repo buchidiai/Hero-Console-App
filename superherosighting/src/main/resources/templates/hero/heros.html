@@ -1,0 +1,61 @@
+
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <div th:insert="common :: htmlHead"></div>
+    <body>
+        <div th:insert="common :: navBar"></div>
+        <!-- Main Body of Page -->
+        <div class='container  border border-dark' >
+            <!-- Header -->
+            <div th:insert="common :: pageHeader(title='Heros')"></div>
+            <!-- Sub Header -->
+            <div th:insert="common :: sectionHeader(title='All Heros')" >
+            </div>
+
+            <!-- table Hero start-->
+            <div class="row p-2">
+                <div class="col text-center  d-flex justify-content-center">
+                    <table class="table table-striped w-75 border border-dark ">
+                        <thead class='bg-dark'>
+                            <tr>
+                                <th class='text-light'>ID</th>
+                                <th class='text-light'>Photo</th>
+                                <th class='text-light'>Name</th>
+                                <th class='text-light'>Description</th>
+                                <th class='text-light'>Power</th>
+                                <th class='text-light'>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="hero : ${heros}">
+                                <td th:text="${hero.id}">ID</td>
+                                <td >none</td>
+                                <td th:text="${hero.name}">none</td>
+                                <td th:text="${hero.description}">none</td>
+                                <td th:text="${hero.superPower}">none</td>
+                                <td>
+                                    <a th:href="@{/heroDetails(id=${hero.id})}"  class="fas fa-info-circle text-secondary">
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <!-- Form end-->
+
+        </div>
+        <!-- Section Header-->
+
+
+    </div>
+    <!-- End main body -->
+    <div th:insert="common :: scripts"></div>
+    <!-- footer -->
+    <div th:insert="common :: footer" >
+
+    </div>
+</body>
+</html>

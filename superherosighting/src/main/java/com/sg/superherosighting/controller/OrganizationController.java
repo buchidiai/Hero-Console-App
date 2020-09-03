@@ -39,7 +39,7 @@ public class OrganizationController {
         model.addAttribute("heros", heros);
         model.addAttribute("errors", service.getOrganizationViolations());
 
-        return "organizations";
+        return "/organization/organization";
     }
 
     @PostMapping("addOrganization")
@@ -86,25 +86,25 @@ public class OrganizationController {
 
         }
 
-        return "redirect:/organizations";
+        return "redirect:/organization/organization";
     }
 
     @GetMapping("editOrganization")
     public String editOrganization(Integer id, Model model) {
-        Organization organization = getService().getOrganizationById(id);
+        Organization organization = service.getOrganizationById(id);
         model.addAttribute("organization", organization);
-        return "editOrganization";
+        return "/organization/editOrganization";
     }
 
     @PostMapping("editOrganization")
     public String performEditOrganization(@Valid Organization organization, BindingResult result) {
 
         if (result.hasErrors()) {
-            return "editOrganization";
+            return "/organization/editOrganization";
         }
 
-        getService().updateOrganization(organization);
-        return "redirect:/organizations";
+        service.updateOrganization(organization);
+        return "redirect:/organization/organization";
     }
 
     @GetMapping("deleteOrganizationConfirm")
@@ -112,28 +112,15 @@ public class OrganizationController {
 
         model.addAttribute("organizationId", id);
 
-        return "deleteOrganizationConfirm";
+        return "/organization/deleteOrganizationConfirm";
     }
 
     @GetMapping("deleteOrganization")
     public String deleteOrganization(Integer id) {
 
-        getService().deleteOrganizationById(id);
+        service.deleteOrganizationById(id);
 
-        return "redirect:/organizations";
+        return "redirect:/organization/organization";
     }
 
-    /**
-     * @return the service
-     */
-    public ServiceLayer getService() {
-        return service;
-    }
-
-    /**
-     * @param service the service to set
-     */
-    public void setService(ServiceLayer service) {
-        this.service = service;
-    }
 }

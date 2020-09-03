@@ -30,17 +30,25 @@ public class HeroController {
     @Autowired
     private ServiceLayer service;
 
+    @GetMapping("hero")
+    public String getHeroPage(Model model) {
+
+        List<Organization> organizations = service.getAllOrganizations();
+
+        model.addAttribute("organizations", organizations);
+        model.addAttribute("errors", service.getHeroViolations());
+
+        return "/hero/hero";
+    }
+
     @GetMapping("heros")
     public String getAllHeros(Model model) {
 
         List<Hero> heros = service.getAllHeros();
-        List<Organization> organizations = service.getAllOrganizations();
 
         model.addAttribute("heros", heros);
-        model.addAttribute("organizations", organizations);
-        model.addAttribute("errors", service.getHeroViolations());
 
-        return "heros";
+        return "/hero/heros";
     }
 
     @PostMapping("addHero")
@@ -76,18 +84,14 @@ public class HeroController {
 
                 organizations.add(service.getOrganizationById(Integer.parseInt(organizationId)));
             }
-
         }
 
         //check if empty then add
         if (service.validateHero(hero).isEmpty()) {
-
             if (organizationIds != null) {
                 //set orgs
-                hero.setOrganization(organizations);
-
+                hero.setOrganizations(organizations);
             }
-
             //add hero
             service.addHero(hero);
             //add bridge table relationship
@@ -95,28 +99,27 @@ public class HeroController {
             if (organizationIds != null) {
                 service.insertHeroOrganization(hero);
             }
-
         }
 
-        return "redirect:/heros";
+        return "redirect:hero";
     }
 
     @GetMapping("editHero")
     public String editHero(Integer id, Model model) {
         Hero hero = service.getHeroById(id);
         model.addAttribute("hero", hero);
-        return "editHero";
+        return "/hero/editHero";
     }
 
     @PostMapping("editHero")
     public String performEditHero(@Valid Hero hero, BindingResult result) {
 
         if (result.hasErrors()) {
-            return "editHero";
+            return "/hero/editHero";
         }
 
         service.updateHero(hero);
-        return "redirect:/heros";
+        return "redirect:hero";
     }
 
     @GetMapping("deleteHeroConfirm")
@@ -124,7 +127,7 @@ public class HeroController {
 
         model.addAttribute("heroId", id);
 
-        return "deleteHeroConfirm";
+        return "/hero/deleteHeroConfirm";
     }
 
     @GetMapping("deleteHero")
@@ -132,6 +135,17 @@ public class HeroController {
 
         service.deleteHeroById(id);
 
-        return "redirect:/heros";
+        return "redirect:hero";
+    }
+
+    @GetMapping("heroDetails")
+    public String heroDetails(Integer id, Model model) {
+
+        Hero hero = service.getHeroDetails(id);
+
+        System.out.println("hero detail  " + hero.toString());
+
+        model.addAttribute("heroDetails", hero);
+        return "/hero/heroDetails";
     }
 }

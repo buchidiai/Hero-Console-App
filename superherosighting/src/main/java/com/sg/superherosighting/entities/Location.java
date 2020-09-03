@@ -5,9 +5,12 @@
  */
 package com.sg.superherosighting.entities;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
 /**
@@ -33,6 +36,12 @@ public class Location {
     @NotBlank(message = "Latitude must not be empty.")
     @Size(max = 15, message = "Latitude must be less than 15 characters.")
     private String longitude;
+
+    private List<Hero> heros;
+
+    @NotNull(message = "Please select a Date")
+    @Past(message = "Date must be today or in the past.")
+    private LocalDateTime localDate;
 
     public int getId() {
         return id;
@@ -80,6 +89,22 @@ public class Location {
 
     public void setLongitude(String longitude) {
         this.longitude = longitude;
+    }
+
+    public List<Hero> getHeros() {
+        return heros;
+    }
+
+    public void setHeros(List<Hero> heros) {
+        this.heros = heros;
+    }
+
+    public LocalDateTime getLocalDate() {
+        return localDate;
+    }
+
+    public void setLocalDate(LocalDateTime localDate) {
+        this.localDate = localDate;
     }
 
     @Override

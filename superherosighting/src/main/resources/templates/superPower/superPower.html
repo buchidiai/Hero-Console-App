@@ -29,14 +29,13 @@
                             </div>
                         </div>
                             <div class="form-group row">
-                            <label for="heros" class="col-2 col-form-label">Heros</label>
+                            <label for="heros" class="col-2 col-form-label">Heros (optional)</label>
                             <div class="col-10">
                                 <select  id="heroId" name="heroId" class="form-control" >
                                      <option hidden selected></option>
                                     <option th:each="hero : ${heros}" 
                                             th:value="${hero.id}" 
                                             th:text="${hero.name}"
-                                           
                                             >
                                     </option>
                                 </select>
