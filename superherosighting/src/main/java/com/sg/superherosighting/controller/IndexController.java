@@ -27,15 +27,19 @@ public class IndexController {
     @GetMapping("/")
     public String index(Model model) {
 
+        System.out.println("here");
+
         List<Sighting> sightings = service.getAllSightings();
 
         TimeAgo tago = new TimeAgo();
 
-        for (Sighting sighting : sightings) {
+        sightings.forEach(sighting -> {
             sighting.setTimeAgo(tago.format(sighting.getLocalDate()));
-        }
+        });
 
         model.addAttribute("sightings", sightings);
+
+        System.out.println("here2");
 
         return "index";
     }
