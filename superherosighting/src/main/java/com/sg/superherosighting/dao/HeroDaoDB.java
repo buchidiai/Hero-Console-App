@@ -191,12 +191,14 @@ public class HeroDaoDB implements HeroDao {
         final String UPDATE_HERO_ORGANIZATION = "UPDATE  hero_has_organization  SET hero_id = ?, organization_id = ?  WHERE hero_id = ? AND organization_id = ? ";
 
         jdbc.update(UPDATE_HERO_ORGANIZATION, hero.getId(), organization.getId(), hero.getId(), originalId);
-
     }
 
     @Override
     public void deleteHeroOrganization(Hero hero, Organization organization) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        final String DELETE_ORGANIZATION_HERO = "DELETE FROM hero_has_organization WHERE hero_id = ? AND organization_id = ?";
+        jdbc.update(DELETE_ORGANIZATION_HERO, hero.getId(), organization.getId());
+
     }
 
     @Override

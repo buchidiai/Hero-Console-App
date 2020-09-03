@@ -167,8 +167,6 @@ public class HeroController {
     public String performEditHeroOrganization(Model model, HttpServletRequest request, Integer newOrganizationId, int heroId, int originalId,
             RedirectAttributes redirectAttributes) {
 
-        System.out.println("originalId " + originalId);
-
         Hero hero = service.getHeroById(heroId);
 
         Organization organization = service.getOrganizationById(newOrganizationId);
@@ -178,5 +176,30 @@ public class HeroController {
         redirectAttributes.addAttribute("id", hero.getId());
 
         return "redirect:heroDetails";
+    }
+
+    @GetMapping("deleteHeroOrganizationConfirm")
+    public String deleteHeroOrganizationConfirm(Integer heroId, int organizationId, Model model) {
+
+        model.addAttribute("heroId", heroId);
+        model.addAttribute("organizationId", organizationId);
+
+        return "/hero/deleteHeroOrganizationConfirm";
+    }
+
+    @GetMapping("deleteHeroOrganization")
+    public String deleteHeroOrganization(Integer heroId, int organizationId, Model model) {
+
+        Hero hero = service.getHeroById(heroId);
+
+        Organization organization = service.getOrganizationById(organizationId);
+
+        service.deleteHeroOrganization(hero, organization);
+
+        Hero herodetails = service.getHeroDetails(heroId);
+
+        model.addAttribute("heroDetails", herodetails);
+
+        return "redirect:hero";
     }
 }

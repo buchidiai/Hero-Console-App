@@ -280,7 +280,7 @@ public class ServiceLayerImpl implements ServiceLayer {
 
     @Override
     public void deleteHeroOrganization(Hero hero, Organization organization) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        heroDao.deleteHeroOrganization(hero, organization);
     }
 
     @Override
