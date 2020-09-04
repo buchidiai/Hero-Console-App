@@ -30,7 +30,7 @@
                         <div class=' d-flex flex-column pl-2 justify-content-between'>
                             <a th:href="@{/editHero(id=${heroDetails.id})}" class="fas fa-edit text-primary">
                             </a>
-                             <a th:href="@{/deleteHeroConfirm(id=${heroDetails.id})}" class="fas fa-trash-alt text-danger">
+                            <a th:href="@{/deleteHeroConfirm(id=${heroDetails.id})}" class="fas fa-trash-alt text-danger">
                             </a>
                         </div>
                         <div class="col-12" th:insert="common :: headerAndCount(title='Hero Organizations', count=${heroDetails.organizations})" >
@@ -98,14 +98,14 @@
                                             <td th:text="${location.address}">address</td>
                                             <td th:text="${location.latitude}">latitude</td>
                                             <td th:text="${location.longitude}">longitude</td>
-                                              <td th:text="${location.localDate}">longitude</td>
+                                            <td th:text="${location.localDate}">longitude</td>
                                             <td> 
-                                                
+
                                                 <a th:href="@{/editHeroLocation(locationId=${location.id} ,heroId=${heroDetails.id})}" class="fas fa-edit text-primary">
                                                 </a>
                                             </td>
                                             <td>
-                                                <a th:href="@{/deleteHeroLocationConfirm(id=${location.id})}"  class="fas fa-trash-alt text-danger">
+                                                <a th:href="@{/deleteHeroLocationConfirm(locationId=${location.id},heroId=${heroDetails.id})}"  class="fas fa-trash-alt text-danger">
                                                 </a>
                                             </td>
 

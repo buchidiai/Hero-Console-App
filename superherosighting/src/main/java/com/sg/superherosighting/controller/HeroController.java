@@ -138,11 +138,11 @@ public class HeroController {
     }
 
     @GetMapping("deleteHero")
-    public String deleteHero(Integer id) {
+    public String deleteHero(Integer id, RedirectAttributes redirectAttributes) {
 
         service.deleteHeroById(id);
 
-        return "redirect:hero";
+        return "redirect:heroDetails";
     }
 
     @GetMapping("heroDetails")
@@ -189,7 +189,7 @@ public class HeroController {
     }
 
     @GetMapping("deleteHeroOrganization")
-    public String deleteHeroOrganization(Integer heroId, Integer organizationId, Model model) {
+    public String deleteHeroOrganization(Integer heroId, Integer organizationId, Model model, RedirectAttributes redirectAttributes) {
 
         Hero hero = service.getHeroById(heroId);
 
@@ -197,9 +197,9 @@ public class HeroController {
 
         service.deleteHeroOrganization(hero, organization);
 
-        model.addAttribute("heroId", hero.getId());
+        redirectAttributes.addAttribute("id", hero.getId());
 
-        return "redirect:hero";
+        return "redirect:heroDetails";
     }
 
     @GetMapping("editHeroLocation")
@@ -236,4 +236,26 @@ public class HeroController {
         return "redirect:heroDetails";
     }
 
+    @GetMapping("deleteHeroLocationConfirm")
+    public String deleteHeroLocationConfirm(Integer heroId, Integer locationId, Model model) {
+
+        model.addAttribute("heroId", heroId);
+        model.addAttribute("locationId", locationId);
+
+        return "/hero/deleteHeroLocationConfirm";
+    }
+
+    @GetMapping("deleteHeroLocation")
+    public String deleteHeroLocation(Integer heroId, Integer locationId, Model model, RedirectAttributes redirectAttributes) {
+
+        Hero hero = service.getHeroById(heroId);
+
+        Location location = service.getLocationById(locationId);
+
+        service.deleteHeroLocation(hero, location);
+
+        redirectAttributes.addAttribute("id", hero.getId());
+
+        return "redirect:heroDetails";
+    }
 }
