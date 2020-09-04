@@ -29,6 +29,19 @@ public class OrganizationController {
     @Autowired
     private ServiceLayer service;
 
+    @GetMapping("organization")
+    public String getorganizationPage(Model model) {
+
+//        List<Organization> organizations = service.getAllOrganizations();
+        List<Hero> heros = service.getAllHeros();
+
+//        model.addAttribute("organizations", organizations);
+        model.addAttribute("heros", heros);
+        model.addAttribute("errors", service.getOrganizationViolations());
+
+        return "/organization/organization";
+    }
+
     @GetMapping("organizations")
     public String getAllOrganizations(Model model) {
 

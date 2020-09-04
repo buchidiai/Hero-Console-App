@@ -30,16 +30,14 @@ public class SightingsController {
     @Autowired
     private ServiceLayer service;
 
-    @GetMapping("sightings")
-    public String getAllSightings(Model model) {
+    @GetMapping("sighting")
+    public String getSightingPage(Model model) {
 
         List<Sighting> sightings = service.getAllSightings();
         List<Hero> heros = service.getAllHeros();
         List<Location> locations = service.getAllLocations();
 
-        System.out.println("service.getSightingViolations() " + service.getSightingViolations().size());
         model.addAttribute("sightings", sightings);
-
         model.addAttribute("heros", heros);
         model.addAttribute("locations", locations);
         model.addAttribute("errors", service.getSightingViolations());
@@ -58,12 +56,7 @@ public class SightingsController {
         //parse date
         if (!(date == null)) {
             LocalDateTime sightingDate = LocalDateTime.parse(date);
-
-            System.out.println("sightingDate " + sightingDate);
-
             sighting.setLocalDate(sightingDate);
-
-            System.out.println("sighting --" + sighting.toString());
         }
 
         if (date == null || date.isEmpty()) {

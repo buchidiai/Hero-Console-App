@@ -203,12 +203,19 @@ public class HeroDaoDB implements HeroDao {
 
     @Override
     public void deleteHeroLocation(Hero hero, Location location) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        final String DELETE_ORGANIZATION_HERO = "DELETE FROM location_has_hero WHERE hero_id = ? AND location_id = ?";
+        jdbc.update(DELETE_ORGANIZATION_HERO, hero.getId(), location.getId());
+
     }
 
     @Override
     public void updateHeroLocation(Hero hero, Location location, int originalId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        final String UPDATE_HERO_LOCATION = "UPDATE location_has_hero SET hero_id = ?,  location_id = ?   WHERE hero_id = ?  AND  location_id = ?";
+
+        jdbc.update(UPDATE_HERO_LOCATION, hero.getId(), location.getId(), hero.getId(), originalId);
+
     }
 
     public static final class HeroMapper implements RowMapper<Hero> {

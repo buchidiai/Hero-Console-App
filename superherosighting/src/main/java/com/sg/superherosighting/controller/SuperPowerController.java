@@ -28,14 +28,23 @@ public class SuperPowerController {
     @Autowired
     private ServiceLayer service;
 
+    @GetMapping("superPower")
+    public String getSuperPowerPage(Model model) {
+
+        List<Hero> heros = service.getAllHeros();
+
+        model.addAttribute("heros", heros);
+        model.addAttribute("errors", service.getSuperPowerViolations());
+
+        return "/superPower/superPower";
+    }
+
     @GetMapping("superPowers")
     public String getAllSuperPowers(Model model) {
 
         List<SuperPower> superPowers = service.getAllSuperPowers();
-        List<Hero> heros = service.getAllHeros();
 
         model.addAttribute("superPowers", superPowers);
-        model.addAttribute("heros", heros);
         model.addAttribute("errors", service.getSuperPowerViolations());
 
         return "/superPower/superPower";

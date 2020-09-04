@@ -285,12 +285,14 @@ public class ServiceLayerImpl implements ServiceLayer {
 
     @Override
     public void deleteHeroLocation(Hero hero, Location location) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        heroDao.deleteHeroLocation(hero, location);
     }
 
     @Override
     public void updateHeroLocation(Hero hero, Location location, int originalId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        heroDao.updateHeroLocation(hero, location, originalId);
+
     }
 
 }

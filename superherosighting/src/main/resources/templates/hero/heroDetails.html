@@ -6,7 +6,7 @@
     <body>
         <div th:insert="common :: navBar"></div>
         <!-- Main Body of Page -->
-        <div class='container-fluid' >
+        <div class='container'>
             <!-- Header -->
             <div th:insert="common :: pageHeader(title='Heros')"></div>
             <!-- Sub Header -->
@@ -88,7 +88,6 @@
                                             <th class='text-light'>Date</th>
                                             <th class='text-light'>Edit</th>
                                             <th class='text-light'>Delete</th>
-
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -101,11 +100,12 @@
                                             <td th:text="${location.longitude}">longitude</td>
                                               <td th:text="${location.localDate}">longitude</td>
                                             <td> 
-                                                <a th:href="@{/editLocation(id=${location.id})}" class="fas fa-edit text-primary">
+                                                
+                                                <a th:href="@{/editHeroLocation(locationId=${location.id} ,heroId=${heroDetails.id})}" class="fas fa-edit text-primary">
                                                 </a>
                                             </td>
                                             <td>
-                                                <a th:href="@{/deleteLocationConfirm(id=${location.id})}"  class="fas fa-trash-alt text-danger">
+                                                <a th:href="@{/deleteHeroLocationConfirm(id=${location.id})}"  class="fas fa-trash-alt text-danger">
                                                 </a>
                                             </td>
 

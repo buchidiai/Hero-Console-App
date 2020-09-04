@@ -6,6 +6,7 @@
 package com.sg.superherosighting.controller;
 
 import com.sg.superherosighting.entities.Hero;
+import com.sg.superherosighting.entities.Location;
 import com.sg.superherosighting.entities.Organization;
 import com.sg.superherosighting.entities.SuperPower;
 import com.sg.superherosighting.service.ServiceLayer;
@@ -154,7 +155,7 @@ public class HeroController {
     }
 
     @GetMapping("editHeroOrganization")
-    public String editHeroOrganization(int organizationId, int heroId, Model model) {
+    public String editHeroOrganization(Integer organizationId, Integer heroId, Model model) {
         List<Organization> organizations = service.getAllOrganizations();
         model.addAttribute("organizations", organizations);
         model.addAttribute("organizationId", organizationId);
@@ -164,14 +165,14 @@ public class HeroController {
     }
 
     @PostMapping("editHeroOrganization")
-    public String performEditHeroOrganization(Model model, HttpServletRequest request, Integer newOrganizationId, int heroId, int originalId,
+    public String performEditHeroOrganization(Model model, Integer newOrganizationId, Integer heroId, Integer organizationId,
             RedirectAttributes redirectAttributes) {
 
         Hero hero = service.getHeroById(heroId);
 
         Organization organization = service.getOrganizationById(newOrganizationId);
 
-        service.updateHeroOrganization(hero, organization, originalId);
+        service.updateHeroOrganization(hero, organization, organizationId);
 
         redirectAttributes.addAttribute("id", hero.getId());
 
@@ -179,7 +180,7 @@ public class HeroController {
     }
 
     @GetMapping("deleteHeroOrganizationConfirm")
-    public String deleteHeroOrganizationConfirm(Integer heroId, int organizationId, Model model) {
+    public String deleteHeroOrganizationConfirm(Integer heroId, Integer organizationId, Model model) {
 
         model.addAttribute("heroId", heroId);
         model.addAttribute("organizationId", organizationId);
@@ -188,7 +189,7 @@ public class HeroController {
     }
 
     @GetMapping("deleteHeroOrganization")
-    public String deleteHeroOrganization(Integer heroId, int organizationId, Model model) {
+    public String deleteHeroOrganization(Integer heroId, Integer organizationId, Model model) {
 
         Hero hero = service.getHeroById(heroId);
 
@@ -196,10 +197,43 @@ public class HeroController {
 
         service.deleteHeroOrganization(hero, organization);
 
-        Hero herodetails = service.getHeroDetails(heroId);
-
-        model.addAttribute("heroDetails", herodetails);
+        model.addAttribute("heroId", hero.getId());
 
         return "redirect:hero";
     }
+
+    @GetMapping("editHeroLocation")
+    public String editLocation(Integer locationId, Integer heroId, Location object, Model model) {
+
+        List<Location> heroLocations = service.getHeroDetails(heroId).getLocations();
+
+        List<Location> allLocations = service.getAllLocations();
+
+        heroLocations.stream().filter(l -> (allLocations.contains(l))).filter(l -> (l.getId() != locationId)).forEachOrdered(l -> {
+            allLocations.remove(l);
+        });
+
+        Hero hero = service.getHeroById(heroId);
+
+        model.addAttribute("locations", allLocations);
+        model.addAttribute("locationId", locationId);
+        model.addAttribute("heroId", hero.getId());
+
+        return "/hero/editHeroLocation";
+    }
+
+    @PostMapping("editHeroLocation")
+    public String performEditLocation(Integer newLocationId, Integer locationId, Integer heroId, RedirectAttributes redirectAttributes) {
+
+        Hero hero = service.getHeroById(heroId);
+
+        Location location = service.getLocationById(newLocationId);
+
+        service.updateHeroLocation(hero, location, locationId);
+
+        redirectAttributes.addAttribute("id", hero.getId());
+
+        return "redirect:heroDetails";
+    }
+
 }

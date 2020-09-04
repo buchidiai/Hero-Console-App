@@ -5,7 +5,7 @@
         <div th:insert="common :: navBar"></div>
         <!-- Main Body of Page -->
 
-        <div class='container ' >
+        <div class='container' >
 
 
             <!-- Header -->
@@ -53,7 +53,7 @@
                                 <input type="hidden" name="id" th:value="${hero.id}"/>
                                
                                 <button  type="submit" class="btn btn-primary btn-lg btn-block ">OK</button>
-                                <a  th:href="@{/heros}" class="btn btn-danger btn-lg btn-block ">CANCEL</a>
+                                <a   th:href="@{/heroDetails(id=${hero.id})}" class="btn btn-danger btn-lg btn-block ">CANCEL</a>
                             </div>
                         </div>
                     </form>
