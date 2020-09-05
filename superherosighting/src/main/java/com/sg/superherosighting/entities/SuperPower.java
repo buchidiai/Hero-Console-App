@@ -6,8 +6,6 @@
 package com.sg.superherosighting.entities;
 
 import java.util.Objects;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 /**
  *
@@ -16,8 +14,8 @@ import javax.validation.constraints.Size;
 public class SuperPower {
 
     private int id;
-    @NotBlank(message = "Super Power must not be empty.")
-    @Size(max = 45, message = "Super Power must be less than 45 characters.")
+//    @NotBlank(message = "Super Power must not be empty.")
+//    @Size(max = 45, message = "Super Power must be less than 45 characters.")
     private String name;
 
     private Hero hero;

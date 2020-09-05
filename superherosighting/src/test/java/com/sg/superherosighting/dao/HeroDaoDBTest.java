@@ -6,6 +6,7 @@
 package com.sg.superherosighting.dao;
 
 import com.sg.superherosighting.entities.Hero;
+import com.sg.superherosighting.entities.Organization;
 import com.sg.superherosighting.entities.SuperPower;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -41,6 +42,7 @@ public class HeroDaoDBTest {
     SuperPower superPower = null;
     Hero hero1 = null;
     Hero hero2 = null;
+    Organization organization1 = null;
 
     public HeroDaoDBTest() {
     }
@@ -59,6 +61,12 @@ public class HeroDaoDBTest {
             superPowerDao.deleteSuperPowerById(superPower.getId());
         });
 
+        List<Organization> organizations = organizationDao.getAllOrganizations();
+
+        organizations.forEach(organization -> {
+            organizationDao.deleteOrganizationById(organization.getId());
+        });
+
         //add super power
         superPower = new SuperPower();
         superPower.setName("invisibilty");
@@ -68,12 +76,17 @@ public class HeroDaoDBTest {
         hero1 = new Hero();
         hero1.setName("Super Man");
         hero1.setDescription("born on the planet Krypton and was given the name Kal-El.");
-        hero1.setSuperPower(String.valueOf(superPower.getId()));
+        hero1.setSuperPower(superPower.getName());
 
         //add hero
         hero2 = new Hero();
         hero2.setName("Bat Man");
         hero2.setDescription("Rich guy who acts like a hero.");
+
+        organization1 = new Organization();
+        organization1.setName("Justice League");
+        organization1.setDescription("Org for best Heros");
+        organization1.setAddress("Space");
 
     }
 
@@ -173,4 +186,25 @@ public class HeroDaoDBTest {
         assertNull(deletedHero);
 
     }
+
+//    @Test
+//    public void testInsertHeroToOrganization() {
+//
+//        //add organization
+//        organization1 = organizationDao.addOrganization(organization1);
+//
+//        Organization foundOrganization = organizationDao.getOrganizationById(organization1.getId());
+//
+//        assertEquals(hero1.getId(), foundHero.getId());
+//        assertEquals(hero1.getDescription(), foundHero.getDescription());
+//        assertEquals(hero1.getName(), foundHero.getName());
+//        assertEquals(foundHero.getSuperPower(), superPower.getName());
+//
+//        heroDao.deleteHeroById(hero1.getId());
+//
+//        Hero deletedHero = heroDao.getHeroById(hero1.getId());
+//
+//        assertNull(deletedHero);
+//
+//    }
 }

@@ -26,7 +26,10 @@ public class Hero {
     @Size(max = 255, message = "Description must be less than 255 characters.")
     @NotNull(message = "Description cannot be null")
     private String description;
+
+//    private SuperPower superPower;
     private String superPower;
+    private int superPower_id;
 
     private List<Organization> organizations;
 
@@ -80,15 +83,31 @@ public class Hero {
         this.locations = locations;
     }
 
+//    public SuperPower getSuperPower() {
+//        return superPower;
+//    }
+//
+//    public void setSuperPower(SuperPower superPower) {
+//        this.superPower = superPower;
+//    }
+    public int getSuperPower_id() {
+        return superPower_id;
+    }
+
+    public void setSuperPower_id(int superPower_id) {
+        this.superPower_id = superPower_id;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 83 * hash + this.id;
-        hash = 83 * hash + Objects.hashCode(this.name);
-        hash = 83 * hash + Objects.hashCode(this.description);
-        hash = 83 * hash + Objects.hashCode(this.superPower);
-        hash = 83 * hash + Objects.hashCode(this.organizations);
-        hash = 83 * hash + Objects.hashCode(this.locations);
+        int hash = 3;
+        hash = 41 * hash + this.id;
+        hash = 41 * hash + Objects.hashCode(this.name);
+        hash = 41 * hash + Objects.hashCode(this.description);
+        hash = 41 * hash + Objects.hashCode(this.superPower);
+        hash = 41 * hash + this.superPower_id;
+        hash = 41 * hash + Objects.hashCode(this.organizations);
+        hash = 41 * hash + Objects.hashCode(this.locations);
         return hash;
     }
 
@@ -105,6 +124,9 @@ public class Hero {
         }
         final Hero other = (Hero) obj;
         if (this.id != other.id) {
+            return false;
+        }
+        if (this.superPower_id != other.superPower_id) {
             return false;
         }
         if (!Objects.equals(this.name, other.name)) {
@@ -127,7 +149,7 @@ public class Hero {
 
     @Override
     public String toString() {
-        return "Hero{" + "id=" + id + ", name=" + name + ", description=" + description + ", superPower=" + superPower + ", organizations=" + organizations + ", locations=" + locations + '}';
+        return "Hero{" + "id=" + id + ", name=" + name + ", description=" + description + ", superPower=" + superPower + ", superPower_id=" + superPower_id + ", organizations=" + organizations + ", locations=" + locations + '}';
     }
 
 }

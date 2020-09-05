@@ -11,6 +11,7 @@ import com.sg.superherosighting.entities.HeroLocation;
 import com.sg.superherosighting.entities.HeroOrganization;
 import com.sg.superherosighting.entities.Location;
 import com.sg.superherosighting.entities.Organization;
+import com.sg.superherosighting.entities.SuperPower;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -67,7 +68,7 @@ public class HeroDaoDB implements HeroDao {
                 + "VALUES(?,?,?)";
         jdbc.update(INSERT_HERO,
                 hero.getName(),
-                hero.getDescription(), hero.getSuperPower());
+                hero.getDescription(), hero.getSuperPower_id());
 
         int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
         hero.setId(newId);
@@ -132,14 +133,37 @@ public class HeroDaoDB implements HeroDao {
     @Transactional
     public Hero getHeroDetails(int id) {
 
-        final String SELECT_HERO_DETAILS = "SELECT h.id, h.name, h.description, s.name FROM  hero h JOIN superPower s On h.superPower_id = s.id WHERE h.id = ?";
-        Hero hero = jdbc.queryForObject(SELECT_HERO_DETAILS, new HeroMapper(), id);
+        System.out.println("ig to get hero " + id);
+
+        final String SELECT_HERO = "SELECT * FROM  hero h  WHERE h.id = ?";
+
+        Hero hero = jdbc.queryForObject(SELECT_HERO, new HeroMapperOriginal(), id);
 
         getHeroOrganizations(id, hero);
 
         getHeroLocations(id, hero);
 
+        System.out.println("hero.getSuperPower() " + hero.getSuperPower());
+
+        if (hero.getSuperPower_id() != 0 || hero.getSuperPower_id() != -1) {
+            // && hero.getSuperPower_id() != -1
+
+            getHeroSuperPower(hero);
+        }
+
         return hero;
+
+    }
+
+    private void getHeroSuperPower(Hero hero) {
+
+        final String SELECT_SUPERPOWER_BY_ID = "SELECT * FROM superPower WHERE id = ?";
+        SuperPower superPower = jdbc.queryForObject(SELECT_SUPERPOWER_BY_ID, new SuperPowerDaoDB.SuperPowerMapper(), hero.getSuperPower_id());
+
+        System.out.println("superPower " + superPower.toString());
+
+        hero.setSuperPower(superPower.getName());
+        hero.setSuperPower_id(superPower.getId());
 
     }
 
@@ -228,6 +252,21 @@ public class HeroDaoDB implements HeroDao {
             hero.setName(rs.getString("name"));
             hero.setDescription(rs.getString("description"));
             hero.setSuperPower(rs.getString("s.name"));
+
+            return hero;
+        }
+    }
+
+    public static final class HeroMapperOriginal implements RowMapper<Hero> {
+
+        @Override
+        public Hero mapRow(ResultSet rs, int index) throws SQLException {
+
+            Hero hero = new Hero();
+            hero.setId(rs.getInt("id"));
+            hero.setName(rs.getString("name"));
+            hero.setDescription(rs.getString("description"));
+            hero.setSuperPower_id(rs.getString("superPower_id") == null ? -1 : Integer.valueOf(rs.getString("superPower_id")));
 
             return hero;
         }

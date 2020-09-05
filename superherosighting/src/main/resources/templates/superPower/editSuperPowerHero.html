@@ -11,39 +11,39 @@
 
             <!-- Header -->
 
-            <div th:insert="common :: pageHeader(title='Heros')"></div>
+            <div th:insert="common :: pageHeader(title='Super Powers')"></div>
 
             <!-- Sub Header -->
 
-            <div th:insert="common :: pageSubHeader(title='Edit Hero Location')"></div>
+            <div th:insert="common :: pageSubHeader(title='Edit Super Power Of Hero')"></div>
 
             <!-- form -->
             <div class='d-flex justify-content-center'>
                 <div class='border border-secondary col-7'>
-                    <form class='p-5'  action="editHeroLocation" method="POST" >
-                         <div class="form-group row  d-flex justify-content-center">
-                            <label for="locations" class="col-sm-3 col-form-label">Locations</label>
+                    <form class='p-5'  action="editSuperPowerHero" method="POST" >
+                        <div class="form-group row  d-flex justify-content-center">
+                            <label for="locations" class="col-sm-3 col-form-label">Heros</label>
                             <div class="col-sm-9">
-                                 <select   id="newLocationId" name="newLocationId" class="form-control" >
-                                    <option th:each="location : ${locations}" 
-                                            th:value="${location.id}" 
-                                            th:text="${location.name}"
-                                            th:selected="${location.id == locationId}"
+                                <select   id="newHeroId" name="newHeroId" class="form-control" >
+                                    <option th:each="hero : ${heros}" 
+                                            th:value="${hero.id}" 
+                                            th:text="${hero.name}"
+                                            th:selected="${hero.id == heroId}"
                                             >
                                     </option>
                                 </select>
                                 <div class=' row pl-4'>
-                                    <span class='text-center pt-2 pr-2'>Can't find a Location ? </span>
-                                    <a class='text-center pt-2 text-primary' th:href="@{/location}"> Create Location </a>
+                                    <span class='text-center pt-2 pr-2'>Can't find a Hero ? </span>
+                                    <a class='text-center pt-2 text-primary' th:href="@{/hero}"> Create Hero </a>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group row d-flex justify-content-center ">
                             <div class="col-sm-10">
                                 <input type="hidden" name="heroId" th:value="${heroId}"/>
-                                 <input type="hidden" name="locationId" th:value="${locationId}"/>
+                                <input type="hidden" name="superPowerId" th:value="${superPowerId}"/>
                                 <button  type="submit" class="btn btn-primary btn-lg btn-block ">OK</button>
-                                <a  th:href="@{/heroDetails(id=${heroId})}" class="btn btn-danger btn-lg btn-block ">CANCEL</a>
+                                <a  th:href="@{/superPowerDetails(superPowerId=${superPowerId})}"  class="btn btn-danger btn-lg btn-block ">CANCEL</a>
                             </div>
                         </div>
                     </form>

@@ -1,1 +1,87 @@
 
+
+
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <div th:insert="common :: htmlHead"></div>
+    <body>
+        <div th:insert="common :: navBar"></div>
+        <!-- Main Body of Page -->
+        <div class='container'>
+            <!-- Header -->
+            <div th:insert="common :: pageHeader(title='Super Powers')"></div>
+            <!-- Sub Header -->
+            <div th:insert="common :: sectionHeader(title='Super Power Details')" >
+            </div>
+            <!-- table Hero start-->
+            <div class=" row p-2">
+                <div class="col text-center  d-flex justify-content-center">
+
+                    <div class="row d-flex justify-content-center ">
+                        <div class="col-8 d-flex flex-column border justify-content-start p-2 ">
+
+                            <h6 class='pt-1' th:text="${ 'id : ' + superPower.id}"></h6>
+                            <h6  th:text="${'name : ' + superPower.name}"></h6>
+                        </div>
+                        <div class=' d-flex flex-column pl-2 justify-content-between'>
+                            <a th:href="@{/editSuperPower(superPowerId=${superPower.id})}" class="fas fa-edit text-primary">
+                            </a>
+                            <a th:href="@{/deleteSuperPowerConfirm(superPowerId=${superPower.id})}" class="fas fa-trash-alt text-danger">
+                            </a>
+                        </div>
+                        <div class="col-12 text-center p-4">
+                            <a class=' text-primary ' th:href="@{/superPowers}" >Go Back</a>
+                        </div>
+                        <div th:if="${hero != null}">
+                            <div  class="col-12" th:insert="common :: sectionHeader(title=${'Hero With Super Power '+ '(1)'})" >
+                            </div>
+                        </div>
+                        <div th:if="${hero == null}">
+                            <div  class="col-12" th:insert="common :: sectionHeader(title=${'Hero With Super Power '+ '(0)'})" >
+                            </div>
+                        </div>
+                        <div class="col-12 row p-2">
+                            <div class="col text-center  d-flex justify-content-center">
+                                <table class="table table-striped  border border-dark ">
+                                    <thead class='bg-dark'>
+                                        <tr>
+                                            <th class='text-light'>ID</th>
+                                            <th class='text-light'>Photo</th>
+                                            <th class='text-light'>Name</th>
+                                            <th class='text-light'>Description</th>
+                                            <th class='text-light'>Power</th>
+                                            <th class='text-light'>Edit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:if="${hero != null}">
+                                            <td th:text="${hero.id}">ID</td>
+                                            <td >none</td>
+                                            <td th:text="${hero.name}">none</td>
+                                            <td th:text="${hero.description}">none</td>
+                                            <td th:text="${hero.superPower.name}">none</td>
+                                            <td> 
+                                                <a th:href="@{/editSuperPowerHero(superPowerId=${superPower.id}, heroId=${hero.id})}"  class="fas fa-edit text-primary">
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Form end-->
+        </div>
+        <!-- Section Header-->
+    </div>
+    <!-- End main body -->
+    <div th:insert="common :: scripts"></div>
+    <!-- footer -->
+    <div th:insert="common :: footer" >
+
+    </div>
+</body>
+</html>

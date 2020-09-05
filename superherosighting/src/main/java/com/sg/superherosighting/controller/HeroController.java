@@ -50,7 +50,7 @@ public class HeroController {
 
         model.addAttribute("heros", heros);
 
-        return "/hero/heros";
+        return "/hero/listHeros";
     }
 
     @PostMapping("addHero")
@@ -77,7 +77,7 @@ public class HeroController {
         Hero hero = new Hero();
         hero.setName(name);
         hero.setDescription(description);
-        hero.setSuperPower(String.valueOf(superPower.getId()));
+        hero.setSuperPower(superPower.getName());
 
         List<Organization> organizations = new ArrayList<>();
 
@@ -112,13 +112,28 @@ public class HeroController {
         Hero hero = service.getHeroById(id);
 
         model.addAttribute("hero", hero);
+        model.addAttribute("superPower", hero.getSuperPower());
+
         return "/hero/editHero";
     }
 
     @PostMapping("editHero")
-    public String performEditHero(@Valid Hero hero, BindingResult result, RedirectAttributes redirectAttributes) {
+    public String performEditHero(@Valid Hero hero, BindingResult result, RedirectAttributes redirectAttributes,
+            HttpServletRequest request, Model model) {
+
+        //super power
+        String super_Power = request.getParameter("superPower");
+
+        if (super_Power.isEmpty()) {
+            super_Power = "none";
+        }
+
+        hero.setSuperPower(super_Power);
 
         if (result.hasErrors()) {
+
+//            model.addAttribute("errors", service.getHeroViolations());
+            System.out.println("has error");
             return "/hero/editHero";
         }
 
@@ -138,11 +153,11 @@ public class HeroController {
     }
 
     @GetMapping("deleteHero")
-    public String deleteHero(Integer id, RedirectAttributes redirectAttributes) {
+    public String deleteHero(Integer id) {
 
         service.deleteHeroById(id);
 
-        return "redirect:heroDetails";
+        return "redirect:heros";
     }
 
     @GetMapping("heroDetails")
@@ -151,6 +166,7 @@ public class HeroController {
         Hero hero = service.getHeroDetails(id);
 
         model.addAttribute("heroDetails", hero);
+
         return "/hero/heroDetails";
     }
 

@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -47,7 +48,7 @@ public class SuperPowerController {
         model.addAttribute("superPowers", superPowers);
         model.addAttribute("errors", service.getSuperPowerViolations());
 
-        return "/superPower/superPower";
+        return "/superPower/listSuperPowers";
     }
 
     @PostMapping("addSuperPower")
@@ -60,12 +61,16 @@ public class SuperPowerController {
         String heroId = request.getParameter("heroId");
 
         SuperPower superPower = new SuperPower();
-        superPower.setName(name);
+
+        if (name.isEmpty()) {
+            superPower.setName("none");
+        } else {
+            superPower.setName(name);
+        }
 
         Hero hero = null;
 
         if (!heroId.isEmpty()) {
-
             hero = service.getHeroById(Integer.parseInt(heroId));
         }
 
@@ -84,42 +89,85 @@ public class SuperPowerController {
             }
         }
 
-        return "redirect:/superPower/superPower";
+        return "redirect:superPowers";
     }
 
     @GetMapping("editSuperPower")
-    public String editSuperPower(Integer id, Model model) {
+    public String editSuperPower(Integer superPowerId, Model model) {
 
-        SuperPower superPower = service.getSuperPowerById(id);
+        SuperPower superPower = service.getSuperPowerById(superPowerId);
         model.addAttribute("superPower", superPower);
 
         return "/superPower/editSuperPower";
     }
 
     @PostMapping("editSuperPower")
-    public String performEditSuperPower(@Valid SuperPower superPower, BindingResult result) {
+    public String performEditSuperPower(@Valid SuperPower superPower, BindingResult result, RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors()) {
             return "/superPower/editSuperPower";
         }
 
         service.updateSuperPower(superPower);
-        return "redirect:/superPower/superPower";
+        redirectAttributes.addAttribute("superPowerId", superPower.getId());
+
+        return "redirect:superPowerDetails";
     }
 
     @GetMapping("deleteSuperPowerConfirm")
-    public String deleteSuperPowerConfirm(Integer id, Model model) {
+    public String deleteSuperPowerConfirm(Integer superPowerId, Integer heroId, Model model) {
 
-        model.addAttribute("superPowerId", id);
+        model.addAttribute("superPowerId", superPowerId);
+        model.addAttribute("heroId", heroId);
 
         return "/superPower/deleteSuperPowerConfirm";
     }
 
     @GetMapping("deleteSuperPower")
-    public String deleteSuperPower(Integer id) {
+    public String deleteSuperPower(Integer superPowerId, Integer heroId) {
 
-        service.deleteSuperPowerById(id);
+        service.deleteSuperPowerById(superPowerId);
 
-        return "redirect:/superPower/superPower";
+        return "redirect:superPowers";
+    }
+
+    @GetMapping("superPowerDetails")
+    public String superPowerDetails(Integer superPowerId, Model model) {
+
+        SuperPower superPower = service.getSuperPowerById(superPowerId);
+
+        Hero hero = service.getSuperPowerDetails(superPowerId);
+
+        model.addAttribute("hero", hero);
+        model.addAttribute("superPower", superPower);
+
+        return "superPower/superPowerDetails";
+    }
+
+    @GetMapping("editSuperPowerHero")
+    public String editSuperPowerHero(Integer superPowerId, Integer heroId, Model model) {
+
+        List<Hero> heros = service.getAllHeros();
+        model.addAttribute("heros", heros);
+        model.addAttribute("heroId", heroId);
+        model.addAttribute("superPowerId", superPowerId);
+
+        return "superPower/editSuperPowerHero";
+    }
+
+    @PostMapping("editSuperPowerHero")
+    public String performSuperPowerHero(Model model, Integer newHeroId, Integer heroId, Integer superPowerId,
+            RedirectAttributes redirectAttributes) {
+
+        Hero hero = service.getHeroById(newHeroId);
+
+        SuperPower superPower = service.getSuperPowerById(superPowerId);
+
+        hero.setSuperPower(superPower.getName());
+
+        service.updateSuperPowerHero(hero, heroId);
+
+        redirectAttributes.addAttribute("superPowerId", superPower.getId());
+        return "redirect:superPowerDetails";
     }
 }

@@ -5,10 +5,12 @@
  */
 package com.sg.superherosighting.dao;
 
+import com.sg.superherosighting.entities.Hero;
 import com.sg.superherosighting.entities.SuperPower;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -78,10 +80,60 @@ public class SuperPowerDaoDB implements SuperPowerDao {
     }
 
     @Override
+    @Transactional
     public void deleteSuperPowerById(int id) {
+
+        final String DELETE_SUPER_POWER_HERO = "UPDATE hero SET superPower_id = ? WHERE superPower_id = ?";
+        jdbc.update(DELETE_SUPER_POWER_HERO, null, id);
 
         final String DELETE_SUPERPOWER = "DELETE FROM superPower WHERE id = ?";
         jdbc.update(DELETE_SUPERPOWER, id);
+    }
+
+    @Override
+    public Hero getSuperPowerDetails(int superPowerId) {
+
+        final String GET_SUPER_POWER_HERO = "SELECT h.id, h.name, h.description, s.name FROM  hero h JOIN superPower s On h.superPower_id = s.id WHERE superPower_id = ?";
+
+        List<Hero> heros = jdbc.query(GET_SUPER_POWER_HERO, new HeroDaoDB.HeroMapper(), superPowerId);
+
+        if (heros.isEmpty()) {
+            return null;
+
+        } else {
+            return heros.get(0);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void updateSuperPowerHero(Hero hero, int oldHeroId) {
+
+        //create empty super power placeholder for hero who lost power
+        final String INSERT_SUPERPOWER = "INSERT INTO superPower(name) VALUES(?)";
+        jdbc.update(INSERT_SUPERPOWER, "none");
+        int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
+
+        //update hero with last power to
+        final String UPDATE_OLD_HERO = "UPDATE hero SET superPower_id = ? "
+                + "WHERE id = ?";
+
+        jdbc.update(UPDATE_OLD_HERO,
+                newId,
+                oldHeroId);
+
+        final String UPDATE_SUPER_POWER_HERO = "UPDATE hero SET superPower_id = ? "
+                + "WHERE id = ?";
+        jdbc.update(UPDATE_SUPER_POWER_HERO,
+                hero.getSuperPower_id(),
+                hero.getId());
+    }
+
+    @Override
+    public void deleteSuperPowerHero(Hero hero) {
+        final String DELETE_SUPER_POWER_HERO = "DELETE superPower_id FROM hero WHERE id = ?";
+        jdbc.update(DELETE_SUPER_POWER_HERO, hero.getId());
+
     }
 
     public static final class SuperPowerMapper implements RowMapper<SuperPower> {

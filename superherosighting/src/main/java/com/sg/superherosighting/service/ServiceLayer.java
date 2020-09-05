@@ -100,6 +100,12 @@ public interface ServiceLayer {
 
     void updateSuperPower(SuperPower superPower);
 
+    Hero getSuperPowerDetails(int superPowerId);
+
+    void updateSuperPowerHero(Hero hero, int oldHeroId);
+
+    void deleteSuperPowerHero(Hero hero);
+
     //sighting
     void deleteSuperPowerById(int id);
 

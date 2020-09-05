@@ -34,7 +34,7 @@
                             <div class="col-sm-10">
                                 <input type="hidden" name="id" th:value="${superPower.id}"/>
                                  <button type="submit" class="btn btn-primary btn-lg btn-block ">OK</button>
-                                 <a  th:href="@{/superPowers}" class="btn btn-danger btn-lg btn-block ">CANCEL</a>
+                                 <a  th:href="@{/superPowerDetails(superPowerId=${superPower.id})}" class="btn btn-danger btn-lg btn-block ">CANCEL</a>
                             </div>
                         </div>
                     </form>

@@ -24,7 +24,7 @@
                             <h6 class='pt-1' th:text="${ 'id : ' + heroDetails.id}"></h6>
                             <h6  th:text="${'name : ' + heroDetails.name}"></h6>
                             <h6  th:text="${'description : ' + heroDetails.description}"></h6>
-                            <h6  th:text="${'super Power : ' + heroDetails.superPower}"></h6>
+                            <h6  th:text="${'super Power : ' + heroDetails.superPower_id}"></h6>
 
                         </div>
                         <div class=' d-flex flex-column pl-2 justify-content-between'>
@@ -32,6 +32,9 @@
                             </a>
                             <a th:href="@{/deleteHeroConfirm(id=${heroDetails.id})}" class="fas fa-trash-alt text-danger">
                             </a>
+                        </div>
+                        <div class="col-12 text-center p-3">
+                            <a class=' text-primary ' th:href="@{/heros}" >Go Back</a>
                         </div>
                         <div class="col-12" th:insert="common :: headerAndCount(title='Hero Organizations', count=${heroDetails.organizations})" >
                         </div>
@@ -108,6 +111,39 @@
                                                 <a th:href="@{/deleteHeroLocationConfirm(locationId=${location.id},heroId=${heroDetails.id})}"  class="fas fa-trash-alt text-danger">
                                                 </a>
                                             </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                   
+                        
+                    
+                        
+                           <div th:if="${heroDetails.superPower_id != null}">
+                            <div  class="col-12" th:insert="common :: sectionHeader(title=${'Hero Super power '+ '(1)'})" >
+                            </div>
+                        </div>
+                        <div th:if="${heroDetails.superPower_id == null}">
+                            <div  class="col-12" th:insert="common :: sectionHeader(title=${'Hero Super power '+ '(0)'})" >
+                            </div>
+                        </div>
+                        <!-- table Hero start-->
+                        <div class="row p-2 col-12">
+                            <div class="col text-center  d-flex justify-content-center">
+                                <table class="table table-striped w-75 border border-dark ">
+                                    <thead class='bg-dark '>
+                                        <tr>
+                                            <th class='text-light'>ID</th>
+                                            <th class='text-light'>Power</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr >
+                                            <td th:text="${heroDetails.superPower_id}">ID</td>
+                                            <td th:text="${heroDetails.superPower}">Power</td>
 
                                         </tr>
                                     </tbody>

@@ -9,6 +9,10 @@
             <div th:insert="common :: pageHeader(title='Heros')"></div>
             <!-- Sub Header -->
             <div th:insert="common :: pageSubHeader(title='Add Hero')"></div>
+            
+            <div class="col-12 text-center pb-2">
+                <a class=' text-primary ' th:href="@{/heros}" >View All Heros</a>
+            </div>
             <!-- form start -->
             <div class='d-flex justify-content-center'>
                 <div class='border border-secondary col-7 '>
@@ -67,12 +71,6 @@
                 </div>
             </div>
             <!-- Form end-->
-            <div class="col-12 text-center p-5 ">
-                <a class=' text-primary ' th:href="@{/heros}" >View All Heros</a>
-            </div>
-        
-            
-            
         </div>
 
     </div>

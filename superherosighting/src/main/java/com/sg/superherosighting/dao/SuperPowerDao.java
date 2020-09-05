@@ -5,6 +5,7 @@
  */
 package com.sg.superherosighting.dao;
 
+import com.sg.superherosighting.entities.Hero;
 import com.sg.superherosighting.entities.SuperPower;
 import java.util.List;
 
@@ -16,6 +17,8 @@ public interface SuperPowerDao {
 
     SuperPower getSuperPowerById(int id);
 
+    Hero getSuperPowerDetails(int superPowerId);
+
     void insertSuperPowerHero(SuperPower superPower);
 
     List<SuperPower> getAllSuperPowers();
@@ -23,6 +26,10 @@ public interface SuperPowerDao {
     SuperPower addSuperPower(SuperPower superPower);
 
     void updateSuperPower(SuperPower superPower);
+
+    void updateSuperPowerHero(Hero hero, int oldHeroId);
+
+    void deleteSuperPowerHero(Hero hero);
 
     void deleteSuperPowerById(int id);
 

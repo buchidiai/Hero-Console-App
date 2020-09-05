@@ -4,14 +4,14 @@
     <body>
         <div th:insert="common :: navBar"></div>
         <!-- Main Body of Page -->
-
         <div class='container ' >
             <!-- Header -->
-
             <div th:insert="common :: pageHeader(title='Super Powers')"></div>
-
             <!-- Sub Header -->
             <div th:insert="common :: pageSubHeader(title='Add Super Power')"></div>
+            <div class="col-12 text-center pb-2">
+                <a class=' text-primary ' th:href="@{/superPowers}" >View All Super Powers</a>
+            </div>
             <!-- form start -->
             <div class='d-flex justify-content-center'>
                 <div class='border border-secondary col-7 '>
@@ -28,18 +28,18 @@
                                 <input type="text" class="form-control" name="name" placeholder="Super Power name">
                             </div>
                         </div>
-                            <div class="form-group row">
+                        <div class="form-group row">
                             <label for="heros" class="col-2 col-form-label">Heros (optional)</label>
                             <div class="col-10">
                                 <select  id="heroId" name="heroId" class="form-control" >
-                                     <option hidden selected></option>
+                                    <option hidden selected></option>
                                     <option th:each="hero : ${heros}" 
                                             th:value="${hero.id}" 
                                             th:text="${hero.name}"
                                             >
                                     </option>
                                 </select>
-                                   <div class=' row pl-4'>
+                                <div class=' row pl-4'>
                                     <span class='text-center pt-2 pr-2'>Can't find a hero ? </span>
                                     <a class='text-center pt-2 text-primary' th:href="@{/heros}"> Create Hero </a>
                                 </div>
@@ -56,46 +56,6 @@
             </div>
             <!-- Form end-->
 
-        </div>
-        <!-- Section Header-->
-        <div th:insert="common :: sectionHeader(title='All Super Powers')" >
-
-        </div>
-
-        <!-- table SuperPower start-->
-        <div class="row p-2">
-
-            <div class="col text-center  d-flex justify-content-center">
-                <table class="table table-striped w-75 border border-dark ">
-                    <thead class='bg-dark'>
-                        <tr>
-                            <th class='text-light'>ID</th>
-                            <th class='text-light'>Power</th>
-                            <th class='text-light'>Edit</th>
-                            <th class='text-light'>Delete</th>
-                            <th class='text-light'>Details</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="superPower : ${superPowers}">
-                            <td th:text="${superPower.id}">ID</td>
-                            <td th:text="${superPower.name}">Power</td>
-                            <td> 
-                                <a th:href="@{/editSuperPower(id=${superPower.id})}" class="fas fa-edit text-primary">
-                                </a>
-                            </td>
-                            <td>
-                                <a th:href="@{/deleteSuperPowerConfirm(id=${superPower.id})}"  class="fas fa-trash-alt text-danger">
-                                </a>
-                            </td>
-                            <td>
-                                <a th:href="@{/superPowerDetail(id=${superPower.id})}"  class="fas fa-info-circle text-secondary">
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
         </div>
     </div>
     <!-- End main body -->

@@ -52,7 +52,7 @@ public class ServiceLayerImpl implements ServiceLayer {
     private Set<ConstraintViolation<Hero>> heroViolations = new HashSet<>();
     private Set<ConstraintViolation<Location>> locationViolations = new HashSet<>();
     private Set<ConstraintViolation<Sighting>> sightingViolations = new HashSet<>();
-    Set<ConstraintViolation<Organization>> organizationViolations = new HashSet<>();
+    private Set<ConstraintViolation<Organization>> organizationViolations = new HashSet<>();
 
     @Override
     public Hero getHeroById(int id) {
@@ -290,9 +290,22 @@ public class ServiceLayerImpl implements ServiceLayer {
 
     @Override
     public void updateHeroLocation(Hero hero, Location location, int originalId) {
-
         heroDao.updateHeroLocation(hero, location, originalId);
+    }
 
+    @Override
+    public Hero getSuperPowerDetails(int superPowerId) {
+        return superPowerDao.getSuperPowerDetails(superPowerId);
+    }
+
+    @Override
+    public void updateSuperPowerHero(Hero hero, int oldHeroId) {
+        superPowerDao.updateSuperPowerHero(hero, oldHeroId);
+    }
+
+    @Override
+    public void deleteSuperPowerHero(Hero hero) {
+        superPowerDao.deleteSuperPowerHero(hero);
     }
 
 }
