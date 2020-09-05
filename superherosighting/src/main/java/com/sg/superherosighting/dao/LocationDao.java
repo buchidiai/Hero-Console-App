@@ -18,6 +18,8 @@ public interface LocationDao {
 
     void insertLocationHero(Location location);
 
+    Location getLocationDetails(int id);
+
     List<Location> getAllLocations();
 
     Location addLocation(Location location);

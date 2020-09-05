@@ -33,8 +33,6 @@
                                 <th class='text-light'>address</th>
                                 <th class='text-light'>Latitude</th>
                                 <th class='text-light'>Longitude</th>
-                                <th class='text-light'>Edit</th>
-                                <th class='text-light'>Delete</th>
                                 <th class='text-light'>Details</th>
                             </tr>
                         </thead>
@@ -46,16 +44,8 @@
                                 <td th:text="${location.address}">address</td>
                                 <td th:text="${location.latitude}">latitude</td>
                                 <td th:text="${location.longitude}">longitude</td>
-                                <td> 
-                                    <a th:href="@{/editLocation(id=${location.id})}" class="fas fa-edit text-primary">
-                                    </a>
-                                </td>
                                 <td>
-                                    <a th:href="@{/deleteLocationConfirm(id=${location.id})}"  class="fas fa-trash-alt text-danger">
-                                    </a>
-                                </td>
-                                <td>
-                                    <a th:href="@{/locationDetail(id=${location.id})}"  class="fas fa-info-circle text-secondary">
+                                    <a th:href="@{/locationDetails(locationId=${location.id})}"  class="fas fa-info-circle text-secondary">
                                     </a>
                                 </td>
                             </tr>

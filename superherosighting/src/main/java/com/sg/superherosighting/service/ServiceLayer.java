@@ -66,6 +66,8 @@ public interface ServiceLayer {
 
     List<Location> getAllLocations();
 
+    Location getLocationDetails(int id);
+
     Location addLocation(Location location);
 
     void updateLocation(Location location);

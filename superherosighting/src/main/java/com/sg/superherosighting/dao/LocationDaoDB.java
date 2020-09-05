@@ -5,10 +5,14 @@
  */
 package com.sg.superherosighting.dao;
 
+import com.sg.superherosighting.dao.HeroDaoDB.HeroLocationMapper;
+import com.sg.superherosighting.dao.HeroDaoDB.HeroMapper;
 import com.sg.superherosighting.entities.Hero;
+import com.sg.superherosighting.entities.HeroLocation;
 import com.sg.superherosighting.entities.Location;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,6 +118,40 @@ public class LocationDaoDB implements LocationDao {
 //        jdbc.update(DELETE_LOCATION_HERO, id);
         final String DELETE_LOCATION = "DELETE FROM location WHERE id = ?";
         jdbc.update(DELETE_LOCATION, id);
+    }
+
+    @Override
+    @Transactional
+    public Location getLocationDetails(int id) {
+
+        final String SELECT_LOCATION = "SELECT * FROM  location   WHERE id = ?";
+
+        Location location = jdbc.queryForObject(SELECT_LOCATION, new LocationMapper(), id);
+
+        getLocationHeros(location);
+        return location;
+
+    }
+
+    private void getLocationHeros(Location location) {
+
+        final String SELECT_LOCATION_DATE = "SELECT * FROM  sighting WHERE location_id = ?";
+
+        List<HeroLocation> locationHeros = jdbc.query(SELECT_LOCATION_DATE, new HeroLocationMapper(), location.getId());
+
+        final String SELECT_HERO_BY_ID = "SELECT h.id, h.name, h.description, s.name FROM  hero h JOIN superPower s On h.superPower_id = s.id WHERE h.id = ?";
+
+        List<Hero> heros = new ArrayList<>();
+        for (HeroLocation heroLocation : locationHeros) {
+
+            Hero foundHero = jdbc.queryForObject(SELECT_HERO_BY_ID, new HeroMapper(), heroLocation.getHeroId());
+
+            location.setLocalDate(heroLocation.getLocalDate());
+            heros.add(foundHero);
+        }
+
+        location.setHeros(heros);
+
     }
 
     public static final class LocationMapper implements RowMapper<Location> {

@@ -26,8 +26,6 @@ public class Hero {
     @Size(max = 255, message = "Description must be less than 255 characters.")
     @NotNull(message = "Description cannot be null")
     private String description;
-
-//    private SuperPower superPower;
     private String superPower;
     private int superPower_id;
 
@@ -83,13 +81,6 @@ public class Hero {
         this.locations = locations;
     }
 
-//    public SuperPower getSuperPower() {
-//        return superPower;
-//    }
-//
-//    public void setSuperPower(SuperPower superPower) {
-//        this.superPower = superPower;
-//    }
     public int getSuperPower_id() {
         return superPower_id;
     }

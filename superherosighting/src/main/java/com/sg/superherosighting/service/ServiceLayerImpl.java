@@ -308,4 +308,9 @@ public class ServiceLayerImpl implements ServiceLayer {
         superPowerDao.deleteSuperPowerHero(hero);
     }
 
+    @Override
+    public Location getLocationDetails(int id) {
+        return locationDao.getLocationDetails(id);
+    }
+
 }

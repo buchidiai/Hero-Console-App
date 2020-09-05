@@ -89,16 +89,6 @@ public class LocationController {
             System.out.println("sighting --" + locationDate.toString());
         }
 
-//        if (herosIds != null && date.isEmpty()) {
-//
-//            service.validateLocation(location);
-//            FieldError error = new FieldError("location", "date",
-//                    "date cant be empty.");
-//            valResult.addError(error);
-//
-//            System.out.println("redirect date empty date and not herods");
-//            return "redirect:/location";
-//        }
         //check if empty then add
         if (service.validateLocation(location).isEmpty()) {
 
@@ -150,5 +140,17 @@ public class LocationController {
         service.deleteLocationById(id);
 
         return "redirect:/location/location";
+    }
+
+    @GetMapping("locationDetails")
+    public String locationDetails(Integer locationId, Model model) {
+
+        Location location = service.getLocationDetails(locationId);
+
+        System.out.println("location at end point " + location.toString());
+
+        model.addAttribute("locationDetails", location);
+
+        return "/location/locationDetails";
     }
 }

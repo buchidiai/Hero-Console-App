@@ -1,1 +1,104 @@
 
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <div th:insert="common :: htmlHead"></div>
+    <body>
+        <div th:insert="common :: navBar"></div>
+        <!-- Main Body of Page -->
+        <div class='container'>
+            <!-- Header -->
+            <div th:insert="common :: pageHeader(title='Locations')"></div>
+            <!-- Sub Header -->
+            <div th:insert="common :: sectionHeader(title='Location Details')" >
+            </div>
+            <!-- table Hero start-->
+            <div class=" row p-2">
+                <div class="col text-center  d-flex justify-content-center">
+
+                    <div class="row d-flex justify-content-center ">
+                        <img class="img-fluid "  src="https://via.placeholder.com/150" alt="hero">
+
+                        <div class="col-8 d-flex flex-column border justify-content-start p-2 ">
+
+                            <h6 class='pt-1' th:text="${ 'id : ' + locationDetails.id}"></h6>
+                            <h6  th:text="${'name : ' + locationDetails.name}"></h6>
+                            <h6  th:text="${'description : ' + locationDetails.description}"></h6>
+                            <h6  th:text="${'address : ' + locationDetails.address}"></h6>
+                            <h6  th:text="${'latitude : ' + locationDetails.latitude}"></h6>
+                            <h6  th:text="${'longitude : ' + locationDetails.longitude}"></h6>
+                        </div>
+                        <div class=' d-flex flex-column pl-2 justify-content-between'>
+                            <a th:href="@{/editLocation(locationId=${locationDetails.id})}" class="fas fa-edit text-primary">
+                            </a>
+                            <a th:href="@{/deleteLocationConfirm(locationId=${locationDetails.id})}" class="fas fa-trash-alt text-danger">
+                            </a>
+                        </div>
+                        <div class="col-12 text-center p-3">
+                            <a class=' text-primary ' th:href="@{/allLocations}" >Go Back</a>
+                        </div>
+                        <div class="col-12" th:insert="common :: headerAndCount(title='Heros at Location', count=${locationDetails.heros})" >
+                        </div>
+
+                        <div class="col-12 row p-2">
+                            <div class="col text-center  d-flex justify-content-center">
+                                <table class="table table-striped  border border-dark ">
+                                    <thead class='bg-dark'>
+                                        <tr>
+                                            <th class='text-light'>ID</th>
+                                            <th class='text-light'>Name</th>
+                                            <th class='text-light'>Description</th>
+                                            <th class='text-light'>Power</th>
+                                            <th class='text-light'>Edit</th>
+                                            <th class='text-light'>Delete</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="hero : ${locationDetails.heros}">
+                                            <td th:text="${hero.id}">id</td>
+                                            <td th:text="${hero.name}">name</td>
+                                            <td th:text="${hero.description}">description</td>
+
+                                    <div th:if="${hero.superPower == null}">
+                                        <td >none</td>
+                                    </div>
+                                    <div th:if="${hero.superPower != null}">
+                                        <td th:text="${hero.superPower}">superPower</td>
+
+                                    </div>
+
+
+                                    <td> 
+                                        <a th:href="@{/editLocationHero(locationId=${locationDetails.id}, heroId=${hero.id})}" class="fas fa-edit text-primary">
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a th:href="@{/deleteLocationHeroConfirm(locationId=${locationDetails.id}, heroId=${hero.id})}"  class="fas fa-trash-alt text-danger">
+                                        </a>
+                                    </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Form end-->
+
+        </div>
+        <!-- Section Header-->
+
+
+    </div>
+    <!-- End main body -->
+    <div th:insert="common :: scripts"></div>
+    <!-- footer -->
+    <div th:insert="common :: footer" >
+
+    </div>
+</body>
+</html>

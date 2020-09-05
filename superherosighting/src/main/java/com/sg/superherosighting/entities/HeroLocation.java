@@ -17,7 +17,6 @@ public class HeroLocation {
     private int id;
     private int heroId;
     private int locationId;
-
     private LocalDateTime localDate;
 
     public int getId() {
