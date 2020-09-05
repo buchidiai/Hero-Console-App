@@ -13,6 +13,10 @@
             <!-- Sub Header -->
 
             <div th:insert="common :: pageSubHeader(title='Add Location')"></div>
+            
+               <div class="col-12 text-center pb-2">
+                <a class=' text-primary ' th:href="@{/allLocations}" >View All Locations</a>
+            </div>
             <!-- form start -->
             <div class='d-flex justify-content-center'>
 
@@ -66,7 +70,7 @@
                                 </select>
                                    <div class=' row pl-4'>
                                     <span class='text-center pt-2 pr-2'>Can't find a hero ? </span>
-                                    <a class='text-center pt-2 text-primary' th:href="@{/heros}"> Create Hero </a>
+                                    <a class='text-center pt-2 text-primary' th:href="@{/hero}"> Create Hero </a>
                                 </div>
                             </div>
                         </div>
@@ -97,54 +101,7 @@
             <!-- Form end-->
 
         </div>
-        <!-- Section Header-->
-        <div th:insert="common :: sectionHeader(title='All Locations')" >
-
-        </div>
-
-        <!-- table Location start-->
-        <div class="row p-2">
-
-            <div class="col text-center  d-flex justify-content-center">
-                <table class="table table-striped w-75 border border-dark ">
-                    <thead class='bg-dark'>
-                        <tr>
-                            <th class='text-light'>ID</th>
-                            <th class='text-light'>Name</th>
-                            <th class='text-light'>Description</th>
-                            <th class='text-light'>address</th>
-                            <th class='text-light'>Latitude</th>
-                            <th class='text-light'>Longitude</th>
-                            <th class='text-light'>Edit</th>
-                            <th class='text-light'>Delete</th>
-                            <th class='text-light'>Details</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="location : ${locations}">
-                            <td th:text="${location.id}">id</td>
-                            <td th:text="${location.name}">name</td>
-                            <td th:text="${location.description}">description</td>
-                            <td th:text="${location.address}">address</td>
-                            <td th:text="${location.latitude}">latitude</td>
-                            <td th:text="${location.longitude}">longitude</td>
-                            <td> 
-                                <a th:href="@{/editLocation(id=${location.id})}" class="fas fa-edit text-primary">
-                                </a>
-                            </td>
-                            <td>
-                                <a th:href="@{/deleteLocationConfirm(id=${location.id})}"  class="fas fa-trash-alt text-danger">
-                                </a>
-                            </td>
-                            <td>
-                                <a th:href="@{/locationDetail(id=${location.id})}"  class="fas fa-info-circle text-secondary">
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    
     </div>
     <!-- End main body -->
     <div th:insert="common :: scripts"></div>

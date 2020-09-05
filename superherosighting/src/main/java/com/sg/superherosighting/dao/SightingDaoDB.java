@@ -89,9 +89,9 @@ public class SightingDaoDB implements SightingDao {
     @Override
     public Sighting addSighting(Sighting sighting) {
 
-        final String INSERT_INTO_LOCATION_HAS_HERO = "INSERT INTO sighting(location_id, hero_id, date) VALUES(?,?,?)";
+        final String INSERT_INTO_SIGHTING = "INSERT INTO sighting(location_id, hero_id, date) VALUES(?,?,?)";
 
-        jdbc.update(INSERT_INTO_LOCATION_HAS_HERO,
+        jdbc.update(INSERT_INTO_SIGHTING,
                 sighting.getLocation().getId(),
                 sighting.getHero().getId(),
                 sighting.getLocalDate());
@@ -107,9 +107,9 @@ public class SightingDaoDB implements SightingDao {
 
         jdbc.update(DELETE_SIGHTING, existingLocationId, existingHeroId);
 
-        final String INSERT_INTO_LOCATION_HAS_HERO = "INSERT INTO sighting(location_id, hero_id, date) VALUES(?,?,?)";
+        final String INSERT_INTO_SIGHTING = "INSERT INTO sighting(location_id, hero_id, date) VALUES(?,?,?)";
 
-        jdbc.update(INSERT_INTO_LOCATION_HAS_HERO,
+        jdbc.update(INSERT_INTO_SIGHTING,
                 sighting.getLocationId(),
                 sighting.getHeroId(),
                 sighting.getLocalDate());

@@ -40,7 +40,7 @@ public class SuperPowerController {
         return "/superPower/superPower";
     }
 
-    @GetMapping("superPowers")
+    @GetMapping("allSuperPowers")
     public String getAllSuperPowers(Model model) {
 
         List<SuperPower> superPowers = service.getAllSuperPowers();
@@ -89,7 +89,7 @@ public class SuperPowerController {
             }
         }
 
-        return "redirect:superPowers";
+        return "redirect:allSuperPowers";
     }
 
     @GetMapping("editSuperPower")
@@ -128,7 +128,7 @@ public class SuperPowerController {
 
         service.deleteSuperPowerById(superPowerId);
 
-        return "redirect:superPowers";
+        return "redirect:allSuperPowers";
     }
 
     @GetMapping("superPowerDetails")

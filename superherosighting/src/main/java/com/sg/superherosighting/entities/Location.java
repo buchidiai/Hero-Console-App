@@ -39,7 +39,6 @@ public class Location {
 
     private List<Hero> heros;
 
-    @NotNull(message = "Please select a Date")
     @Past(message = "Date must be today or in the past.")
     private LocalDateTime localDate;
 
@@ -109,13 +108,15 @@ public class Location {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 79 * hash + this.id;
-        hash = 79 * hash + Objects.hashCode(this.name);
-        hash = 79 * hash + Objects.hashCode(this.description);
-        hash = 79 * hash + Objects.hashCode(this.address);
-        hash = 79 * hash + Objects.hashCode(this.latitude);
-        hash = 79 * hash + Objects.hashCode(this.longitude);
+        int hash = 5;
+        hash = 97 * hash + this.id;
+        hash = 97 * hash + Objects.hashCode(this.name);
+        hash = 97 * hash + Objects.hashCode(this.description);
+        hash = 97 * hash + Objects.hashCode(this.address);
+        hash = 97 * hash + Objects.hashCode(this.latitude);
+        hash = 97 * hash + Objects.hashCode(this.longitude);
+        hash = 97 * hash + Objects.hashCode(this.heros);
+        hash = 97 * hash + Objects.hashCode(this.localDate);
         return hash;
     }
 
@@ -149,12 +150,18 @@ public class Location {
         if (!Objects.equals(this.longitude, other.longitude)) {
             return false;
         }
+        if (!Objects.equals(this.heros, other.heros)) {
+            return false;
+        }
+        if (!Objects.equals(this.localDate, other.localDate)) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "Location{" + "id=" + id + ", name=" + name + ", description=" + description + ", address=" + address + ", latitude=" + latitude + ", longitude=" + longitude + '}';
+        return "Location{" + "id=" + id + ", name=" + name + ", description=" + description + ", address=" + address + ", latitude=" + latitude + ", longitude=" + longitude + ", heros=" + heros + ", localDate=" + localDate + '}';
     }
 
 }

@@ -126,7 +126,7 @@ public class HeroDaoDB implements HeroDao {
         final String DELETE_ORGANIZATION_HERO = "DELETE FROM hero_has_organization WHERE hero_id = ?";
         jdbc.update(DELETE_ORGANIZATION_HERO, id);
 
-        final String DELETE_LOCATION_HERO = "DELETE FROM location_has_hero WHERE hero_id = ?";
+        final String DELETE_LOCATION_HERO = "DELETE FROM sighting WHERE hero_id = ?";
         jdbc.update(DELETE_LOCATION_HERO, id);
 
         final String DELETE_HERO = "DELETE FROM  hero  WHERE id = ?";
@@ -227,7 +227,7 @@ public class HeroDaoDB implements HeroDao {
     @Override
     public void deleteHeroLocation(Hero hero, Location location) {
 
-        final String DELETE_ORGANIZATION_HERO = "DELETE FROM location_has_hero WHERE hero_id = ? AND location_id = ?";
+        final String DELETE_ORGANIZATION_HERO = "DELETE FROM sighting WHERE hero_id = ? AND location_id = ?";
         jdbc.update(DELETE_ORGANIZATION_HERO, hero.getId(), location.getId());
 
     }
@@ -294,7 +294,7 @@ public class HeroDaoDB implements HeroDao {
             heroLocation.setId(rs.getInt("id"));
             heroLocation.setHeroId(rs.getInt("hero_id"));
             heroLocation.setLocationId(rs.getInt("location_id"));
-            heroLocation.setLocalDate(rs.getTimestamp("date").toLocalDateTime());
+            heroLocation.setLocalDate(rs.getTimestamp("date") == null ? null : rs.getTimestamp("date").toLocalDateTime());
 
             return heroLocation;
         }

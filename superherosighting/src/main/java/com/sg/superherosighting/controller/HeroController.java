@@ -104,15 +104,13 @@ public class HeroController {
             }
         }
 
-        return "redirect:hero";
+        return "redirect:allHeros";
     }
 
     @GetMapping("editHero")
     public String editHero(Integer id, Model model) {
 
         Hero hero = service.getHeroById(id);
-
-        System.out.println("hero dfdf " + hero.toString());
 
         model.addAttribute("hero", hero);
         model.addAttribute("superPower", hero.getSuperPower());
@@ -135,7 +133,6 @@ public class HeroController {
 
         if (result.hasErrors()) {
 
-            System.out.println("has error");
             return "/hero/editHero";
         }
 

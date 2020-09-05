@@ -34,39 +34,31 @@ public class LocationController {
     @GetMapping("location")
     public String getLocationPage(Model model) {
 
-        List<Location> locations = service.getAllLocations();
         List<Hero> heros = service.getAllHeros();
 
-        model.addAttribute("locations", locations);
+        System.out.println("service.getLocationViolations() " + service.getLocationViolations());
+
         model.addAttribute("heros", heros);
         model.addAttribute("errors", service.getLocationViolations());
 
         return "/location/location";
     }
 
-//    @GetMapping("location")
-//    public String getAllLocations(Model model) {
-//
-//        System.out.println("here");
-//
-//        List<Location> locations = service.getAllLocations();
-//        List<Hero> heros = service.getAllHeros();
-//
-//        model.addAttribute("locations", locations);
-//        model.addAttribute("heros", heros);
-//        model.addAttribute("errors", service.getLocationViolations());
-//
-//        return "/location/location";
-//    }
-    @PostMapping("addLocation")
-    public String addLocation(HttpServletRequest request) {
+    @GetMapping("allLocations")
+    public String getAllLocations(Model model) {
 
-        //location parms from client
-        String name = request.getParameter("name");
-        String description = request.getParameter("description");
-        String address = request.getParameter("address");
-        String latitude = request.getParameter("latitude");
-        String longitude = request.getParameter("longitude");
+        List<Location> locations = service.getAllLocations();
+
+        model.addAttribute("locations", locations);
+
+        return "/location/listLocations";
+    }
+
+    @PostMapping("addLocation")
+    public String addLocation(HttpServletRequest request, @Valid Location location, BindingResult valResult) {
+
+        System.out.println("location location top " + location.toString());
+
         String date = request.getParameter("date");
 
         //heros ids
@@ -82,15 +74,9 @@ public class LocationController {
             }
         }
 
-        Location location = new Location();
+        System.out.println("location object " + location.toString());
 
-        location.setName(name);
-        location.setDescription(description);
-        location.setAddress(address);
-        location.setLatitude(latitude);
-        location.setLongitude(longitude);
-
-        System.out.println("date " + date + " < == " + date.isEmpty());
+        System.out.println("date  value : " + date);
 
         //parse date
         if (!(date.isEmpty())) {
@@ -103,17 +89,20 @@ public class LocationController {
             System.out.println("sighting --" + locationDate.toString());
         }
 
-        if (herosIds != null && date.isEmpty()) {
-
-            service.validateLocation(location);
-
-            System.out.println("redirect date empty date and not herods");
-            return "redirect:/location";
-        }
+//        if (herosIds != null && date.isEmpty()) {
+//
+//            service.validateLocation(location);
+//            FieldError error = new FieldError("location", "date",
+//                    "date cant be empty.");
+//            valResult.addError(error);
+//
+//            System.out.println("redirect date empty date and not herods");
+//            return "redirect:/location";
+//        }
         //check if empty then add
         if (service.validateLocation(location).isEmpty()) {
 
-            if (herosIds != null && !date.isEmpty()) {
+            if (herosIds != null) {
                 //set orgs
                 location.setHeros(heros);
 
@@ -121,12 +110,12 @@ public class LocationController {
             //add location
             service.addLocation(location);
 
-            if (herosIds != null && !date.isEmpty()) {
+            if (herosIds != null) {
                 service.insertLocationHero(location);
             }
         }
 
-        return "redirect:/location/location";
+        return "redirect:allLocations";
     }
 
     @GetMapping("editLocation")
