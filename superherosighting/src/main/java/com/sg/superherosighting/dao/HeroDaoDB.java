@@ -38,6 +38,7 @@ public class HeroDaoDB implements HeroDao {
         try {
             final String SELECT_HERO_BY_ID = "SELECT h.id, h.name, h.description, s.name FROM  hero h JOIN superPower s On h.superPower_id = s.id WHERE h.id = ?";
             Hero hero = jdbc.queryForObject(SELECT_HERO_BY_ID, new HeroMapper(), id);
+
             return hero;
 
         } catch (DataAccessException ex) {
@@ -64,11 +65,14 @@ public class HeroDaoDB implements HeroDao {
     @Transactional
     public Hero addHero(Hero hero) {
 
+        System.out.println("addHero " + hero.toString());
+
         final String INSERT_HERO = "INSERT INTO hero (name, description, superPower_id) "
                 + "VALUES(?,?,?)";
         jdbc.update(INSERT_HERO,
                 hero.getName(),
-                hero.getDescription(), hero.getSuperPower_id());
+                hero.getDescription(),
+                hero.getSuperPower_id());
 
         int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
         hero.setId(newId);
@@ -133,8 +137,6 @@ public class HeroDaoDB implements HeroDao {
     @Transactional
     public Hero getHeroDetails(int id) {
 
-        System.out.println("ig to get hero " + id);
-
         final String SELECT_HERO = "SELECT * FROM  hero h  WHERE h.id = ?";
 
         Hero hero = jdbc.queryForObject(SELECT_HERO, new HeroMapperOriginal(), id);
@@ -143,9 +145,8 @@ public class HeroDaoDB implements HeroDao {
 
         getHeroLocations(id, hero);
 
-        System.out.println("hero.getSuperPower() " + hero.getSuperPower());
-
-        if (hero.getSuperPower_id() != 0 || hero.getSuperPower_id() != -1) {
+        if (hero.getSuperPower_id() != -1) {
+            // hero.getSuperPower_id() != 0 ||
             // && hero.getSuperPower_id() != -1
 
             getHeroSuperPower(hero);
@@ -159,8 +160,6 @@ public class HeroDaoDB implements HeroDao {
 
         final String SELECT_SUPERPOWER_BY_ID = "SELECT * FROM superPower WHERE id = ?";
         SuperPower superPower = jdbc.queryForObject(SELECT_SUPERPOWER_BY_ID, new SuperPowerDaoDB.SuperPowerMapper(), hero.getSuperPower_id());
-
-        System.out.println("superPower " + superPower.toString());
 
         hero.setSuperPower(superPower.getName());
         hero.setSuperPower_id(superPower.getId());

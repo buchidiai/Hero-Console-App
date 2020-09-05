@@ -78,6 +78,7 @@ public class HeroController {
         hero.setName(name);
         hero.setDescription(description);
         hero.setSuperPower(superPower.getName());
+        hero.setSuperPower_id(superPower.getId());
 
         List<Organization> organizations = new ArrayList<>();
 
@@ -111,6 +112,8 @@ public class HeroController {
 
         Hero hero = service.getHeroById(id);
 
+        System.out.println("hero dfdf " + hero.toString());
+
         model.addAttribute("hero", hero);
         model.addAttribute("superPower", hero.getSuperPower());
 
@@ -132,7 +135,6 @@ public class HeroController {
 
         if (result.hasErrors()) {
 
-//            model.addAttribute("errors", service.getHeroViolations());
             System.out.println("has error");
             return "/hero/editHero";
         }

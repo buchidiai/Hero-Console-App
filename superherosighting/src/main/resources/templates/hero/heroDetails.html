@@ -24,7 +24,14 @@
                             <h6 class='pt-1' th:text="${ 'id : ' + heroDetails.id}"></h6>
                             <h6  th:text="${'name : ' + heroDetails.name}"></h6>
                             <h6  th:text="${'description : ' + heroDetails.description}"></h6>
-                            <h6  th:text="${'super Power : ' + heroDetails.superPower_id}"></h6>
+
+                            <div th:if="${heroDetails.superPower_id == -1}">
+                                <h6>super Power : null</h6>
+                            </div>
+                            <div th:if="${heroDetails.superPower_id != -1}">
+                                <h6  th:text="${'super Power : ' + heroDetails.superPower_id}"></h6>
+                            </div>
+
 
                         </div>
                         <div class=' d-flex flex-column pl-2 justify-content-between'>
@@ -103,7 +110,6 @@
                                             <td th:text="${location.longitude}">longitude</td>
                                             <td th:text="${location.localDate}">longitude</td>
                                             <td> 
-
                                                 <a th:href="@{/editHeroLocation(locationId=${location.id} ,heroId=${heroDetails.id})}" class="fas fa-edit text-primary">
                                                 </a>
                                             </td>
@@ -117,16 +123,15 @@
                                 </table>
                             </div>
                         </div>
-                        
-                   
-                        
-                    
-                        
-                           <div th:if="${heroDetails.superPower_id != null}">
+
+
+
+                        <div th:if="${heroDetails.superPower_id > 0}">
                             <div  class="col-12" th:insert="common :: sectionHeader(title=${'Hero Super power '+ '(1)'})" >
                             </div>
                         </div>
-                        <div th:if="${heroDetails.superPower_id == null}">
+
+                        <div th:if="${heroDetails.superPower == null} AND  ${heroDetails.superPower_id == -1 }">
                             <div  class="col-12" th:insert="common :: sectionHeader(title=${'Hero Super power '+ '(0)'})" >
                             </div>
                         </div>
@@ -141,17 +146,22 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr >
-                                            <td th:text="${heroDetails.superPower_id}">ID</td>
-                                            <td th:text="${heroDetails.superPower}">Power</td>
+                                    <div th:if="${heroDetails.superPower_id == -1}">
 
-                                        </tr>
+                                    </div>
+                                    <div th:if="${heroDetails.superPower_id != -1}">
+                                        <td th:text="${heroDetails.superPower_id}">ID</td>
+                                    </div>
+                                    <div th:if="${heroDetails.superPower == null}">
+
+                                    </div>
+                                    <div th:if="${heroDetails.superPower != null}">
+                                        <td th:text="${heroDetails.superPower}">Power</td>
+                                    </div>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
 

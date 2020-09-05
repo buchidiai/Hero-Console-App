@@ -164,6 +164,7 @@ public class SuperPowerController {
         SuperPower superPower = service.getSuperPowerById(superPowerId);
 
         hero.setSuperPower(superPower.getName());
+        hero.setSuperPower_id(superPower.getId());
 
         service.updateSuperPowerHero(hero, heroId);
 

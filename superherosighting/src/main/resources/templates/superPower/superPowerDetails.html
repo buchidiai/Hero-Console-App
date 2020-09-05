@@ -59,7 +59,7 @@
                                             <td >none</td>
                                             <td th:text="${hero.name}">none</td>
                                             <td th:text="${hero.description}">none</td>
-                                            <td th:text="${hero.superPower.name}">none</td>
+                                            <td th:text="${hero.superPower}">none</td>
                                             <td> 
                                                 <a th:href="@{/editSuperPowerHero(superPowerId=${superPower.id}, heroId=${hero.id})}"  class="fas fa-edit text-primary">
                                                 </a>
