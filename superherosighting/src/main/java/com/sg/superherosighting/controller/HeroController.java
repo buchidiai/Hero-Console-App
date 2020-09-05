@@ -43,7 +43,7 @@ public class HeroController {
         return "/hero/hero";
     }
 
-    @GetMapping("heros")
+    @GetMapping("allHeros")
     public String getAllHeros(Model model) {
 
         List<Hero> heros = service.getAllHeros();
@@ -159,7 +159,7 @@ public class HeroController {
 
         service.deleteHeroById(id);
 
-        return "redirect:heros";
+        return "redirect:allHeros";
     }
 
     @GetMapping("heroDetails")

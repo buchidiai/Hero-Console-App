@@ -29,7 +29,7 @@ public class SightingDaoDB implements SightingDao {
 
     @Override
     public Sighting getSightingById(int heroId, int locationId) {
-        final String SELECT_SIGHTING_BY_IDS = "SELECT * FROM location_has_hero WHERE location_id = ? AND hero_id = ? ";
+        final String SELECT_SIGHTING_BY_IDS = "SELECT * FROM sighting WHERE location_id = ? AND hero_id = ? ";
 
         Sighting sighting = jdbc.queryForObject(SELECT_SIGHTING_BY_IDS, new SightingMapper(), locationId, heroId);
 
@@ -66,7 +66,7 @@ public class SightingDaoDB implements SightingDao {
     @Override
     public List<Sighting> getAllSightings() {
 
-        final String SELECT_ALL_SIGHTINGS = "SELECT * FROM location_has_hero";
+        final String SELECT_ALL_SIGHTINGS = "SELECT * FROM sighting";
 
         List<Sighting> sightings = jdbc.query(SELECT_ALL_SIGHTINGS, new SightingMapper());
 
@@ -89,7 +89,7 @@ public class SightingDaoDB implements SightingDao {
     @Override
     public Sighting addSighting(Sighting sighting) {
 
-        final String INSERT_INTO_LOCATION_HAS_HERO = "INSERT INTO location_has_hero(location_id, hero_id, date) VALUES(?,?,?)";
+        final String INSERT_INTO_LOCATION_HAS_HERO = "INSERT INTO sighting(location_id, hero_id, date) VALUES(?,?,?)";
 
         jdbc.update(INSERT_INTO_LOCATION_HAS_HERO,
                 sighting.getLocation().getId(),
@@ -103,11 +103,11 @@ public class SightingDaoDB implements SightingDao {
     @Override
     public void updateSighting(Sighting sighting, Integer existingHeroId, Integer existingLocationId) {
 
-        final String DELETE_SIGHTING = "DELETE FROM location_has_hero  WHERE location_id = ? AND  hero_id = ?";
+        final String DELETE_SIGHTING = "DELETE FROM sighting  WHERE location_id = ? AND  hero_id = ?";
 
         jdbc.update(DELETE_SIGHTING, existingLocationId, existingHeroId);
 
-        final String INSERT_INTO_LOCATION_HAS_HERO = "INSERT INTO location_has_hero(location_id, hero_id, date) VALUES(?,?,?)";
+        final String INSERT_INTO_LOCATION_HAS_HERO = "INSERT INTO sighting(location_id, hero_id, date) VALUES(?,?,?)";
 
         jdbc.update(INSERT_INTO_LOCATION_HAS_HERO,
                 sighting.getLocationId(),
@@ -117,7 +117,7 @@ public class SightingDaoDB implements SightingDao {
 
     @Override
     public void deleteSightingById(int heroId, int locationId) {
-        final String DELETE_SIGHTING = "DELETE FROM location_has_hero  WHERE location_id = ? AND  hero_id = ?";
+        final String DELETE_SIGHTING = "DELETE FROM sighting  WHERE location_id = ? AND  hero_id = ?";
 
         jdbc.update(DELETE_SIGHTING, locationId, heroId);
     }

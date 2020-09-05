@@ -168,7 +168,7 @@ public class HeroDaoDB implements HeroDao {
 
     private void getHeroLocations(int id, Hero hero) {
 
-        final String SELECT_ALL_LOCATIONS = "SELECT * FROM location_has_hero WHERE hero_id = ?";
+        final String SELECT_ALL_LOCATIONS = "SELECT * FROM sighting WHERE hero_id = ?";
 
         List<HeroLocation> heroLocations = jdbc.query(SELECT_ALL_LOCATIONS, new HeroLocationMapper(), id);
 
@@ -235,7 +235,7 @@ public class HeroDaoDB implements HeroDao {
     @Override
     public void updateHeroLocation(Hero hero, Location location, int originalId) {
 
-        final String UPDATE_HERO_LOCATION = "UPDATE location_has_hero SET hero_id = ?,  location_id = ?   WHERE hero_id = ?  AND  location_id = ?";
+        final String UPDATE_HERO_LOCATION = "UPDATE sighting SET hero_id = ?,  location_id = ?   WHERE hero_id = ?  AND  location_id = ?";
 
         jdbc.update(UPDATE_HERO_LOCATION, hero.getId(), location.getId(), hero.getId(), originalId);
 
@@ -291,6 +291,7 @@ public class HeroDaoDB implements HeroDao {
         public HeroLocation mapRow(ResultSet rs, int index) throws SQLException {
 
             HeroLocation heroLocation = new HeroLocation();
+            heroLocation.setId(rs.getInt("id"));
             heroLocation.setHeroId(rs.getInt("hero_id"));
             heroLocation.setLocationId(rs.getInt("location_id"));
             heroLocation.setLocalDate(rs.getTimestamp("date").toLocalDateTime());
