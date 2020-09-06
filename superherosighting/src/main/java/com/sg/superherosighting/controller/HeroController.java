@@ -218,16 +218,25 @@ public class HeroController {
     }
 
     @GetMapping("editHeroLocation")
-    public String editLocation(Integer locationId, Integer heroId, Location object, Model model) {
+    public String editHeroLocation(Integer locationId, Integer heroId, Model model) {
+
+        System.out.println("here to get alll");
 
         List<Location> heroLocations = service.getHeroDetails(heroId).getLocations();
 
+        System.out.println("heroLocations size " + heroLocations.size());
+
         List<Location> allLocations = service.getAllLocations();
 
-        heroLocations.stream().filter(l -> (allLocations.contains(l))).filter(l -> (l.getId() != locationId)).forEachOrdered(l -> {
-            allLocations.remove(l);
-        });
+        System.out.println("allLocations be4 remoce " + allLocations.toString());
 
+        System.out.println("allLocations size " + allLocations.size());
+
+//        heroLocations.stream().filter(l -> (allLocations.contains(l))).filter(l -> (l.getId() != locationId)).forEachOrdered(l -> {
+//            allLocations.remove(l);
+//        });
+        System.out.println("allLocations after remoce " + allLocations.toString());
+        System.out.println("allLocations size after remove" + allLocations.size());
         Hero hero = service.getHeroById(heroId);
 
         model.addAttribute("locations", allLocations);
@@ -238,7 +247,7 @@ public class HeroController {
     }
 
     @PostMapping("editHeroLocation")
-    public String performEditLocation(Integer newLocationId, Integer locationId, Integer heroId, RedirectAttributes redirectAttributes) {
+    public String performEditHeroLocation(Integer newLocationId, Integer locationId, Integer heroId, RedirectAttributes redirectAttributes) {
 
         Hero hero = service.getHeroById(heroId);
 

@@ -15,10 +15,7 @@
             <!-- table Hero start-->
             <div class=" row p-2">
                 <div class="col text-center  d-flex justify-content-center">
-
                     <div class="row d-flex justify-content-center ">
-                        <img class="img-fluid "  src="https://via.placeholder.com/150" alt="hero">
-
                         <div class="col-8 d-flex flex-column border justify-content-start p-2 ">
 
                             <h6 class='pt-1' th:text="${ 'id : ' + heroDetails.id}"></h6>
@@ -31,17 +28,15 @@
                             <div th:if="${heroDetails.superPower_id != -1}">
                                 <h6  th:text="${'super Power : ' + heroDetails.superPower_id}"></h6>
                             </div>
-
-
                         </div>
                         <div class=' d-flex flex-column pl-2 justify-content-between'>
-                            <a th:href="@{/editHero(id=${heroDetails.id})}" class="fas fa-edit text-primary">
+                            <a th:href="@{/editHero(id=${heroDetails.id})}" class="fas fa-edit text-primary p-2">
                             </a>
-                            <a th:href="@{/deleteHeroConfirm(id=${heroDetails.id})}" class="fas fa-trash-alt text-danger">
+                            <a th:href="@{/deleteHeroConfirm(id=${heroDetails.id})}" class="fas fa-trash-alt text-danger p-2">
                             </a>
                         </div>
                         <div class="col-12 text-center p-3">
-                            <a class=' text-primary ' th:href="@{/heros}" >Go Back</a>
+                            <a class=' text-primary ' th:href="@{/allHeros}" >Go Back</a>
                         </div>
                         <div class="col-12" th:insert="common :: headerAndCount(title='Hero Organizations', count=${heroDetails.organizations})" >
                         </div>

@@ -77,7 +77,7 @@
                             <div class="col-sm-10">
                                 <input type="hidden" name="id" th:value="${location.id}"/>
                                 <button  type="submit" class="btn btn-primary btn-lg btn-block ">OK</button>
-                                <a  th:href="@{/locations}" class="btn btn-danger btn-lg btn-block ">CANCEL</a>
+                                <a  th:href="@{/locationDetails(locationId=${location.id})}" class="btn btn-danger btn-lg btn-block ">CANCEL</a>
                             </div>
                         </div>
                     </form>

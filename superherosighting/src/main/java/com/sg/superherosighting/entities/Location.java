@@ -116,7 +116,7 @@ public class Location {
         hash = 97 * hash + Objects.hashCode(this.latitude);
         hash = 97 * hash + Objects.hashCode(this.longitude);
         hash = 97 * hash + Objects.hashCode(this.heros);
-        hash = 97 * hash + Objects.hashCode(this.localDate);
+//        hash = 97 * hash + Objects.hashCode(this.localDate);
         return hash;
     }
 
@@ -153,9 +153,9 @@ public class Location {
         if (!Objects.equals(this.heros, other.heros)) {
             return false;
         }
-        if (!Objects.equals(this.localDate, other.localDate)) {
-            return false;
-        }
+//        if (!Objects.equals(this.localDate, other.localDate)) {
+//            return false;
+//        }
         return true;
     }
 

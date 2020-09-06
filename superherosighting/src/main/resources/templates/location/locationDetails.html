@@ -16,8 +16,6 @@
                 <div class="col text-center  d-flex justify-content-center">
 
                     <div class="row d-flex justify-content-center ">
-                        <img class="img-fluid "  src="https://via.placeholder.com/150" alt="hero">
-
                         <div class="col-8 d-flex flex-column border justify-content-start p-2 ">
 
                             <h6 class='pt-1' th:text="${ 'id : ' + locationDetails.id}"></h6>
@@ -28,9 +26,9 @@
                             <h6  th:text="${'longitude : ' + locationDetails.longitude}"></h6>
                         </div>
                         <div class=' d-flex flex-column pl-2 justify-content-between'>
-                            <a th:href="@{/editLocation(locationId=${locationDetails.id})}" class="fas fa-edit text-primary">
+                            <a th:href="@{/editLocation(locationId=${locationDetails.id})}" class="fas fa-edit text-primary p-2">
                             </a>
-                            <a th:href="@{/deleteLocationConfirm(locationId=${locationDetails.id})}" class="fas fa-trash-alt text-danger">
+                            <a th:href="@{/deleteLocationConfirm(locationId=${locationDetails.id})}" class="fas fa-trash-alt text-danger p-2">
                             </a>
                         </div>
                         <div class="col-12 text-center p-3">
@@ -38,7 +36,6 @@
                         </div>
                         <div class="col-12" th:insert="common :: headerAndCount(title='Heros at Location', count=${locationDetails.heros})" >
                         </div>
-
                         <div class="col-12 row p-2">
                             <div class="col text-center  d-flex justify-content-center">
                                 <table class="table table-striped  border border-dark ">

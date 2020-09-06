@@ -5,6 +5,7 @@
  */
 package com.sg.superherosighting.dao;
 
+import com.sg.superherosighting.entities.Hero;
 import com.sg.superherosighting.entities.Location;
 import java.util.List;
 
@@ -17,6 +18,8 @@ public interface LocationDao {
     Location getLocationById(int id);
 
     void insertLocationHero(Location location);
+
+    void updateLocationHero(Hero hero, Location location, int originalId);
 
     Location getLocationDetails(int id);
 

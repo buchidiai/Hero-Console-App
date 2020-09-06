@@ -65,8 +65,6 @@ public class HeroDaoDB implements HeroDao {
     @Transactional
     public Hero addHero(Hero hero) {
 
-        System.out.println("addHero " + hero.toString());
-
         final String INSERT_HERO = "INSERT INTO hero (name, description, superPower_id) "
                 + "VALUES(?,?,?)";
         jdbc.update(INSERT_HERO,
@@ -234,6 +232,10 @@ public class HeroDaoDB implements HeroDao {
 
     @Override
     public void updateHeroLocation(Hero hero, Location location, int originalId) {
+
+        System.out.println("hero --- " + hero.toString());
+        System.out.println("location --- " + location.toString());
+        System.out.println("originalId --- " + originalId);
 
         final String UPDATE_HERO_LOCATION = "UPDATE sighting SET hero_id = ?,  location_id = ?   WHERE hero_id = ?  AND  location_id = ?";
 

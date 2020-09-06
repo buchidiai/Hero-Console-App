@@ -78,6 +78,8 @@ public interface ServiceLayer {
 
     void updateHeroLocation(Hero hero, Location location, int originalId);
 
+    void updateLocationHero(Hero hero, Location location, int originalId);
+
     //Organization
     Organization getOrganizationById(int id);
 

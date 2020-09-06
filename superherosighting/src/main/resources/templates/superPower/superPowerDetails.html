@@ -24,13 +24,13 @@
                             <h6  th:text="${'name : ' + superPower.name}"></h6>
                         </div>
                         <div class=' d-flex flex-column pl-2 justify-content-between'>
-                            <a th:href="@{/editSuperPower(superPowerId=${superPower.id})}" class="fas fa-edit text-primary">
+                            <a th:href="@{/editSuperPower(superPowerId=${superPower.id})}" class="fas fa-edit text-primary p-2">
                             </a>
-                            <a th:href="@{/deleteSuperPowerConfirm(superPowerId=${superPower.id})}" class="fas fa-trash-alt text-danger">
+                            <a th:href="@{/deleteSuperPowerConfirm(superPowerId=${superPower.id})}" class="fas fa-trash-alt text-danger p-2">
                             </a>
                         </div>
                         <div class="col-12 text-center p-4">
-                            <a class=' text-primary ' th:href="@{/superPowers}" >Go Back</a>
+                            <a class=' text-primary ' th:href="@{/allSuperPowers}" >Go Back</a>
                         </div>
                         <div th:if="${hero != null}">
                             <div  class="col-12" th:insert="common :: sectionHeader(title=${'Hero With Super Power '+ '(1)'})" >
