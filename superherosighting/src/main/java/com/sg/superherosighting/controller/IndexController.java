@@ -35,6 +35,8 @@ public class IndexController {
             sighting.setTimeAgo(tago.format(sighting.getLocalDate()));
         });
 
+        System.out.println("sightings ---  " + sightings.toString());
+
         model.addAttribute("sightings", sightings);
 
         return "index";

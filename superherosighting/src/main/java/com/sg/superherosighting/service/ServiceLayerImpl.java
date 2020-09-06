@@ -202,75 +202,20 @@ public class ServiceLayerImpl implements ServiceLayer {
     }
 
     @Override
-    public Sighting getSightingById(int heroId, int locationId) {
+    public Sighting getSightingById(int id) {
 
-        return sightingDao.getSightingById(heroId, locationId);
+        return sightingDao.getSightingById(id);
     }
 
     @Override
-    public void deleteSightingById(int heroId, int locationId) {
-
-        sightingDao.deleteSightingById(heroId, locationId);
-
+    public void deleteSightingById(int heroId, int locationId, int sightingId) {
+        sightingDao.deleteSightingById(heroId, locationId, sightingId);
     }
 
     @Override
     public void updateSighting(Sighting sighting, Integer existingHeroId, Integer existingLocationId) {
 
         sightingDao.updateSighting(sighting, existingHeroId, existingLocationId);
-    }
-
-    @Override
-    public Set<ConstraintViolation<SuperPower>> validateSuperPower(SuperPower superPower) {
-
-        return superPowerViolations = validate.validate(superPower);
-    }
-
-    @Override
-    public Set<ConstraintViolation<SuperPower>> getSuperPowerViolations() {
-        return superPowerViolations;
-    }
-
-    @Override
-    public Set<ConstraintViolation<Hero>> validateHero(Hero hero) {
-        return heroViolations = validate.validate(hero);
-    }
-
-    @Override
-    public Set<ConstraintViolation<Hero>> getHeroViolations() {
-        return heroViolations;
-    }
-
-    @Override
-    public Set<ConstraintViolation<Location>> validateLocation(Location location) {
-
-        return locationViolations = validate.validate(location);
-    }
-
-    @Override
-    public Set<ConstraintViolation<Location>> getLocationViolations() {
-        return locationViolations;
-    }
-
-    @Override
-    public Set<ConstraintViolation<Sighting>> validateSighting(Sighting sighting) {
-
-        return sightingViolations = validate.validate(sighting);
-    }
-
-    @Override
-    public Set<ConstraintViolation<Sighting>> getSightingViolations() {
-        return sightingViolations;
-    }
-
-    @Override
-    public Set<ConstraintViolation<Organization>> validateOrganization(Organization organization) {
-        return organizationViolations = validate.validate(organization);
-    }
-
-    @Override
-    public Set<ConstraintViolation<Organization>> getOrganizationViolations() {
-        return organizationViolations;
     }
 
     @Override
@@ -327,6 +272,59 @@ public class ServiceLayerImpl implements ServiceLayer {
     public void updateOrganizationHero(Hero hero, Organization organization, int originalId) {
 
         organizationDao.updateOrganizationHero(hero, organization, originalId);
+    }
+
+    @Override
+    public Set<ConstraintViolation<SuperPower>> validateSuperPower(SuperPower superPower) {
+
+        return superPowerViolations = validate.validate(superPower);
+    }
+
+    @Override
+    public Set<ConstraintViolation<SuperPower>> getSuperPowerViolations() {
+        return superPowerViolations;
+    }
+
+    @Override
+    public Set<ConstraintViolation<Hero>> validateHero(Hero hero) {
+        return heroViolations = validate.validate(hero);
+    }
+
+    @Override
+    public Set<ConstraintViolation<Hero>> getHeroViolations() {
+        return heroViolations;
+    }
+
+    @Override
+    public Set<ConstraintViolation<Location>> validateLocation(Location location) {
+
+        return locationViolations = validate.validate(location);
+    }
+
+    @Override
+    public Set<ConstraintViolation<Location>> getLocationViolations() {
+        return locationViolations;
+    }
+
+    @Override
+    public Set<ConstraintViolation<Sighting>> validateSighting(Sighting sighting) {
+
+        return sightingViolations = validate.validate(sighting);
+    }
+
+    @Override
+    public Set<ConstraintViolation<Sighting>> getSightingViolations() {
+        return sightingViolations;
+    }
+
+    @Override
+    public Set<ConstraintViolation<Organization>> validateOrganization(Organization organization) {
+        return organizationViolations = validate.validate(organization);
+    }
+
+    @Override
+    public Set<ConstraintViolation<Organization>> getOrganizationViolations() {
+        return organizationViolations;
     }
 
 }

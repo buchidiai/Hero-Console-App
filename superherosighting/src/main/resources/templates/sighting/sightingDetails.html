@@ -17,24 +17,23 @@
                 <div class="col text-center  d-flex justify-content-center">
                     <div class="row d-flex justify-content-center ">
                         <div class="col-8 d-flex flex-column border justify-content-start p-2 ">
-
                             <h6 class='pt-1' th:text="${ 'id : ' + sightingDetails.id}"></h6>
                             <h6  th:text="${'heroId : ' + sightingDetails.heroId}"></h6>
                             <h6  th:text="${'locationId : ' + sightingDetails.locationId}"></h6>
                             <h6  th:text="${'date : ' + sightingDetails.localDate}"></h6>
                         </div>
                         <div class=' d-flex flex-column pl-2 justify-content-between'>
-                            <a th:href="@{/editHero(id=${heroDetails.id})}" class="fas fa-edit text-primary p-2">
+                            <a th:href="@{/editSighting(sightingId=${sightingDetails.id}, heroId=${sightingDetails.hero.id}, locationId=${sightingDetails.location.id})}" class="fas fa-edit text-primary p-2">
                             </a>
-                            <a th:href="@{/deleteHeroConfirm(id=${heroDetails.id})}" class="fas fa-trash-alt text-danger p-2">
+                            <a th:href="@{/deleteSightingConfirm(sightingId=${sightingDetails.id}, heroId=${sightingDetails.hero.id}, locationId=${sightingDetails.location.id})}" class="fas fa-trash-alt text-danger p-2">
                             </a>
                         </div>
                         <div class="col-12 text-center p-3">
-                            <a class=' text-primary ' th:href="@{/allHeros}" >Go Back</a>
+                            <a class=' text-primary ' th:href="@{/allSightings}" >Go Back</a>
                         </div>
-                        <div class="col-12" th:insert="common :: headerAndCount(title='Hero Organizations', count=${heroDetails.organizations})" >
+                        <div class="col-12" th:insert="common :: headerAndCount(title='Hero at Sighting', count=${sightingDetails.hero})" >
                         </div>
-<!--
+
                         <div class="col-12 row p-2">
                             <div class="col text-center  d-flex justify-content-center">
                                 <table class="table table-striped  border border-dark ">
@@ -43,36 +42,25 @@
                                             <th class='text-light'>ID</th>
                                             <th class='text-light'>Name</th>
                                             <th class='text-light'>Description</th>
-                                            <th class='text-light'>address</th>
-                                            <th class='text-light'>Edit</th>
-                                            <th class='text-light'>Delete</th>
-
+                                            <th class='text-light'>Super Power</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr th:each="organization : ${heroDetails.organizations}">
-                                            <td th:text="${organization.id}">id</td>
-                                            <td th:text="${organization.name}">name</td>
-                                            <td th:text="${organization.description}">description</td>
-                                            <td th:text="${organization.address}">address</td>
-                                            <td> 
-                                                <a th:href="@{/editHeroOrganization(organizationId=${organization.id}, heroId=${heroDetails.id})}" class="fas fa-edit text-primary">
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <a th:href="@{/deleteHeroOrganizationConfirm(organizationId=${organization.id}, heroId=${heroDetails.id})}"  class="fas fa-trash-alt text-danger">
-                                                </a>
-                                            </td>
+                                        <tr th:each="hero : ${sightingDetails.hero}">
+                                            <td th:text="${hero.id}">id</td>
+                                            <td th:text="${hero.name}">name</td>
+                                            <td th:text="${hero.description}">description</td>
+                                            <td th:text="${hero.superPower}">address</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                        </div>-->
-<!--                        <div class="col-12" th:insert="common :: headerAndCount(title='Hero Locations', count=${heroDetails.locations})" >
-                        </div>-->
+                        </div>
+                        <div class="col-12" th:insert="common :: headerAndCount(title='Location of Sighting', count=${sightingDetails.location})" >
+                        </div>
 
                         <!-- table Location start-->
-<!--                        <div class="col-12 row p-2">
+                        <div class="col-12 row p-2">
 
                             <div class="col text-center  d-flex justify-content-center">
                                 <table class="table table-striped  border border-dark ">
@@ -84,78 +72,22 @@
                                             <th class='text-light'>address</th>
                                             <th class='text-light'>Latitude</th>
                                             <th class='text-light'>Longitude</th>
-                                            <th class='text-light'>Date</th>
-                                            <th class='text-light'>Edit</th>
-                                            <th class='text-light'>Delete</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr th:each="location : ${heroDetails.locations}">
+                                        <tr th:each="location : ${sightingDetails.location}">
                                             <td th:text="${location.id}">id</td>
                                             <td th:text="${location.name}">name</td>
                                             <td th:text="${location.description}">description</td>
                                             <td th:text="${location.address}">address</td>
                                             <td th:text="${location.latitude}">latitude</td>
                                             <td th:text="${location.longitude}">longitude</td>
-                                    <div th:if="${location.localDate == null}">
-                                        <td >unknown</td>
-                                    </div>
-                                    <div th:if="${location.localDate != null}">
-                                        <td th:text="${location.localDate}">date</td>
-                                    </div>
-                                    <td> 
-                                        <a th:href="@{/editHeroLocation(locationId=${location.id} ,heroId=${heroDetails.id})}" class="fas fa-edit text-primary">
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a th:href="@{/deleteHeroLocationConfirm(locationId=${location.id},heroId=${heroDetails.id})}"  class="fas fa-trash-alt text-danger">
-                                        </a>
-                                    </td>
-
-                                    </tr>
+                                        </tr>
                                     </tbody>
                                 </table>
-                            </div>
-                        </div>-->
-
-
-
-<!--                        <div th:if="${heroDetails.superPower_id > 0}">
-                            <div  class="col-12" th:insert="common :: sectionHeader(title=${'Hero Super power '+ '(1)'})" >
                             </div>
                         </div>
 
-                        <div th:if="${heroDetails.superPower == null} AND  ${heroDetails.superPower_id == -1 }">
-                            <div  class="col-12" th:insert="common :: sectionHeader(title=${'Hero Super power '+ '(0)'})" >
-                            </div>
-                        </div>-->
-                        <!-- table Hero start-->
-<!--                        <div class="row p-2 col-12">
-                            <div class="col text-center  d-flex justify-content-center">
-                                <table class="table table-striped w-75 border border-dark ">
-                                    <thead class='bg-dark '>
-                                        <tr>
-                                            <th class='text-light'>ID</th>
-                                            <th class='text-light'>Power</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    <div th:if="${heroDetails.superPower_id == -1}">
-
-                                    </div>
-                                    <div th:if="${heroDetails.superPower_id != -1}">
-                                        <td th:text="${heroDetails.superPower_id}">ID</td>
-                                    </div>
-                                    <div th:if="${heroDetails.superPower == null}">
-
-                                    </div>
-                                    <div th:if="${heroDetails.superPower != null}">
-                                        <td th:text="${heroDetails.superPower}">Power</td>
-                                    </div>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>-->
                     </div>
                 </div>
 

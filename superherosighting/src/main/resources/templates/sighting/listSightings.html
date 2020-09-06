@@ -22,36 +22,23 @@
                     <table class="table table-striped border border-dark ">
                         <thead class='bg-dark'>
                             <tr>
-                                <th class='text-light'>heroId</th>
+                                <th class='text-light'>SightingId</th>
                                 <th class='text-light'>HeroName</th>
                                 <th class='text-light'>Description</th>
                                 <th class='text-light'>Location</th>
-                                <th class='text-light'>Address</th>
-                                <th class='text-light'>Lat/Long</th>
                                 <th class='text-light'>Date</th>
                                 <th class='text-light'>Details</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr th:each="sighting : ${sightings}">
-                                <td th:text="${sighting.hero.id}">ID</td>
+                                    <td th:text="${sighting.id}">ID</td>
                                 <td th:text="${sighting.hero.name}">none</td>
                                 <td th:text="${sighting.location.description}">none</td>
                                 <td th:text="${sighting.location.name}">none</td>
-                                <td th:text="${sighting.location.address}">none</td>
-                                <td th:text="${sighting.location.latitude + ' / ' + sighting.location.longitude}">none</td>
                                 <td th:text="${sighting.localDate}">none</td>
-
-                                <!--                                <td> 
-                                                                    <a th:href="@{/editSighting(locationId=${sighting.locationId},heroId=${sighting.heroId})}" class="fas fa-edit text-primary">
-                                                                    </a>
-                                                                </td>
-                                                                <td>
-                                                                    <a th:href="@{/deleteSightingConfirm(locationId=${sighting.locationId},heroId=${sighting.heroId})}"  class="fas fa-trash-alt text-danger">
-                                                                    </a>
-                                                                </td>-->
                                 <td>
-                                    <a th:href="@{/sightingDetail(locationId=${sighting.locationId},heroId=${sighting.heroId})}"  class="fas fa-info-circle text-secondary">
+                                    <a th:href="@{/sightingDetails(sightingId=${sighting.id})}"  class="fas fa-info-circle text-secondary">
                                     </a>
                                 </td>
                             </tr>

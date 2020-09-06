@@ -117,7 +117,7 @@ public interface ServiceLayer {
     //sighting
     void deleteSuperPowerById(int id);
 
-    Sighting getSightingById(int heroId, int locationId);
+    Sighting getSightingById(int id);
 
     List<Sighting> getAllSightings();
 
@@ -125,6 +125,6 @@ public interface ServiceLayer {
 
     void updateSighting(Sighting sighting, Integer existingHeroId, Integer existingLocationId);
 
-    void deleteSightingById(int heroId, int locationId);
+    void deleteSightingById(int heroId, int locationId, int sightingId);
 
 }

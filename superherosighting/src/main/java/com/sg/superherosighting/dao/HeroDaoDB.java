@@ -51,7 +51,7 @@ public class HeroDaoDB implements HeroDao {
     public List<Hero> getAllHeros() {
 
         try {
-            final String SELECT_ALL_HEROS = "SELECT h.id, h.name, h.description, s.name FROM  hero h LEFT JOIN superPower s On h.superPower_id = s.id  ";
+            final String SELECT_ALL_HEROS = "SELECT h.id, h.name, h.description, s.name FROM  hero h LEFT JOIN superPower s On h.superPower_id = s.id ORDER by h.name ASC  ";
             List<Hero> heros = jdbc.query(SELECT_ALL_HEROS, new HeroMapper());
             return heros;
         } catch (DataAccessException ex) {
@@ -144,9 +144,6 @@ public class HeroDaoDB implements HeroDao {
         getHeroLocations(id, hero);
 
         if (hero.getSuperPower_id() != -1) {
-            // hero.getSuperPower_id() != 0 ||
-            // && hero.getSuperPower_id() != -1
-
             getHeroSuperPower(hero);
         }
 
@@ -233,10 +230,6 @@ public class HeroDaoDB implements HeroDao {
     @Override
     public void updateHeroLocation(Hero hero, Location location, int originalId) {
 
-        System.out.println("hero --- " + hero.toString());
-        System.out.println("location --- " + location.toString());
-        System.out.println("originalId --- " + originalId);
-
         final String UPDATE_HERO_LOCATION = "UPDATE sighting SET hero_id = ?,  location_id = ?   WHERE hero_id = ?  AND  location_id = ?";
 
         jdbc.update(UPDATE_HERO_LOCATION, hero.getId(), location.getId(), hero.getId(), originalId);
@@ -267,7 +260,7 @@ public class HeroDaoDB implements HeroDao {
             hero.setId(rs.getInt("id"));
             hero.setName(rs.getString("name"));
             hero.setDescription(rs.getString("description"));
-            hero.setSuperPower_id(rs.getString("superPower_id") == null ? -1 : Integer.valueOf(rs.getString("superPower_id")));
+            hero.setSuperPower_id(Integer.valueOf(rs.getString("superPower_id")));
 
             return hero;
         }

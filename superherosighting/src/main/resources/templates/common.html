@@ -16,7 +16,9 @@
             <nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
                 <!--  icon-->
                 <a th:href="@{/}" class="navbar-brand">
-                    <i class="fa fa-mask fa-2x" ></i>
+
+                    <i class="fas fa-home fa-2x"></i>
+
                 </a>
 
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
@@ -26,7 +28,7 @@
                     <div class='d-flex flex-row align-items-center nav-item dropdown pr-4'> 
                         <a th:href="@{/hero}" class="nav-link  text-light">
                             Heros
-                            <i class="fas fa-user-friends text-light"></i>
+                            <i class="fa fa-mask text-light"></i>
                         </a>
                     </div>
                     <div class='d-flex flex-row align-items-center nav-item dropdown pr-4'> 
@@ -102,24 +104,26 @@
 
     <!-- newsFeed-->
     <div th:fragment="newsFeedtemplate">
-        <div class=' pt-3'>
+        <div class='pt-3'>
+
             <div class='row p-1 pl-4 d-flex flex-row align-items-center justify-content-start' >
-                <img class="img-fluid img-thumbnail rounded-circle " style="width:5%" src="https://via.placeholder.com/150" alt="hero">
-                <div class='row'>
-                    <h6 class='text-center text-dark pl-4 ' th:text="${superHeroName + ' was sighted '}"> 
-                    </h6>
-                    <p  class='text-center text-secondary pl-4 font-italic h6' th:text="${time}"></p> 
+                <img class="img-fluid  rounded-circle " style="width:7%" src="https://via.placeholder.com/150" alt="hero">
+
+                <div class='row '>
+                    
+                    <h6 class='text-center text-dark pl-4 ' th:text="${sighting.hero.name + ' was sighted '}"> </h6>
+               
+                    <p  class='text-center text-secondary pl-4 font-italic h6' th:text="${sighting.timeAgo}"></p> 
                     <div class='col-12 pl-4 '>
-                        <h6  class=' text-dark d-flex align-self-end font-weight-light ' th:text="${'Location:  '  + location}"></h6>
+                        <h6  class=' text-dark d-flex align-self-end font-weight-light ' th:text="${'Location:  '  + sighting.location.name + ', ' + sighting.location.address}"></h6>
                     </div>
                 </div>
             </div>
             <div class='col pt-2'>
-                <u><p th:text="${'About ' + superHeroName + ':' }"> </p></u>
-                <p th:text="${superHeroDescription}">  </p>
-
-                <u><p> Happening: </p></u>
-                <h5 class=' text-dark' th:text="${locationDescription}" ></h5>
+                <u><p th:text="${'About ' + sighting.hero.name + ':' }"> </p></u>
+                <p th:text="${sighting.location.description}">  </p>
+                <u><p> Description: </p></u>
+                <p class=' text-dark' th:text="${sighting.hero.description}" ></p>
             </div>
             <hr />
         </div>

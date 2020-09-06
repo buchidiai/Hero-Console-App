@@ -14,19 +14,12 @@
                     <hr />
                 </div>
             </div>
-            <div>
-                <h3 class='text-center text-dark'>Sighting News Feed</h3>
+            <div class="col-12" th:insert="common :: headerAndCount(title='Sighting News Feed', count=${sightings})" >
             </div>
-
             <div class='col border border-secondary'>
-
                 <div id='object' th:each="sighting : ${sightings}">
-
-                    <div id='dateDiv' th:insert="common :: newsFeedtemplate(superHeroName=${sighting.hero.name}, superHeroDescription=${sighting.hero.description}, time=${sighting.timeAgo}, locationDescription=${sighting.location.description}, location=${sighting.location.name + ', ' + sighting.location.address})" >
-
+                    <div id='dateDiv' th:insert="common :: newsFeedtemplate( sighting=${sighting})" >
                     </div>
-
-
                 </div>
             </div>
             <!-- End main body -->
