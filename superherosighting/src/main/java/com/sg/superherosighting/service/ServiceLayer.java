@@ -85,6 +85,8 @@ public interface ServiceLayer {
 
     void insertOrganizationHero(Organization organization);
 
+    Organization getOrganizationDetails(int id);
+
     List<Organization> getAllOrganizations();
 
     Organization addOrganization(Organization organization);

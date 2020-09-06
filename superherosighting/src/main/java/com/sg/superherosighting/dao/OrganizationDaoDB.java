@@ -6,10 +6,13 @@
 package com.sg.superherosighting.dao;
 
 import com.sg.superherosighting.entities.Hero;
+import com.sg.superherosighting.entities.HeroOrganization;
 import com.sg.superherosighting.entities.Organization;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -92,6 +95,41 @@ public class OrganizationDaoDB implements OrganizationDao {
         jdbc.update(DELETE_ORGANIZATION, id);
     }
 
+    @Override
+    @Transactional
+    public Organization getOrganizationDetails(int id) {
+
+        System.out.println("id " + id);
+
+        final String SELECT_LOCATION = "SELECT * FROM  organization  WHERE id = ?";
+
+        Organization organization = jdbc.queryForObject(SELECT_LOCATION, new OrganizationMapper(), id);
+
+        System.out.println("organization " + organization.toString());
+
+        getOrganizationHeros(organization);
+        return organization;
+    }
+
+    private void getOrganizationHeros(Organization organization) {
+
+        final String SELECT_LOCATION_DATE = "SELECT * FROM  hero_has_organization WHERE organization_id = ?";
+
+        List<HeroOrganization> organizationHeros = jdbc.query(SELECT_LOCATION_DATE, new OrganizationHeroMapper(), organization.getId());
+
+        final String SELECT_HERO_BY_ID = "SELECT h.id, h.name, h.description, s.name FROM  hero h JOIN superPower s On h.superPower_id = s.id WHERE h.id = ? ORDER BY h.name ASC";
+
+        List<Hero> heros = new ArrayList<>();
+        for (HeroOrganization organizationHero : organizationHeros) {
+
+            Hero foundHero = jdbc.queryForObject(SELECT_HERO_BY_ID, new HeroDaoDB.HeroMapper(), organizationHero.getHeroId());
+            heros.add(foundHero);
+        }
+
+        organization.setHeros(heros);
+
+    }
+
     public static final class OrganizationMapper implements RowMapper<Organization> {
 
         @Override
@@ -102,6 +140,18 @@ public class OrganizationDaoDB implements OrganizationDao {
             organization.setDescription(rs.getString("description"));
             organization.setAddress(rs.getString("address"));
             return organization;
+        }
+    }
+
+    public static final class OrganizationHeroMapper implements RowMapper<HeroOrganization> {
+
+        @Override
+        public HeroOrganization mapRow(ResultSet rs, int index) throws SQLException {
+            HeroOrganization organizationHero = new HeroOrganization();
+            organizationHero.setHeroId(rs.getInt("hero_id"));
+            organizationHero.setOrganizationId(rs.getInt("organization_id"));
+
+            return organizationHero;
         }
     }
 

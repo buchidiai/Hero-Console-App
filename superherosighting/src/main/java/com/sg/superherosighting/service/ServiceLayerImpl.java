@@ -318,4 +318,9 @@ public class ServiceLayerImpl implements ServiceLayer {
         locationDao.updateLocationHero(hero, location, originalId);
     }
 
+    @Override
+    public Organization getOrganizationDetails(int id) {
+        return organizationDao.getOrganizationDetails(id);
+    }
+
 }

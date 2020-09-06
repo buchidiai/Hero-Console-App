@@ -30,29 +30,24 @@ public class OrganizationController {
     private ServiceLayer service;
 
     @GetMapping("organization")
-    public String getorganizationPage(Model model) {
+    public String getOrganizationPage(Model model) {
 
-//        List<Organization> organizations = service.getAllOrganizations();
         List<Hero> heros = service.getAllHeros();
 
-//        model.addAttribute("organizations", organizations);
         model.addAttribute("heros", heros);
         model.addAttribute("errors", service.getOrganizationViolations());
 
         return "/organization/organization";
     }
 
-    @GetMapping("organizations")
+    @GetMapping("allOrganizations")
     public String getAllOrganizations(Model model) {
 
         List<Organization> organizations = service.getAllOrganizations();
-        List<Hero> heros = service.getAllHeros();
 
         model.addAttribute("organizations", organizations);
-        model.addAttribute("heros", heros);
-        model.addAttribute("errors", service.getOrganizationViolations());
 
-        return "/organization/organization";
+        return "/organization/listOrganizations";
     }
 
     @PostMapping("addOrganization")
@@ -99,7 +94,7 @@ public class OrganizationController {
 
         }
 
-        return "redirect:/organization/organization";
+        return "redirect:allOrganizations";
     }
 
     @GetMapping("editOrganization")
@@ -136,4 +131,13 @@ public class OrganizationController {
         return "redirect:/organization/organization";
     }
 
+    @GetMapping("organizationDetails")
+    public String organizationDetails(Integer organizationId, Model model) {
+
+        Organization organization = service.getOrganizationDetails(organizationId);
+
+        model.addAttribute("organizationDetails", organization);
+
+        return "/organization/organizationDetails";
+    }
 }

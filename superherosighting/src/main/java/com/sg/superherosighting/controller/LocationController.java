@@ -58,15 +58,12 @@ public class LocationController {
     @PostMapping("addLocation")
     public String addLocation(HttpServletRequest request, @Valid Location location, BindingResult valResult) {
 
-        System.out.println("location location top " + location.toString());
-
         String date = request.getParameter("date");
 
         //heros ids
         String[] herosIds = request.getParameterValues("herosId");
 
         System.out.println("herosIds " + Arrays.toString(herosIds));
-
         List<Hero> heros = new ArrayList<>();
 
         if (herosIds != null) {
@@ -75,19 +72,12 @@ public class LocationController {
             }
         }
 
-        System.out.println("location object " + location.toString());
-
-        System.out.println("date  value : " + date);
-
         //parse date
         if (!(date.isEmpty())) {
             LocalDateTime locationDate = LocalDateTime.parse(date);
 
-            System.out.println("sightingDate " + locationDate);
-
             location.setLocalDate(locationDate);
 
-            System.out.println("sighting --" + locationDate.toString());
         }
 
         //check if empty then add

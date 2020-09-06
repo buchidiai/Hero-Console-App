@@ -1,1 +1,87 @@
 
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <div th:insert="common :: htmlHead"></div>
+    <body>
+        <div th:insert="common :: navBar"></div>
+        <!-- Main Body of Page -->
+        <div class='container'>
+            <!-- Header -->
+            <div th:insert="common :: pageHeader(title='Organizations')"></div>
+            <!-- Sub Header -->
+            <div th:insert="common :: sectionHeader(title='Organizations Details')" >
+            </div>
+            <!-- table Hero start-->
+            <div class=" row p-2">
+                <div class="col text-center  d-flex justify-content-center">
+                    <div class="row d-flex justify-content-center ">
+                        <div class="col-8 d-flex flex-column border justify-content-start p-2 ">
+
+                            <h6 class='pt-1' th:text="${ 'id : ' + organizationDetails.id}"></h6>
+                            <h6  th:text="${'name : ' + organizationDetails.name}"></h6>
+                            <h6  th:text="${'description : ' + organizationDetails.description}"></h6>
+                            <h6  th:text="${'address : ' + organizationDetails.address}"></h6>
+                        </div>
+                        <div class=' d-flex flex-column pl-2 justify-content-between'>
+                            <a th:href="@{/editOrganization(organizationId=${organizationDetails.id})}" class="fas fa-edit text-primary p-2">
+                            </a>
+                            <a th:href="@{/deleteOrganizationConfirm(organizationId=${organizationDetails.id})}" class="fas fa-trash-alt text-danger p-2">
+                            </a>
+                        </div>
+                        <div class="col-12 text-center p-3">
+                            <a class=' text-primary ' th:href="@{/allOrganizations}" >Go Back</a>
+                        </div>
+                        <div class="col-12" th:insert="common :: headerAndCount(title='Heros in Organization', count=${organizationDetails.heros})" >
+                        </div>
+
+                        <div class="col-12 row p-2">
+                            <div class="col text-center  d-flex justify-content-center">
+                                <table class="table table-striped  border border-dark ">
+                                    <thead class='bg-dark'>
+                                        <tr>
+                                            <th class='text-light'>ID</th>
+                                            <th class='text-light'>Name</th>
+                                            <th class='text-light'>Description</th>
+                                            <th class='text-light'>Edit</th>
+                                            <th class='text-light'>Delete</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="hero : ${organizationDetails.heros}">
+                                            <td th:text="${hero.id}">id</td>
+                                            <td th:text="${hero.name}">name</td>
+                                            <td th:text="${hero.description}">description</td>
+                                            <td> 
+                                                <a th:href="@{/editOrganizationHero( organizationId=${organizationDetails.id}, heroId=${hero.id})}" class="fas fa-edit text-primary">
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a th:href="@{/deleteOrganizationHeroConfirm(organizationId=${organizationDetails.id}, heroId=${hero.id})}"  class="fas fa-trash-alt text-danger">
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Form end-->
+
+        </div>
+        <!-- Section Header-->
+
+
+    </div>
+    <!-- End main body -->
+    <div th:insert="common :: scripts"></div>
+    <!-- footer -->
+    <div th:insert="common :: footer" >
+
+    </div>
+</body>
+</html>

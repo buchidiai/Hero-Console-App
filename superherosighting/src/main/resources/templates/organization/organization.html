@@ -13,6 +13,9 @@
             <!-- Sub Header -->
 
             <div th:insert="common :: pageSubHeader(title='Add Organization')"></div>
+             <div class="col-12 text-center pb-2">
+                <a class=' text-primary ' th:href="@{/allOrganizations}" >View All Organizations</a>
+            </div>
             <!-- form start -->
             <div class='d-flex justify-content-center'>
 
@@ -41,18 +44,18 @@
                                 <input type="text" class="form-control" name="address" placeholder="Organization address">
                             </div>
                         </div>
-                           <div class="form-group row">
+                        <div class="form-group row">
                             <label for="heros" class="col-2 col-form-label">Heros (optional)</label>
                             <div class="col-10">
                                 <select multiple  id="herosId" name="herosId" class="form-control" >
                                     <option th:each="hero : ${heros}" 
                                             th:value="${hero.id}" 
                                             th:text="${hero.name}"
-                                           
+
                                             >
                                     </option>
                                 </select>
-                                   <div class=' row pl-4'>
+                                <div class=' row pl-4'>
                                     <span class='text-center pt-2 pr-2'>Can't find a hero ? </span>
                                     <a class='text-center pt-2 text-primary' th:href="@{/heros}"> Create Hero </a>
                                 </div>
@@ -69,51 +72,6 @@
                 </div>
             </div>
             <!-- Form end-->
-
-        </div>
-        <!-- Section Header-->
-        <div th:insert="common :: sectionHeader(title='All Organizations')" >
-
-        </div>
-
-        <!-- table Organization start-->
-        <div class="row p-2">
-
-            <div class="col text-center  d-flex justify-content-center">
-                <table class="table table-striped w-75 border border-dark ">
-                    <thead class='bg-dark'>
-                        <tr>
-                            <th class='text-light'>ID</th>
-                            <th class='text-light'>Name</th>
-                            <th class='text-light'>Description</th>
-                            <th class='text-light'>address</th>
-                            <th class='text-light'>Edit</th>
-                            <th class='text-light'>Delete</th>
-                            <th class='text-light'>Details</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="organization : ${organizations}">
-                            <td th:text="${organization.id}">id</td>
-                            <td th:text="${organization.name}">name</td>
-                            <td th:text="${organization.description}">description</td>
-                            <td th:text="${organization.address}">address</td>
-                            <td> 
-                                <a th:href="@{/editOrganization(id=${organization.id})}" class="fas fa-edit text-primary">
-                                </a>
-                            </td>
-                            <td>
-                                <a th:href="@{/deleteOrganizationConfirm(id=${organization.id})}"  class="fas fa-trash-alt text-danger">
-                                </a>
-                            </td>
-                            <td>
-                                <a th:href="@{/organizationDetail(id=${organization.id})}"  class="fas fa-info-circle text-secondary">
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
         </div>
     </div>
     <!-- End main body -->

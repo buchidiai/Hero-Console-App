@@ -18,6 +18,8 @@ public interface OrganizationDao {
 
     void insertOrganizationHero(Organization organization);
 
+    Organization getOrganizationDetails(int id);
+
     List<Organization> getAllOrganizations();
 
     Organization addOrganization(Organization organization);
