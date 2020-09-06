@@ -10,6 +10,7 @@ import com.sg.superherosighting.entities.Location;
 import com.sg.superherosighting.entities.Sighting;
 import com.sg.superherosighting.service.ServiceLayer;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -45,13 +46,31 @@ public class SightingsController {
         return "/sighting/sighting";
     }
 
+    @GetMapping("allSightings")
+    public String getAllSightings(Model model) {
+
+        List<Sighting> sightings = service.getAllSightings();
+
+        model.addAttribute("sightings", sightings);
+        return "sighting/listSightings";
+    }
+
     @PostMapping("addSighting")
     public String addSighting(Sighting sighting, HttpServletRequest request) {
 
+        System.out.println("sighting --- " + sighting.toString());
+
         //get values
-        String heroId = request.getParameter("heroId");
+        String[] heroIds = request.getParameterValues("heroId");
         String locationId = request.getParameter("locationId");
         String date = request.getParameter("date");
+
+        List<Hero> heros = new ArrayList<>();
+        if (heroIds != null) {
+            for (String heroId : heroIds) {
+                heros.add(service.getHeroById(Integer.parseInt(heroId)));
+            }
+        }
 
         //parse date
         if (!(date == null)) {
@@ -65,9 +84,13 @@ public class SightingsController {
 
             return "redirect:/sighting";
         }
+
         //set them
-        sighting.setHero(service.getHeroById((Integer.parseInt(heroId))));
+        sighting.setHeros(heros);
+
         sighting.setLocation(service.getLocationById((Integer.parseInt(locationId))));
+
+        System.out.println("sighting be4 add");
 
         //check if empty then add
         if (service.validateSighting(sighting).isEmpty()) {
@@ -75,7 +98,7 @@ public class SightingsController {
             service.addSighting(sighting);
         }
 
-        return "redirect:/sighting/sighting";
+        return "redirect:allSightings";
     }
 
     @GetMapping("editSighting")

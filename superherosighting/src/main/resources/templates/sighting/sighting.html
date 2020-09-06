@@ -13,18 +13,21 @@
             <!-- Sub Header -->
 
             <div th:insert="common :: pageSubHeader(title='Add Sighting')"></div>
+            
+             <div class="col-12 text-center pb-2">
+                <a class=' text-primary ' th:href="@{/allSightings}" >View All Sightings</a>
+            </div>
             <!-- form start -->
             <div class='d-flex justify-content-center'>
 
                 <div class='border border-secondary col-7 '>
-                                        <div class="col-12 m-1 text-center" 
-                                             th:if="${!errors.isEmpty()}">
-                                            <p class="alert alert-danger" th:each="error : ${errors}" 
-                                               th:text="${error.message}">Error message</p>
-                                        </div>
+                    <div class="col-12 m-1 text-center" 
+                         th:if="${!errors.isEmpty()}">
+                        <p class="alert alert-danger" th:each="error : ${errors}" 
+                           th:text="${error.message}">Error message</p>
+                    </div>
                     <form class='p-5'  action="addSighting" method="POST">
                         <!--create hero start-->
-
                         <div class="form-group row">
                             <label for="heros" class="col-3 col-form-label">Heros</label>
                             <div class="col-9">
@@ -32,7 +35,6 @@
                                     <option th:each="hero : ${heros}" 
                                             th:value="${hero.id}" 
                                             th:text="${hero.name}"
-                                           
                                             >
                                     </option>
                                 </select>
@@ -42,7 +44,7 @@
                             <label for="locations" class="col-3 col-form-label">
                                 Locations</label>
                             <div class="col-9">
-                                <select  multiple id="locationId" name="locationId" class="form-control" >
+                                <select   id="locationId" name="locationId" class="form-control" >
                                     <option th:each="location : ${locations}" 
                                             th:value="${location.id}" 
                                             th:text="${location.name}"
@@ -77,56 +79,6 @@
                 </div>
             </div>
             <!-- Form end-->
-        </div>
-        <!-- Section Header-->
-        <div th:insert="common :: sectionHeader(title='All Sightings')" >
-
-        </div>
-        <!-- table Hero start-->
-        <div class="row p-2">
-
-            <div class="col text-center  d-flex justify-content-center">
-                <table class="table table-striped w-75 border border-dark ">
-                    <thead class='bg-dark'>
-                        <tr>
-                            <th class='text-light'>heroId</th>
-                            <th class='text-light'>HeroName</th>
-                            <th class='text-light'>Description</th>
-                            <th class='text-light'>Location</th>
-                            <th class='text-light'>Address</th>
-                            <th class='text-light'>Lat/Long</th>
-                            <th class='text-light'>Date</th>
-                            <th class='text-light'>Edit</th>
-                            <th class='text-light'>Delete</th>
-                            <th class='text-light'>Details</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="sighting : ${sightings}">
-                            <td th:text="${sighting.hero.id}">ID</td>
-                            <td th:text="${sighting.hero.name}">none</td>
-                            <td th:text="${sighting.location.description}">none</td>
-                            <td th:text="${sighting.location.name}">none</td>
-                            <td th:text="${sighting.location.address}">none</td>
-                            <td th:text="${sighting.location.latitude + ' / ' + sighting.location.longitude}">none</td>
-                            <td th:text="${sighting.localDate}">none</td>
-
-                            <td> 
-                                <a th:href="@{/editSighting(locationId=${sighting.locationId},heroId=${sighting.heroId})}" class="fas fa-edit text-primary">
-                                </a>
-                            </td>
-                            <td>
-                                <a th:href="@{/deleteSightingConfirm(locationId=${sighting.locationId},heroId=${sighting.heroId})}"  class="fas fa-trash-alt text-danger">
-                                </a>
-                            </td>
-                            <td>
-                                <a th:href="@{/sightingDetail(locationId=${sighting.locationId},heroId=${sighting.heroId})}"  class="fas fa-info-circle text-secondary">
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
         </div>
     </div>
 </div>

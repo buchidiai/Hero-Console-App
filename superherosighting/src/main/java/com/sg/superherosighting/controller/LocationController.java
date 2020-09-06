@@ -64,6 +64,7 @@ public class LocationController {
 
         if (herosIds != null) {
             for (String heroId : herosIds) {
+
                 heros.add(service.getHeroById(Integer.parseInt(heroId)));
             }
         }

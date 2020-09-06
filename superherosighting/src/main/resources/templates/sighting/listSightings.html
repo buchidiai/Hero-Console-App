@@ -1,0 +1,72 @@
+
+
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <div th:insert="common :: htmlHead"></div>
+    <body>
+        <div th:insert="common :: navBar"></div>
+        <!-- Main Body of Page -->
+        <div class='container-fluid'>
+            <!-- Header -->
+            <div th:insert="common :: pageHeader(title='Sightings')"></div>
+            <!-- Sub Header -->
+            <div class="col-12" th:insert="common :: headerAndCount(title='All Sightings', count=${sightings})" >
+            </div>
+            <div class="col-12 text-center p-3">
+                <a class=' text-primary ' th:href="@{/sighting}" >Go Back</a>
+            </div>
+
+            <!-- table Hero start-->
+            <div class="row p-2 d-flex justify-content-center">
+                <div class=" text-center">
+                    <table class="table table-striped border border-dark ">
+                        <thead class='bg-dark'>
+                            <tr>
+                                <th class='text-light'>heroId</th>
+                                <th class='text-light'>HeroName</th>
+                                <th class='text-light'>Description</th>
+                                <th class='text-light'>Location</th>
+                                <th class='text-light'>Address</th>
+                                <th class='text-light'>Lat/Long</th>
+                                <th class='text-light'>Date</th>
+                                <th class='text-light'>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="sighting : ${sightings}">
+                                <td th:text="${sighting.hero.id}">ID</td>
+                                <td th:text="${sighting.hero.name}">none</td>
+                                <td th:text="${sighting.location.description}">none</td>
+                                <td th:text="${sighting.location.name}">none</td>
+                                <td th:text="${sighting.location.address}">none</td>
+                                <td th:text="${sighting.location.latitude + ' / ' + sighting.location.longitude}">none</td>
+                                <td th:text="${sighting.localDate}">none</td>
+
+                                <!--                                <td> 
+                                                                    <a th:href="@{/editSighting(locationId=${sighting.locationId},heroId=${sighting.heroId})}" class="fas fa-edit text-primary">
+                                                                    </a>
+                                                                </td>
+                                                                <td>
+                                                                    <a th:href="@{/deleteSightingConfirm(locationId=${sighting.locationId},heroId=${sighting.heroId})}"  class="fas fa-trash-alt text-danger">
+                                                                    </a>
+                                                                </td>-->
+                                <td>
+                                    <a th:href="@{/sightingDetail(locationId=${sighting.locationId},heroId=${sighting.heroId})}"  class="fas fa-info-circle text-secondary">
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Form end-->
+        </div>
+    </div>
+    <!-- End main body -->
+    <div th:insert="common :: scripts"></div>
+    <!-- footer -->
+    <div th:insert="common :: footer" >
+
+    </div>
+</body>
+</html>

@@ -6,6 +6,8 @@
 package com.sg.superherosighting.entities;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -16,6 +18,7 @@ import javax.validation.constraints.Past;
  */
 public class Sighting {
 
+    private int id;
     @NotNull
     @Min(value = 1, message = "Please select a Hero")
     private int heroId;
@@ -29,8 +32,19 @@ public class Sighting {
 
     private String timeAgo;
 
+    private List<Hero> heros;
+
     private Hero hero;
+
     private Location location;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public LocalDateTime getLocalDate() {
         return localDate;
@@ -64,14 +78,6 @@ public class Sighting {
         this.locationId = locationId;
     }
 
-    public Hero getHero() {
-        return hero;
-    }
-
-    public void setHero(Hero hero) {
-        this.hero = hero;
-    }
-
     public Location getLocation() {
         return location;
     }
@@ -80,9 +86,78 @@ public class Sighting {
         this.location = location;
     }
 
+    public List<Hero> getHeros() {
+        return heros;
+    }
+
+    public void setHeros(List<Hero> heros) {
+        this.heros = heros;
+    }
+
+    public Hero getHero() {
+        return hero;
+    }
+
+    public void setHero(Hero hero) {
+        this.hero = hero;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + this.id;
+        hash = 89 * hash + this.heroId;
+        hash = 89 * hash + this.locationId;
+        hash = 89 * hash + Objects.hashCode(this.localDate);
+        hash = 89 * hash + Objects.hashCode(this.timeAgo);
+        hash = 89 * hash + Objects.hashCode(this.heros);
+        hash = 89 * hash + Objects.hashCode(this.hero);
+        hash = 89 * hash + Objects.hashCode(this.location);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Sighting other = (Sighting) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        if (this.heroId != other.heroId) {
+            return false;
+        }
+        if (this.locationId != other.locationId) {
+            return false;
+        }
+        if (!Objects.equals(this.timeAgo, other.timeAgo)) {
+            return false;
+        }
+        if (!Objects.equals(this.localDate, other.localDate)) {
+            return false;
+        }
+        if (!Objects.equals(this.heros, other.heros)) {
+            return false;
+        }
+        if (!Objects.equals(this.hero, other.hero)) {
+            return false;
+        }
+        if (!Objects.equals(this.location, other.location)) {
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public String toString() {
-        return "Sighting{" + "heroId=" + heroId + ", locationId=" + locationId + ", localDate=" + localDate + ", hero=" + hero + ", location=" + location + '}';
+        return "Sighting{" + "id=" + id + ", heroId=" + heroId + ", locationId=" + locationId + ", localDate=" + localDate + ", timeAgo=" + timeAgo + ", heros=" + heros + ", hero=" + hero + ", location=" + location + '}';
     }
 
 }

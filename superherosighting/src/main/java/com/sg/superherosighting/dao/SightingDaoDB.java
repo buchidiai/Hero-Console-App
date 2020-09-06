@@ -89,12 +89,15 @@ public class SightingDaoDB implements SightingDao {
     @Override
     public Sighting addSighting(Sighting sighting) {
 
-        final String INSERT_INTO_SIGHTING = "INSERT INTO sighting(location_id, hero_id, date) VALUES(?,?,?)";
+        System.out.println(" add sighting " + sighting.toString());
 
-        jdbc.update(INSERT_INTO_SIGHTING,
-                sighting.getLocation().getId(),
-                sighting.getHero().getId(),
-                sighting.getLocalDate());
+        final String INSERT_INTO_SIGHTING = "INSERT INTO sighting (location_id, hero_id, date) VALUES(?,?,?)";
+
+        for (Hero hero : sighting.getHeros()) {
+
+            jdbc.update(INSERT_INTO_SIGHTING, sighting.getLocation().getId(), hero.getId(), sighting.getLocalDate());
+
+        }
 
         return sighting;
 
