@@ -5,6 +5,7 @@
  */
 package com.sg.superherosighting.dao;
 
+import com.sg.superherosighting.entities.Hero;
 import com.sg.superherosighting.entities.Organization;
 import java.util.List;
 
@@ -17,6 +18,8 @@ public interface OrganizationDao {
     Organization getOrganizationById(int id);
 
     void insertOrganizationHero(Organization organization);
+
+    void updateOrganizationHero(Hero hero, Organization organization, int originalId);
 
     Organization getOrganizationDetails(int id);
 

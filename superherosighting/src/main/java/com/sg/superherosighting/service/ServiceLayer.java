@@ -87,6 +87,8 @@ public interface ServiceLayer {
 
     Organization getOrganizationDetails(int id);
 
+    void updateOrganizationHero(Hero hero, Organization organization, int originalId);
+
     List<Organization> getAllOrganizations();
 
     Organization addOrganization(Organization organization);

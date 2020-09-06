@@ -10,7 +10,6 @@ import com.sg.superherosighting.entities.Location;
 import com.sg.superherosighting.service.ServiceLayer;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -37,8 +36,6 @@ public class LocationController {
 
         List<Hero> heros = service.getAllHeros();
 
-        System.out.println("service.getLocationViolations() " + service.getLocationViolations());
-
         model.addAttribute("heros", heros);
         model.addAttribute("errors", service.getLocationViolations());
 
@@ -63,7 +60,6 @@ public class LocationController {
         //heros ids
         String[] herosIds = request.getParameterValues("herosId");
 
-        System.out.println("herosIds " + Arrays.toString(herosIds));
         List<Hero> heros = new ArrayList<>();
 
         if (herosIds != null) {

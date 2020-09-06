@@ -220,23 +220,14 @@ public class HeroController {
     @GetMapping("editHeroLocation")
     public String editHeroLocation(Integer locationId, Integer heroId, Model model) {
 
-        System.out.println("here to get alll");
-
         List<Location> heroLocations = service.getHeroDetails(heroId).getLocations();
-
-        System.out.println("heroLocations size " + heroLocations.size());
 
         List<Location> allLocations = service.getAllLocations();
 
-        System.out.println("allLocations be4 remoce " + allLocations.toString());
+        heroLocations.stream().filter(l -> (allLocations.contains(l))).filter(l -> (l.getId() != locationId)).forEachOrdered(l -> {
+            allLocations.remove(l);
+        });
 
-        System.out.println("allLocations size " + allLocations.size());
-
-//        heroLocations.stream().filter(l -> (allLocations.contains(l))).filter(l -> (l.getId() != locationId)).forEachOrdered(l -> {
-//            allLocations.remove(l);
-//        });
-        System.out.println("allLocations after remoce " + allLocations.toString());
-        System.out.println("allLocations size after remove" + allLocations.size());
         Hero hero = service.getHeroById(heroId);
 
         model.addAttribute("locations", allLocations);

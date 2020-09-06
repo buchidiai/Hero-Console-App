@@ -88,8 +88,8 @@ public class OrganizationDaoDB implements OrganizationDao {
 
     @Override
     public void deleteOrganizationById(int id) {
-//        final String DELETE_ORGANIZATION_HERO = "DELETE FROM hero_has_organization WHERE organization_id = ?";
-//        jdbc.update(DELETE_ORGANIZATION_HERO, id);
+        final String DELETE_ORGANIZATION_HERO = "DELETE FROM hero_has_organization WHERE organization_id = ?";
+        jdbc.update(DELETE_ORGANIZATION_HERO, id);
 
         final String DELETE_ORGANIZATION = "DELETE FROM organization WHERE id = ?";
         jdbc.update(DELETE_ORGANIZATION, id);
@@ -99,13 +99,9 @@ public class OrganizationDaoDB implements OrganizationDao {
     @Transactional
     public Organization getOrganizationDetails(int id) {
 
-        System.out.println("id " + id);
-
         final String SELECT_LOCATION = "SELECT * FROM  organization  WHERE id = ?";
 
         Organization organization = jdbc.queryForObject(SELECT_LOCATION, new OrganizationMapper(), id);
-
-        System.out.println("organization " + organization.toString());
 
         getOrganizationHeros(organization);
         return organization;
@@ -128,6 +124,14 @@ public class OrganizationDaoDB implements OrganizationDao {
 
         organization.setHeros(heros);
 
+    }
+
+    @Override
+    public void updateOrganizationHero(Hero hero, Organization organization, int originalId) {
+
+        final String UPDATE_ORGANIZATION_HERO = "UPDATE hero_has_organization SET hero_id = ?,  organization_id = ?   WHERE hero_id = ?  AND  organization_id = ?";
+
+        jdbc.update(UPDATE_ORGANIZATION_HERO, hero.getId(), organization.getId(), originalId, organization.getId());
     }
 
     public static final class OrganizationMapper implements RowMapper<Organization> {

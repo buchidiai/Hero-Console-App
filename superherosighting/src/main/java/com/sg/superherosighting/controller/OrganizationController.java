@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -98,37 +99,42 @@ public class OrganizationController {
     }
 
     @GetMapping("editOrganization")
-    public String editOrganization(Integer id, Model model) {
-        Organization organization = service.getOrganizationById(id);
+    public String editOrganization(Integer organizationId, Model model) {
+
+        Organization organization = service.getOrganizationById(organizationId);
+
         model.addAttribute("organization", organization);
         return "/organization/editOrganization";
     }
 
     @PostMapping("editOrganization")
-    public String performEditOrganization(@Valid Organization organization, BindingResult result) {
+    public String performEditOrganization(@Valid Organization organization, BindingResult result, RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors()) {
             return "/organization/editOrganization";
         }
 
         service.updateOrganization(organization);
-        return "redirect:/organization/organization";
+
+        redirectAttributes.addAttribute("organizationId", organization.getId());
+
+        return "redirect:organizationDetails";
     }
 
     @GetMapping("deleteOrganizationConfirm")
-    public String deleteOrganizationConfirm(Integer id, Model model) {
+    public String deleteOrganizationConfirm(Integer organizationId, Model model) {
 
-        model.addAttribute("organizationId", id);
+        model.addAttribute("organizationId", organizationId);
 
         return "/organization/deleteOrganizationConfirm";
     }
 
     @GetMapping("deleteOrganization")
-    public String deleteOrganization(Integer id) {
+    public String deleteOrganization(Integer organizationId) {
 
-        service.deleteOrganizationById(id);
+        service.deleteOrganizationById(organizationId);
 
-        return "redirect:/organization/organization";
+        return "redirect:allOrganizations";
     }
 
     @GetMapping("organizationDetails")
@@ -139,5 +145,61 @@ public class OrganizationController {
         model.addAttribute("organizationDetails", organization);
 
         return "/organization/organizationDetails";
+    }
+
+    @GetMapping("editOrganizationHero")
+    public String editOrganizationHero(Integer organizationId, Integer heroId, Model model) {
+
+        List<Hero> organizationHeros = service.getOrganizationDetails(organizationId).getHeros();
+
+        List<Hero> allHeros = service.getAllHeros();
+
+        organizationHeros.stream().filter(h -> (allHeros.contains(h))).filter(h -> (h.getId() != heroId)).forEachOrdered(h -> {
+            allHeros.remove(h);
+        });
+
+        model.addAttribute("heros", allHeros);
+        model.addAttribute("organizationId", organizationId);
+        model.addAttribute("heroId", heroId);
+
+        return "/organization/editOrganizationHero";
+    }
+
+    @PostMapping("editOrganizationHero")
+    public String performEditOrganizationHero(Model model, Integer newHeroId, Integer heroId, Integer organizationId,
+            RedirectAttributes redirectAttributes) {
+
+        Organization organization = service.getOrganizationById(organizationId);
+
+        Hero hero = service.getHeroById(newHeroId);
+
+        service.updateOrganizationHero(hero, organization, heroId);
+
+        redirectAttributes.addAttribute("organizationId", organization.getId());
+
+        return "redirect:organizationDetails";
+    }
+
+    @GetMapping("deleteOrganizationHeroConfirm")
+    public String deleteOrganizationHeroConfirm(Integer heroId, Integer organizationId, Model model) {
+
+        model.addAttribute("heroId", heroId);
+        model.addAttribute("organizationId", organizationId);
+
+        return "/organization/deleteOrganizationHeroConfirm";
+    }
+
+    @GetMapping("deleteOrganizationHero")
+    public String deleteOrganizationHero(Integer heroId, Integer organizationId, RedirectAttributes redirectAttributes) {
+
+        Hero hero = service.getHeroById(heroId);
+
+        Organization organization = service.getOrganizationById(organizationId);
+
+        service.deleteHeroOrganization(hero, organization);
+
+        redirectAttributes.addAttribute("organizationId", organization.getId());
+
+        return "redirect:organizationDetails";
     }
 }
