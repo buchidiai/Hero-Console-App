@@ -21,7 +21,6 @@
                         <thead class='bg-dark'>
                             <tr>
                                 <th class='text-light'>ID</th>
-                                <th class='text-light'>Photo</th>
                                 <th class='text-light'>Name</th>
                                 <th class='text-light'>Description</th>
                                 <th class='text-light'>Power</th>
@@ -31,14 +30,13 @@
                         <tbody>
                             <tr th:each="hero : ${heros}">
                                 <td th:text="${hero.id}">ID</td>
-                                <td >none</td>
                                 <td th:text="${hero.name}">none</td>
                                 <td th:text="${hero.description}">none</td>
-                                 <div th:if="${hero.superPower == null}">
+                                 <div th:if="${hero.superPower == null  }">
                                         <td >none</td>
                                     </div>
                                     <div th:if="${hero.superPower != null}">
-                                        <td th:text="${hero.superPower}">none</td>
+                                        <td th:text="${hero.superPower}"></td>
                                     </div>
                                
                                 <td>

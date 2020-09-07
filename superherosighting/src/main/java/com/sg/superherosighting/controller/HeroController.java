@@ -111,9 +111,18 @@ public class HeroController {
     public String editHero(Integer id, Model model) {
 
         Hero hero = service.getHeroById(id);
+        List<Organization> organizations = service.getAllOrganizations();
+        List<Location> locations = service.getAllLocations();
 
+        System.out.println("hero sdbkjs" + hero.toString());
+
+        model.addAttribute("locations", locations);
+        model.addAttribute("organizations", organizations);
         model.addAttribute("hero", hero);
-        model.addAttribute("superPower", hero.getSuperPower());
+        System.out.println(" null pointer ? " + hero.getSuperPower());
+        if (hero.getSuperPower() != null) {
+            model.addAttribute("superPower", hero.getSuperPower());
+        }
 
         return "/hero/editHero";
     }
@@ -124,6 +133,8 @@ public class HeroController {
 
         //super power
         String super_Power = request.getParameter("superPower");
+
+        System.out.println("super_Power " + super_Power);
 
         if (super_Power.isEmpty()) {
             super_Power = "none";

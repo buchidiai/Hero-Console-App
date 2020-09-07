@@ -13,7 +13,7 @@
     <!-- navBar-->
     <nav th:fragment="navBar">
         <div>
-            <nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
+            <nav class="navbar navbar-expand-lg  navbar-dark bg-secondary">
                 <!--  icon-->
                 <a th:href="@{/}" class="navbar-brand">
 
@@ -104,29 +104,35 @@
 
     <!-- newsFeed-->
     <div th:fragment="newsFeedtemplate">
-        <div class='pt-3'>
 
-            <div class='row p-1 pl-4 d-flex flex-row align-items-center justify-content-start' >
-                <img class="img-fluid  rounded-circle " style="width:7%" src="https://via.placeholder.com/150" alt="hero">
 
-                <div class='row '>
-                    
-                    <h6 class='text-center text-dark pl-4 ' th:text="${sighting.hero.name + ' was sighted '}"> </h6>
-               
-                    <p  class='text-center text-secondary pl-4 font-italic h6' th:text="${sighting.timeAgo}"></p> 
-                    <div class='col-12 pl-4 '>
-                        <h6  class=' text-dark d-flex align-self-end font-weight-light ' th:text="${'Location:  '  + sighting.location.name + ', ' + sighting.location.address}"></h6>
+
+        <div th:if="${sighting.hero != null}">
+            <div class='pt-3 bg-light'>
+
+                <div class='row p-1 pl-4 d-flex flex-row align-items-center justify-content-start' >
+                    <img class="img-fluid  rounded-circle " style="width:7%" src="https://via.placeholder.com/150" alt="hero">
+
+                    <div class='row'>
+
+                        <h6 class='text-center text-dark pl-4 ' th:text="${sighting.hero.name + ' was sighted '}"> </h6>
+
+                        <p  class='text-center text-secondary pl-4 font-italic h6' th:text="${sighting.timeAgo}"></p> 
+                        <div class='col-12 pl-4 '>
+                            <h6  class=' text-dark d-flex align-self-end font-weight-light ' th:text="${'Location:  '  + sighting.location.name + ', ' + sighting.location.address}"></h6>
+                        </div>
                     </div>
                 </div>
+                <div class='col pt-2'>
+                    <u><p th:text="${'About ' + sighting.hero.name + ':' }"> </p></u>
+                    <p th:text="${sighting.location.description}">  </p>
+                    <u><p> Description: </p></u>
+                    <p class=' text-dark' th:text="${sighting.hero.description}" ></p>
+                </div>
+                <hr />
             </div>
-            <div class='col pt-2'>
-                <u><p th:text="${'About ' + sighting.hero.name + ':' }"> </p></u>
-                <p th:text="${sighting.location.description}">  </p>
-                <u><p> Description: </p></u>
-                <p class=' text-dark' th:text="${sighting.hero.description}" ></p>
-            </div>
-            <hr />
         </div>
+
     </div>
 
 

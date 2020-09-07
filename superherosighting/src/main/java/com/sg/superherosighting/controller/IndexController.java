@@ -35,10 +35,11 @@ public class IndexController {
             sighting.setTimeAgo(tago.format(sighting.getLocalDate()));
         });
 
-        System.out.println("sightings ---  " + sightings.toString());
-
         model.addAttribute("sightings", sightings);
 
+        sightings.forEach(sighting -> {
+            System.out.println(" sighting.getHero() " + sighting);
+        });
         return "index";
     }
 

@@ -23,7 +23,7 @@
                             <h6  th:text="${'description : ' + heroDetails.description}"></h6>
 
                             <div th:if="${heroDetails.superPower_id == -1}">
-                                <h6>super Power : null</h6>
+                                <h6>super Power : none</h6>
                             </div>
                             <div th:if="${heroDetails.superPower_id != -1}">
                                 <h6  th:text="${'super Power : ' + heroDetails.superPower_id}"></h6>

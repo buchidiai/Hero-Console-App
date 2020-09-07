@@ -36,7 +36,7 @@ public class HeroDaoDB implements HeroDao {
     @Override
     public Hero getHeroById(int id) {
         try {
-            final String SELECT_HERO_BY_ID = "SELECT h.id, h.name, h.description, s.name FROM  hero h JOIN superPower s On h.superPower_id = s.id WHERE h.id = ?";
+            final String SELECT_HERO_BY_ID = "SELECT h.id, h.name, h.description, s.name FROM  hero h LEFT JOIN superPower s On h.superPower_id = s.id WHERE h.id = ?";
             Hero hero = jdbc.queryForObject(SELECT_HERO_BY_ID, new HeroMapper(), id);
 
             return hero;
@@ -245,8 +245,9 @@ public class HeroDaoDB implements HeroDao {
             hero.setId(rs.getInt("id"));
             hero.setName(rs.getString("name"));
             hero.setDescription(rs.getString("description"));
-            hero.setSuperPower(rs.getString("s.name"));
+            hero.setSuperPower(rs.getString("s.name") == null ? "null" : rs.getString("s.name"));
 
+            System.out.println("HeroMapper " + hero.toString());
             return hero;
         }
     }
@@ -260,7 +261,7 @@ public class HeroDaoDB implements HeroDao {
             hero.setId(rs.getInt("id"));
             hero.setName(rs.getString("name"));
             hero.setDescription(rs.getString("description"));
-            hero.setSuperPower_id(Integer.valueOf(rs.getString("superPower_id")));
+            hero.setSuperPower_id(rs.getString("superPower_id") == null ? -1 : Integer.valueOf(rs.getString("superPower_id")));
 
             return hero;
         }

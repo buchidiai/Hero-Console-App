@@ -57,6 +57,7 @@ public class SuperPowerDaoDB implements SuperPowerDao {
 
     @Override
     public SuperPower addSuperPower(SuperPower superPower) {
+
         final String INSERT_SUPERPOWER = "INSERT INTO superPower(name)"
                 + "VALUES(?)";
 
@@ -84,12 +85,13 @@ public class SuperPowerDaoDB implements SuperPowerDao {
     public void deleteSuperPowerById(int id) {
 
         //create empty super power placeholder for hero who lost power
-        final String INSERT_SUPERPOWER = "INSERT INTO superPower(name) VALUES(?)";
-        jdbc.update(INSERT_SUPERPOWER, "none");
-        int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
-
-        final String DELETE_SUPER_POWER_HERO = "UPDATE hero SET superPower_id = ? WHERE superPower_id = ?";
-        jdbc.update(DELETE_SUPER_POWER_HERO, newId, id);
+//        final String INSERT_SUPERPOWER = "INSERT INTO superPower(name) VALUES(?)";
+//        jdbc.update(INSERT_SUPERPOWER, "none");
+//        int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
+//        final String DELETE_SUPER_POWER_HERO = "UPDATE hero SET superPower_id = ? WHERE superPower_id = ?";
+//        jdbc.update(DELETE_SUPER_POWER_HERO, newId, id);
+        final String UPDATE_SUPER_POWER_HERO = "UPDATE hero SET superPower_id = ? WHERE superPower_id = ?";
+        jdbc.update(UPDATE_SUPER_POWER_HERO, null, id);
 
         final String DELETE_SUPERPOWER = "DELETE FROM superPower WHERE id = ?";
         jdbc.update(DELETE_SUPERPOWER, id);

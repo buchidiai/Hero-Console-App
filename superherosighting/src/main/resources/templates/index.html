@@ -16,12 +16,23 @@
             </div>
             <div class="col-12" th:insert="common :: headerAndCount(title='Sighting News Feed', count=${sightings})" >
             </div>
-            <div class='col border border-secondary'>
-                <div id='object' th:each="sighting : ${sightings}">
-                    <div id='dateDiv' th:insert="common :: newsFeedtemplate( sighting=${sighting})" >
+
+            <div th:if="${sightings.empty}">
+                <div class='col text-center  p-3'>
+                    <h6>Currently no sightings</h6>
+                </div>
+            </div>
+            <div th:if="${!sightings.empty}">
+
+
+                <div class='col border border-secondary'>
+                    <div id='object' th:each="sighting : ${sightings}">
+                        <div id='dateDiv' th:insert="common :: newsFeedtemplate( sighting=${sighting})" >
+                        </div>
                     </div>
                 </div>
             </div>
+
             <!-- End main body -->
             <!-- scripts -->
             <div th:insert="common :: scripts"></div>

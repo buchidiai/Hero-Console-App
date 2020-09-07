@@ -67,7 +67,7 @@ public class SightingDaoDB implements SightingDao {
     @Override
     public List<Sighting> getAllSightings() {
 
-        final String SELECT_ALL_SIGHTINGS = "SELECT * FROM sighting ORDER by date ASC";
+        final String SELECT_ALL_SIGHTINGS = "SELECT * FROM sighting ORDER by date DESC";
 
         List<Sighting> sightings = jdbc.query(SELECT_ALL_SIGHTINGS, new SightingMapper());
 
@@ -79,7 +79,6 @@ public class SightingDaoDB implements SightingDao {
     private void getAndSetHerosAndLocation(List<Sighting> sightings) {
 
         for (Sighting sighting : sightings) {
-
             sighting.setHero(getHeroById(sighting.getHeroId()));
             sighting.setLocation(getLocationById(sighting.getLocationId()));
 

@@ -36,6 +36,8 @@ public class SuperPowerDaoDBTest {
     SuperPower superPower1 = null;
     SuperPower superPower2 = null;
 
+    Hero hero1 = null;
+
     public SuperPowerDaoDBTest() {
     }
 
@@ -44,15 +46,15 @@ public class SuperPowerDaoDBTest {
 
         List<Hero> heros = heroDao.getAllHeros();
 
-        for (Hero hero : heros) {
+        heros.forEach(hero -> {
             heroDao.deleteHeroById(hero.getId());
-        }
+        });
 
         List<SuperPower> superPowers = superPowerDao.getAllSuperPowers();
 
-        for (SuperPower superPower : superPowers) {
+        superPowers.forEach(superPower -> {
             superPowerDao.deleteSuperPowerById(superPower.getId());
-        }
+        });
 
         //add super power
         superPower1 = new SuperPower();
@@ -60,7 +62,12 @@ public class SuperPowerDaoDBTest {
 
         //add super power
         superPower2 = new SuperPower();
-        superPower2.setName("Super speed");
+        superPower2.setName("Xray");
+
+        //add hero
+        hero1 = new Hero();
+        hero1.setName("Super Man");
+        hero1.setDescription("born on the planet Krypton and was given the name Kal-El.");
 
     }
 
@@ -68,6 +75,20 @@ public class SuperPowerDaoDBTest {
     public void testAddSuperPower() {
         //add superPower
         superPower1 = superPowerDao.addSuperPower(superPower1);
+
+        //get superPower
+        SuperPower foundSuperPower = superPowerDao.getSuperPowerById(superPower1.getId());
+
+        assertEquals(superPower1, foundSuperPower);
+
+    }
+
+    @Test
+    public void testAddSuperPowerTohero() {
+        //add superPower
+        superPower1 = superPowerDao.addSuperPower(superPower1);
+
+        hero1.setSuperPower_id(superPower1.getId());
 
         //get superPower
         SuperPower foundSuperPower = superPowerDao.getSuperPowerById(superPower1.getId());
@@ -139,5 +160,4 @@ public class SuperPowerDaoDBTest {
         assertNull(deletedSuperPower);
 
     }
-
 }

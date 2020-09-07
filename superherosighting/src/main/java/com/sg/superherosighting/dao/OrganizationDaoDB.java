@@ -109,20 +109,25 @@ public class OrganizationDaoDB implements OrganizationDao {
 
     private void getOrganizationHeros(Organization organization) {
 
-        final String SELECT_LOCATION_DATE = "SELECT * FROM  hero_has_organization WHERE organization_id = ?";
+        try {
+            final String SELECT_LOCATION_DATE = "SELECT * FROM  hero_has_organization WHERE organization_id = ?";
 
-        List<HeroOrganization> organizationHeros = jdbc.query(SELECT_LOCATION_DATE, new OrganizationHeroMapper(), organization.getId());
+            List<HeroOrganization> organizationHeros = jdbc.query(SELECT_LOCATION_DATE, new OrganizationHeroMapper(), organization.getId());
 
-        final String SELECT_HERO_BY_ID = "SELECT h.id, h.name, h.description, s.name FROM  hero h JOIN superPower s On h.superPower_id = s.id WHERE h.id = ? ORDER BY h.name ASC";
+            final String SELECT_HERO_BY_ID = "SELECT h.id, h.name, h.description, s.name FROM  hero h JOIN superPower s On h.superPower_id = s.id WHERE h.id = ? ORDER BY h.name ASC";
 
-        List<Hero> heros = new ArrayList<>();
-        for (HeroOrganization organizationHero : organizationHeros) {
+            List<Hero> heros = new ArrayList<>();
+            for (HeroOrganization organizationHero : organizationHeros) {
 
-            Hero foundHero = jdbc.queryForObject(SELECT_HERO_BY_ID, new HeroDaoDB.HeroMapper(), organizationHero.getHeroId());
-            heros.add(foundHero);
+                Hero foundHero = jdbc.queryForObject(SELECT_HERO_BY_ID, new HeroDaoDB.HeroMapper(), organizationHero.getHeroId());
+
+                heros.add(foundHero);
+            }
+
+            organization.setHeros(heros);
+        } catch (DataAccessException ex) {
+            System.out.println("ex " + ex);
         }
-
-        organization.setHeros(heros);
 
     }
 
