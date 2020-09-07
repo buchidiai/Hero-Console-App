@@ -11,11 +11,20 @@
             <!-- Sub Header -->
             <div class="col-12" th:insert="common :: headerAndCount(title='All Heros', count=${heros})" >
             </div>
-             <div class="col-12 text-center p-3">
-                            <a class=' text-primary ' th:href="@{/hero}" >Go Back</a>
-                        </div>
+            <div class="col-12 text-center p-3">
+                <a class=' text-primary ' th:href="@{/hero}" >Go Back</a>
+            </div>
+
+
+
+            <div  th:if="${heros.empty}" class="col-12  d-flex justify-content-center p-5">
+                <h6>There are currently no Heros.</h6>
+            </div>
+
+
+
             <!-- table Hero start-->
-            <div class="row p-2">
+            <div class="row p-2" th:if="${!heros.empty}">
                 <div class="col text-center  d-flex justify-content-center">
                     <table class="table table-striped w-75 border border-dark ">
                         <thead class='bg-dark'>
@@ -32,18 +41,32 @@
                                 <td th:text="${hero.id}">ID</td>
                                 <td th:text="${hero.name}">none</td>
                                 <td th:text="${hero.description}">none</td>
-                                 <div th:if="${hero.superPower == null  }">
-                                        <td >none</td>
-                                    </div>
-                                    <div th:if="${hero.superPower != null}">
-                                        <td th:text="${hero.superPower}"></td>
-                                    </div>
-                               
-                                <td>
-                                    <a th:href="@{/heroDetails(id=${hero.id})}"  class="fas fa-info-circle text-secondary">
-                                    </a>
-                                </td>
-                            </tr>
+                        <div th:if="${hero.superPower == null  }">
+                            <td >none</td>
+                        </div>
+                        <div th:if="${hero.superPower != null}">
+                            <td th:text="${hero.superPower}"></td>
+                        </div>
+
+                        <td>
+                            <a th:href="@{/heroDetails(id=${hero.id})}"  class="fas fa-info-circle text-secondary">
+                            </a>
+                        </td>
+                        </tr>
+                        <td th:text="${hero.name}">none</td>
+                        <td th:text="${hero.description}">none</td>
+                        <div th:if="${hero.superPower == null}">
+                            <td >none</td>
+                        </div>
+                        <div th:if="${hero.superPower != null}">
+                            <td th:text="${hero.superPower}">none</td>
+                        </div>
+
+                        <td>
+                            <a th:href="@{/heroDetails(id=${hero.id})}"  class="fas fa-info-circle text-secondary">
+                            </a>
+                        </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>

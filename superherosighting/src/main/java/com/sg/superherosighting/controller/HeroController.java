@@ -10,6 +10,7 @@ import com.sg.superherosighting.entities.Location;
 import com.sg.superherosighting.entities.Organization;
 import com.sg.superherosighting.entities.SuperPower;
 import com.sg.superherosighting.service.ServiceLayer;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -35,9 +36,7 @@ public class HeroController {
     @GetMapping("hero")
     public String getHeroPage(Model model) {
 
-        List<Organization> organizations = service.getAllOrganizations();
-
-        model.addAttribute("organizations", organizations);
+        //return errors
         model.addAttribute("errors", service.getHeroViolations());
 
         return "/hero/hero";
@@ -45,7 +44,7 @@ public class HeroController {
 
     @GetMapping("allHeros")
     public String getAllHeros(Model model) {
-
+        //get all heros
         List<Hero> heros = service.getAllHeros();
 
         model.addAttribute("heros", heros);
@@ -56,52 +55,37 @@ public class HeroController {
     @PostMapping("addHero")
     public String addHero(HttpServletRequest request) {
 
-        //hero
+        //hero name
         String name = request.getParameter("name");
+        //hero description
         String description = request.getParameter("description");
-        //organization ids
-        String[] organizationIds = request.getParameterValues("organizationIds");
-
         //super power
         String heroSuperPower = request.getParameter("superPower");
+
+        //create super power object
         SuperPower superPower = new SuperPower();
 
+        //check if super is empty
         if (heroSuperPower.isEmpty()) {
+            superPower.setId(0);
             superPower.setName("none");
         } else {
             superPower.setName(heroSuperPower);
         }
-
+        //add super power to db
         superPower = service.addSuperPower(superPower);
 
+        //create hero object
         Hero hero = new Hero();
         hero.setName(name);
         hero.setDescription(description);
         hero.setSuperPower(superPower.getName());
         hero.setSuperPower_id(superPower.getId());
 
-        List<Organization> organizations = new ArrayList<>();
-
-        if (organizationIds != null) {
-            for (String organizationId : organizationIds) {
-
-                organizations.add(service.getOrganizationById(Integer.parseInt(organizationId)));
-            }
-        }
-
-        //check if empty then add
+        //check if hero is empty then add
         if (service.validateHero(hero).isEmpty()) {
-            if (organizationIds != null) {
-                //set orgs
-                hero.setOrganizations(organizations);
-            }
             //add hero
             service.addHero(hero);
-            //add bridge table relationship
-
-            if (organizationIds != null) {
-                service.insertHeroOrganization(hero);
-            }
         }
 
         return "redirect:allHeros";
@@ -110,16 +94,16 @@ public class HeroController {
     @GetMapping("editHero")
     public String editHero(Integer id, Model model) {
 
+        //get hero and all orgs and locations
         Hero hero = service.getHeroById(id);
         List<Organization> organizations = service.getAllOrganizations();
         List<Location> locations = service.getAllLocations();
 
-        System.out.println("hero sdbkjs" + hero.toString());
-
         model.addAttribute("locations", locations);
         model.addAttribute("organizations", organizations);
+        model.addAttribute("locations", locations);
         model.addAttribute("hero", hero);
-        System.out.println(" null pointer ? " + hero.getSuperPower());
+
         if (hero.getSuperPower() != null) {
             model.addAttribute("superPower", hero.getSuperPower());
         }
@@ -133,15 +117,35 @@ public class HeroController {
 
         //super power
         String super_Power = request.getParameter("superPower");
+        //organization ids
+        String[] organizationIds = request.getParameterValues("organizationIds");
 
         System.out.println("super_Power " + super_Power);
 
+        //location ids
+        String locationId = request.getParameter("locationId");
+
+        //date
+        String date = request.getParameter("date");
+
+        //list of orgs
+        List<Organization> organizations = new ArrayList<>();
+
+        //get and set Organizations
+        getAndSetOrganizations(organizations, organizationIds, hero);
+
+        //get and set locations
+        getAndSetLocationAndDate(locationId, date, hero);
+
+        //set super power to none if empty
         if (super_Power.isEmpty()) {
             super_Power = "none";
         }
 
+        //set super power
         hero.setSuperPower(super_Power);
 
+        //check for errors
         if (result.hasErrors()) {
 
             return "/hero/editHero";
@@ -175,6 +179,7 @@ public class HeroController {
 
         Hero hero = service.getHeroDetails(id);
 
+        System.out.println("hero getLocations " + hero.getLocations());
         model.addAttribute("heroDetails", hero);
 
         return "/hero/heroDetails";
@@ -263,25 +268,65 @@ public class HeroController {
     }
 
     @GetMapping("deleteHeroLocationConfirm")
-    public String deleteHeroLocationConfirm(Integer heroId, Integer locationId, Model model) {
+    public String deleteHeroLocationConfirm(Integer heroId, Integer locationId, Integer sightingId, Model model) {
 
         model.addAttribute("heroId", heroId);
         model.addAttribute("locationId", locationId);
+        model.addAttribute("sightingId", sightingId);
 
         return "/hero/deleteHeroLocationConfirm";
     }
 
     @GetMapping("deleteHeroLocation")
-    public String deleteHeroLocation(Integer heroId, Integer locationId, Model model, RedirectAttributes redirectAttributes) {
+    public String deleteHeroLocation(Integer heroId, Integer locationId, Integer sightingId, Model model,
+            RedirectAttributes redirectAttributes) {
 
         Hero hero = service.getHeroById(heroId);
 
         Location location = service.getLocationById(locationId);
+        location.setSightingId(sightingId);
 
         service.deleteHeroLocation(hero, location);
 
         redirectAttributes.addAttribute("id", hero.getId());
 
         return "redirect:heroDetails";
+    }
+
+    private void getAndSetOrganizations(List<Organization> organizations, String[] organizationIds, Hero hero) {
+
+        if (organizationIds != null) {
+            //get orgs
+            for (String organizationId : organizationIds) {
+
+                organizations.add(service.getOrganizationById(Integer.parseInt(organizationId)));
+            }
+            //set orgs
+            hero.setOrganizations(organizations);
+        }
+
+    }
+
+    private void getAndSetLocationAndDate(String locationId, String date, Hero hero) {
+
+        //list of locations
+        List<Location> locations = new ArrayList<>();
+
+        //check if date and location id is not null
+        if (locationId != null && date != null) {
+
+            //parse date
+            LocalDateTime sightingDate = LocalDateTime.parse(date);
+
+            //get location by id
+            Location location = service.getLocationById(Integer.parseInt(locationId));
+
+            //set date to location
+            location.setLocalDate(sightingDate);
+            //add location to location array
+            locations.add(location);
+        }
+        //set location to hero
+        hero.setLocations(locations);
     }
 }

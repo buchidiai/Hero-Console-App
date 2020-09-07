@@ -9,6 +9,7 @@ import com.sg.superherosighting.entities.Hero;
 import com.sg.superherosighting.entities.SuperPower;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,16 +58,35 @@ public class SuperPowerDaoDB implements SuperPowerDao {
 
     @Override
     public SuperPower addSuperPower(SuperPower superPower) {
+<<<<<<< HEAD
 
         final String INSERT_SUPERPOWER = "INSERT INTO superPower(name)"
                 + "VALUES(?)";
+=======
+>>>>>>> temp-branch-two
 
-        jdbc.update(INSERT_SUPERPOWER,
-                superPower.getName());
+        try {
+            final String INSERT_SUPERPOWER = "INSERT INTO superPower(name)"
+                    + "VALUES(?)";
 
-        int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
+            System.out.println(" statement " + jdbc.update(INSERT_SUPERPOWER,
+                    superPower.getName().toLowerCase()));
 
-        superPower.setId(newId);
+            int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
+
+            System.out.println("newId" + newId);
+
+            superPower.setId(newId);
+
+            throw new SQLIntegrityConstraintViolationException("no duplicates");
+        } catch (SQLIntegrityConstraintViolationException e) {
+
+//            if (ex instanceof SQLIntegrityConstraintViolationException) {
+//
+//            }
+        } catch (SQLException e) {
+            // Other SQL Exception
+        }
 
         return superPower;
     }
@@ -76,7 +96,7 @@ public class SuperPowerDaoDB implements SuperPowerDao {
         final String UPDATE_SUPERPOWER = "UPDATE superPower SET name = ? "
                 + "WHERE id = ?";
         jdbc.update(UPDATE_SUPERPOWER,
-                superPower.getName(),
+                superPower.getName().toLowerCase(),
                 superPower.getId());
     }
 

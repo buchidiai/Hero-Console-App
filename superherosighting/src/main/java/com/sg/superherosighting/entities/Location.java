@@ -42,6 +42,8 @@ public class Location {
     @Past(message = "Date must be today or in the past.")
     private LocalDateTime localDate;
 
+    private int sightingId;
+
     public int getId() {
         return id;
     }
@@ -106,17 +108,26 @@ public class Location {
         this.localDate = localDate;
     }
 
+    public int getSightingId() {
+        return sightingId;
+    }
+
+    public void setSightingId(int sightingId) {
+        this.sightingId = sightingId;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 97 * hash + this.id;
-        hash = 97 * hash + Objects.hashCode(this.name);
-        hash = 97 * hash + Objects.hashCode(this.description);
-        hash = 97 * hash + Objects.hashCode(this.address);
-        hash = 97 * hash + Objects.hashCode(this.latitude);
-        hash = 97 * hash + Objects.hashCode(this.longitude);
-        hash = 97 * hash + Objects.hashCode(this.heros);
-//        hash = 97 * hash + Objects.hashCode(this.localDate);
+        int hash = 3;
+        hash = 67 * hash + this.id;
+        hash = 67 * hash + Objects.hashCode(this.name);
+        hash = 67 * hash + Objects.hashCode(this.description);
+        hash = 67 * hash + Objects.hashCode(this.address);
+        hash = 67 * hash + Objects.hashCode(this.latitude);
+        hash = 67 * hash + Objects.hashCode(this.longitude);
+        hash = 67 * hash + Objects.hashCode(this.heros);
+        hash = 67 * hash + Objects.hashCode(this.localDate);
+        hash = 67 * hash + this.sightingId;
         return hash;
     }
 
@@ -133,6 +144,9 @@ public class Location {
         }
         final Location other = (Location) obj;
         if (this.id != other.id) {
+            return false;
+        }
+        if (this.sightingId != other.sightingId) {
             return false;
         }
         if (!Objects.equals(this.name, other.name)) {
@@ -153,15 +167,15 @@ public class Location {
         if (!Objects.equals(this.heros, other.heros)) {
             return false;
         }
-//        if (!Objects.equals(this.localDate, other.localDate)) {
-//            return false;
-//        }
+        if (!Objects.equals(this.localDate, other.localDate)) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "Location{" + "id=" + id + ", name=" + name + ", description=" + description + ", address=" + address + ", latitude=" + latitude + ", longitude=" + longitude + ", heros=" + heros + ", localDate=" + localDate + '}';
+        return "Location{" + "id=" + id + ", name=" + name + ", description=" + description + ", address=" + address + ", latitude=" + latitude + ", longitude=" + longitude + ", heros=" + heros + ", localDate=" + localDate + ", sightingId=" + sightingId + '}';
     }
 
 }

@@ -110,11 +110,11 @@
                                         <td th:text="${location.localDate}">date</td>
                                     </div>
                                     <td> 
-                                        <a th:href="@{/editHeroLocation(locationId=${location.id} ,heroId=${heroDetails.id})}" class="fas fa-edit text-primary">
+                                        <a th:href="@{/editHeroLocation(  locationId=${location.id} , heroId=${heroDetails.id} , sightingId=${location.sightingId} )}" class="fas fa-edit text-primary">
                                         </a>
                                     </td>
                                     <td>
-                                        <a th:href="@{/deleteHeroLocationConfirm(locationId=${location.id},heroId=${heroDetails.id})}"  class="fas fa-trash-alt text-danger">
+                                        <a th:href="@{/deleteHeroLocationConfirm( locationId=${location.id}, heroId=${heroDetails.id} , sightingId=${location.sightingId} )}"  class="fas fa-trash-alt text-danger">
                                         </a>
                                     </td>
 

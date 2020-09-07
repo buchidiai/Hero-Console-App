@@ -53,37 +53,56 @@
                                 </div>
                             </div>
                         </div>
-                        <!--                        <div class="form-group row  d-flex justify-content-center">
-                                                    <label for="organizations" class="col-sm-3 col-form-label">Organizations</label>
-                                                     <div class="col-sm-9">
-                                                        <select multiple="" id="newOrganizationId" name="newOrganizationId" class="form-control" >
-                                                        <option th:each="organization : ${organizations}" 
-                                                                th:value="${organization.id}" 
-                                                                th:text="${organization.name}"
-                                                                th:selected="${organization.id == organizationId}"
-                                                                >
-                                                        </option>
-                                                    </select>
-                                                    </div>
-                                                    
-                                                </div>
-                                                 <div class="form-group row  d-flex justify-content-center">
-                                                    <label for="locations" class="col-sm-3 col-form-label">Locations</label>
-                                                    <div class="col-sm-9">
-                                                         <select multiple  id="newLocationId" name="newLocationId" class="form-control" >
-                                                            <option th:each="location : ${locations}" 
-                                                                    th:value="${location.id}" 
-                                                                    th:text="${location.name}"
-                                                                    th:selected="${location.id == locationId}"
-                                                                    >
-                                                            </option>
-                                                        </select>
-                                                    </div>
-                                                </div>-->
+                        <div class="form-group row  d-flex justify-content-center">
+                            <label for="organization" class="col-sm-3 col-form-label">Organizations (optional)</label>
+                            <div class="col-sm-9">
+                                <select  multiple id="organizationIds" name="organizationIds" class="form-control" >
+                                    <option th:each="organization : ${organizations}" 
+                                            th:value="${organization.id}" 
+                                            th:text="${organization.name}"
+                                            >
+                                    </option>
+                                </select>
+                                <div class=' row pl-4'>
+                                    <span class='text-center pt-2 pr-2'>Can't find a organization ? </span>
+                                    <a class='text-center pt-2 text-primary' th:href="@{/organization}"> Create Organization </a>
+                                </div>
+                            </div>
+                        </div>
 
+                        <div class="form-group row">
+                            <label for="locations" class="col-3 col-form-label">
+                                Locations (optional)</label>
+                            <div class="col-9">
+                                <select   id="locationId" name="locationId" class="form-control" >
+                                    <option th:each="location : ${locations}" 
+                                            th:value="${location.id}" 
+                                            th:text="${location.name}"
+                                            >
+                                    </option>
+                                </select>
+                                <div class=' row pl-4'>
+                                    <span class='text-center pt-2 pr-2'>Can't find a Location ? </span>
+                                    <a class='text-center pt-2 text-primary' th:href="@{/location}"> Create Location </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                             <!--  create date start-->
+                        <div class="form-group row ">
 
-
-
+                            <label for="date" class="col-sm-3 col-form-label">Date (optional)</label>
+                            <div class="col-9">
+                                <input 
+                                    type="datetime-local"
+                                    id="date"
+                                    name="date" 
+                                    value=""
+                                    min="1900-06-07T00:00"
+                                    max="2080-06-14T00:00"
+                                    >
+                            </div>
+                        </div>
                         <div class="form-group row d-flex justify-content-center ">
                             <div class="col-sm-10">
                                 <input type="hidden" name="id" th:value="${hero.id}"/>

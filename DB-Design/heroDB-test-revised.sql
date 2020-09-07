@@ -31,7 +31,8 @@ USE `herodbtest` ;
 CREATE TABLE IF NOT EXISTS `herodbtest`.`superPower` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
-  PRIMARY KEY (`id`))
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 
@@ -42,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `herodbtest`.`hero` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `description` VARCHAR(255) NULL,
-  `superPower_id` INT NULL,
+  `superPower_id` INT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   INDEX `fk_hero_superPower_idx` (`superPower_id` ASC) VISIBLE,
   CONSTRAINT `fk_hero_superPower`

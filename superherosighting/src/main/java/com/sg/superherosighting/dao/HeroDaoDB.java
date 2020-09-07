@@ -103,6 +103,9 @@ public class HeroDaoDB implements HeroDao {
                 hero.getId());
 
         updateHeroSuperPower(hero);
+        updateHeroOrganization(hero);
+        updateHeroLocation(hero);
+
     }
 
     private void updateHeroSuperPower(Hero hero) {
@@ -116,6 +119,42 @@ public class HeroDaoDB implements HeroDao {
         jdbc.update(UPDATE_HERO_SUPER_POWER,
                 hero.getSuperPower(),
                 id);
+    }
+
+    private void updateHeroLocation(Hero hero) {
+
+        System.out.println("here ");
+        if (hero.getLocations() != null) {
+            final String INSERT_HERO_ORGANIZATION = "INSERT INTO sighting (hero_id, location_id, date) VALUES(?,?,?)";
+
+            for (Location location : hero.getLocations()) {
+                System.out.println("location " + location.toString());
+                jdbc.update(INSERT_HERO_ORGANIZATION,
+                        hero.getId(),
+                        location.getId(),
+                        location.getLocalDate());
+            }
+
+        }
+
+    }
+
+    private void updateHeroOrganization(Hero hero) {
+        //delete old orgs
+        final String DELETE_ORGANIZATION_HERO = "DELETE FROM hero_has_organization WHERE hero_id = ?";
+        jdbc.update(DELETE_ORGANIZATION_HERO, hero.getId());
+
+        if (hero.getOrganizations() != null) {
+            //add new orgs
+            final String INSERT_HERO_ORGANIZATION = "INSERT INTO hero_has_organization(hero_id, organization_id) VALUES(?,?)";
+
+            for (Organization organization : hero.getOrganizations()) {
+                jdbc.update(INSERT_HERO_ORGANIZATION,
+                        hero.getId(),
+                        organization.getId());
+            }
+        }
+
     }
 
     @Override
@@ -170,10 +209,12 @@ public class HeroDaoDB implements HeroDao {
         final String SELECT_LOCATION_BY_ID = "SELECT * FROM location WHERE id = ?";
 
         List<Location> locations = new ArrayList<>();
+
         for (HeroLocation heroLocation : heroLocations) {
 
             Location location = jdbc.queryForObject(SELECT_LOCATION_BY_ID, new LocationMapper(), heroLocation.getLocationId());
             location.setLocalDate(heroLocation.getLocalDate());
+            location.setSightingId(heroLocation.getId());
 
             locations.add(location);
 
@@ -222,8 +263,8 @@ public class HeroDaoDB implements HeroDao {
     @Override
     public void deleteHeroLocation(Hero hero, Location location) {
 
-        final String DELETE_ORGANIZATION_HERO = "DELETE FROM sighting WHERE hero_id = ? AND location_id = ?";
-        jdbc.update(DELETE_ORGANIZATION_HERO, hero.getId(), location.getId());
+        final String DELETE_ORGANIZATION_HERO = "DELETE FROM sighting WHERE id = ?";
+        jdbc.update(DELETE_ORGANIZATION_HERO, location.getSightingId());
 
     }
 
