@@ -7,7 +7,8 @@ package com.sg.superherosighting.controller;
 
 import com.sg.superherosighting.entities.Hero;
 import com.sg.superherosighting.entities.SuperPower;
-import com.sg.superherosighting.service.ServiceLayer;
+import com.sg.superherosighting.service.HeroSeviceLayer;
+import com.sg.superherosighting.service.SuperPowerSeviceLayer;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -28,12 +29,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class SuperPowerController {
 
     @Autowired
-    private ServiceLayer service;
+    private SuperPowerSeviceLayer superPowerService;
+
+    @Autowired
+    private HeroSeviceLayer heroService;
 
     @GetMapping("superPower")
     public String getSuperPowerPage(Model model) {
 
-        model.addAttribute("errors", service.getSuperPowerViolations());
+        model.addAttribute("errors", superPowerService.getSuperPowerViolations());
 
         return "/superPower/superPower";
     }
@@ -41,7 +45,7 @@ public class SuperPowerController {
     @GetMapping("allSuperPowers")
     public String getAllSuperPowers(Model model) {
 
-        List<SuperPower> superPowers = service.getAllSuperPowers();
+        List<SuperPower> superPowers = superPowerService.getAllSuperPowers();
 
         model.addAttribute("superPowers", superPowers);
 
@@ -52,11 +56,11 @@ public class SuperPowerController {
     public String addSuperPower(@Valid SuperPower superPower, BindingResult result) {
 
         if (result.hasErrors()) {
-            service.validateSuperPower(superPower);
+            superPowerService.validateSuperPower(superPower);
             return "redirect:superPower";
         }
 
-        superPower = service.addSuperPower(superPower);
+        superPower = superPowerService.addSuperPower(superPower);
 
         return "redirect:allSuperPowers";
     }
@@ -64,12 +68,12 @@ public class SuperPowerController {
     @GetMapping("editSuperPower")
     public String editSuperPower(Integer superPowerId, Model model) {
 
-        SuperPower superPower = service.getSuperPowerById(superPowerId);
+        SuperPower superPower = superPowerService.getSuperPowerById(superPowerId);
 
-        List<Hero> heros = service.getAllHeros();
+        List<Hero> heros = heroService.getAllHeros();
         model.addAttribute("heros", heros);
         model.addAttribute("superPower", superPower);
-        model.addAttribute("errors", service.getSuperPowerViolations());
+        model.addAttribute("errors", superPowerService.getSuperPowerViolations());
 
         return "/superPower/editSuperPower";
     }
@@ -80,7 +84,7 @@ public class SuperPowerController {
 
         if (result.hasErrors()) {
 
-            service.validateSuperPower(superPower);
+            superPowerService.validateSuperPower(superPower);
             redirectAttributes.addAttribute("superPowerId", superPower.getId());
 
             return "redirect:editSuperPower";
@@ -91,13 +95,13 @@ public class SuperPowerController {
 
         getAndSetHeros(heroIds, superPower);
 
-        service.updateSuperPower(superPower, result);
+        superPowerService.updateSuperPower(superPower, result);
 
 //        if (result.hasErrors()) {
 //
-//            service.validateSuperPower(superPower);
+//            superPowerService.validateSuperPower(superPower);
 //
-//            model.addAttribute("errors", service.getSuperPowerViolations());
+//            model.addAttribute("errors", superPowerService.getSuperPowerViolations());
 //
 //            redirectAttributes.addAttribute("superPowerId", superPower.getId());
 //
@@ -120,7 +124,7 @@ public class SuperPowerController {
     @GetMapping("deleteSuperPower")
     public String deleteSuperPower(Integer superPowerId, Integer heroId) {
 
-        service.deleteSuperPowerById(superPowerId);
+        superPowerService.deleteSuperPowerById(superPowerId);
 
         return "redirect:allSuperPowers";
     }
@@ -128,9 +132,9 @@ public class SuperPowerController {
     @GetMapping("superPowerDetails")
     public String superPowerDetails(Integer superPowerId, Model model) {
 
-        SuperPower superPower = service.getSuperPowerById(superPowerId);
+        SuperPower superPower = superPowerService.getSuperPowerById(superPowerId);
 
-        List<Hero> heros = service.getSuperPowerDetails(superPowerId);
+        List<Hero> heros = superPowerService.getSuperPowerDetails(superPowerId);
 
         model.addAttribute("heros", heros);
         model.addAttribute("superPower", superPower);
@@ -147,7 +151,7 @@ public class SuperPowerController {
             //get orgs
             for (String heroId : heroIds) {
 
-                heros.add(service.getHeroById(Integer.parseInt(heroId)));
+                heros.add(heroService.getHeroById(Integer.parseInt(heroId)));
             }
             //set orgs
             superPower.setHeros(heros);

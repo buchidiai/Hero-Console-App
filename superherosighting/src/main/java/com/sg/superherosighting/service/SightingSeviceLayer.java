@@ -3,16 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sg.superherosighting.dao;
+package com.sg.superherosighting.service;
 
 import com.sg.superherosighting.entities.Sighting;
 import java.util.List;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
 
 /**
  *
  * @author louie
  */
-public interface SightingDao {
+public interface SightingSeviceLayer {
+
+    void deleteSuperPowerById(int id);
 
     Sighting getSightingById(int id);
 
@@ -22,8 +26,10 @@ public interface SightingDao {
 
     void updateSighting(Sighting sighting, Integer existingHeroId, Integer existingLocationId);
 
-    void deleteSightingByIds(int heroId, int locationId, int sightingId);
+    void deleteSightingById(int heroId, int locationId, int sightingId);
 
-    void deleteSightingById(int sightingId);
+    Set<ConstraintViolation<Sighting>> getSightingViolations();
+
+    Set<ConstraintViolation<Sighting>> validateSighting(Sighting sighting);
 
 }

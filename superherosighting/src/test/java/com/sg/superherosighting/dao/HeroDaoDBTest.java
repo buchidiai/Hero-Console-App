@@ -14,7 +14,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -132,6 +131,7 @@ public class HeroDaoDBTest {
         assertEquals(foundHero.getSuperPower(), superPower.getName());
 
     }
+//
 
     @Test
     public void testGetAllHeros() {
@@ -158,6 +158,7 @@ public class HeroDaoDBTest {
         assertEquals(hero1.getName(), heros.get(1).getName());
 
     }
+//
 
     @Test
     public void testUpdateHero() {
@@ -223,40 +224,11 @@ public class HeroDaoDBTest {
         hero1.setOrganizations(organizations);
 
         //add org - hero to bridge table
-        heroDao.insertHeroOrganization(hero1);
+        heroDao.updateHero(hero1);
 
         Hero heroFound = heroDao.getHeroDetails(hero1.getId());
 
         assertEquals(organizations, heroFound.getOrganizations());
-
-    }
-
-    @Test
-    public void testDeleteHeroToOrganization() {
-
-        //add org
-        organization1 = organizationDao.addOrganization(organization1);
-
-        //add hero
-        hero1 = heroDao.addHero(hero1);
-
-        //get org
-        organization1 = organizationDao.getOrganizationById(organization1.getId());
-
-        List<Organization> organizations = new ArrayList<>();
-        organizations.add(organization1);
-
-        //set org to hero object
-        hero1.setOrganizations(organizations);
-
-        //add org - hero to bridge table
-        heroDao.insertHeroOrganization(hero1);
-
-        heroDao.deleteHeroOrganization(hero1, organization1);
-
-        List<Organization> foundOrganization = heroDao.getHeroDetails(hero1.getId()).getOrganizations();
-
-        assertTrue(foundOrganization.isEmpty());
 
     }
 
@@ -273,5 +245,4 @@ public class HeroDaoDBTest {
         assertEquals(superPower.getName(), hero1.getSuperPower());
 
     }
-
 }

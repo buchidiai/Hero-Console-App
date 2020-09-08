@@ -8,7 +8,9 @@ package com.sg.superherosighting.controller;
 import com.sg.superherosighting.entities.Hero;
 import com.sg.superherosighting.entities.Location;
 import com.sg.superherosighting.entities.Sighting;
-import com.sg.superherosighting.service.ServiceLayer;
+import com.sg.superherosighting.service.HeroSeviceLayer;
+import com.sg.superherosighting.service.LocationSeviceLayer;
+import com.sg.superherosighting.service.SightingSeviceLayer;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,19 +32,25 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class SightingsController {
 
     @Autowired
-    private ServiceLayer service;
+    private SightingSeviceLayer sightingService;
+
+    @Autowired
+    private HeroSeviceLayer heroService;
+
+    @Autowired
+    private LocationSeviceLayer locationService;
 
     @GetMapping("sighting")
     public String getSightingPage(Model model) {
 
-        List<Sighting> sightings = service.getAllSightings();
-        List<Hero> heros = service.getAllHeros();
-        List<Location> locations = service.getAllLocations();
+        List<Sighting> sightings = sightingService.getAllSightings();
+        List<Hero> heros = heroService.getAllHeros();
+        List<Location> locations = locationService.getAllLocations();
 
         model.addAttribute("sightings", sightings);
         model.addAttribute("heros", heros);
         model.addAttribute("locations", locations);
-        model.addAttribute("errors", service.getSightingViolations());
+        model.addAttribute("errors", sightingService.getSightingViolations());
 
         return "/sighting/sighting";
     }
@@ -50,7 +58,7 @@ public class SightingsController {
     @GetMapping("allSightings")
     public String getAllSightings(Model model) {
 
-        List<Sighting> sightings = service.getAllSightings();
+        List<Sighting> sightings = sightingService.getAllSightings();
 
         model.addAttribute("sightings", sightings);
         return "sighting/listSightings";
@@ -60,7 +68,7 @@ public class SightingsController {
     public String addSighting(@Valid Sighting sighting, BindingResult result, HttpServletRequest request) {
 
         if (result.hasErrors()) {
-            service.validateSighting(sighting);
+            sightingService.validateSighting(sighting);
             return "redirect:sighting";
         }
 
@@ -72,7 +80,7 @@ public class SightingsController {
 
         getandSetDate(sighting);
 
-        service.addSighting(sighting);
+        sightingService.addSighting(sighting);
 
         return "redirect:allSightings";
     }
@@ -80,10 +88,10 @@ public class SightingsController {
     @GetMapping("editSighting")
     public String editSighting(Integer locationId, Integer heroId, Integer sightingId, Model model) {
 
-        Sighting sighting = service.getSightingById(sightingId);
+        Sighting sighting = sightingService.getSightingById(sightingId);
 
-        List<Hero> heros = service.getAllHeros();
-        List<Location> locations = service.getAllLocations();
+        List<Hero> heros = heroService.getAllHeros();
+        List<Location> locations = locationService.getAllLocations();
 
         model.addAttribute("sighting", sighting);
         model.addAttribute("sightingId", sightingId);
@@ -108,7 +116,7 @@ public class SightingsController {
         sighting.setLocalDate(sightingDate);
         sighting.setId(sightingId);
 
-        service.updateSighting(sighting, Integer.parseInt(existingHeroId), Integer.parseInt(existingLocationId));
+        sightingService.updateSighting(sighting, Integer.parseInt(existingHeroId), Integer.parseInt(existingLocationId));
 
         redirectAttributes.addAttribute("sightingId", sighting.getId());
 
@@ -128,14 +136,14 @@ public class SightingsController {
     @GetMapping("deleteSighting")
     public String deleteSighting(Integer heroId, Integer locationId, Integer sightingId) {
 
-        service.deleteSightingById(heroId, locationId, sightingId);
+        sightingService.deleteSightingById(heroId, locationId, sightingId);
         return "redirect:allSightings";
     }
 
     @GetMapping("sightingDetails")
     public String sightingDetails(Integer sightingId, Model model) {
 
-        List<Sighting> sightings = service.getAllSightings();
+        List<Sighting> sightings = sightingService.getAllSightings();
 
         Sighting sightingDetails = null;
 
@@ -161,7 +169,7 @@ public class SightingsController {
             //get heros
             for (String heroId : heroIds) {
 
-                heros.add(service.getHeroById(Integer.parseInt(heroId)));
+                heros.add(heroService.getHeroById(Integer.parseInt(heroId)));
             }
             //set orgs
             sighting.setHeros(heros);

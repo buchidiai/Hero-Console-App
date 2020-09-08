@@ -6,7 +6,7 @@
 package com.sg.superherosighting.controller;
 
 import com.sg.superherosighting.entities.Sighting;
-import com.sg.superherosighting.service.ServiceLayer;
+import com.sg.superherosighting.service.SightingSeviceLayer;
 import com.sg.superherosighting.service.util.TimeAgo;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +22,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class IndexController {
 
     @Autowired
-    private ServiceLayer service;
+    private SightingSeviceLayer sightingService;
 
     @GetMapping("/")
     public String index(Model model) {
 
-        List<Sighting> sightings = service.getAllSightings();
+        List<Sighting> sightings = sightingService.getAllSightings();
 
         TimeAgo tago = new TimeAgo();
 

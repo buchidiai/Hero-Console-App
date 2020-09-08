@@ -7,7 +7,8 @@ package com.sg.superherosighting.controller;
 
 import com.sg.superherosighting.entities.Hero;
 import com.sg.superherosighting.entities.Location;
-import com.sg.superherosighting.service.ServiceLayer;
+import com.sg.superherosighting.service.HeroSeviceLayer;
+import com.sg.superherosighting.service.LocationSeviceLayer;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -27,15 +28,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class LocationController {
 
     @Autowired
-    private ServiceLayer service;
+    private LocationSeviceLayer locationService;
+
+    @Autowired
+    private HeroSeviceLayer heroService;
 
     @GetMapping("location")
     public String getLocationPage(Model model) {
 
-        List<Hero> heros = service.getAllHeros();
+        List<Hero> heros = heroService.getAllHeros();
 
         model.addAttribute("heros", heros);
-        model.addAttribute("errors", service.getLocationViolations());
+        model.addAttribute("errors", locationService.getLocationViolations());
 
         return "/location/location";
     }
@@ -43,7 +47,7 @@ public class LocationController {
     @GetMapping("allLocations")
     public String getAllLocations(Model model) {
 
-        List<Location> locations = service.getAllLocations();
+        List<Location> locations = locationService.getAllLocations();
 
         model.addAttribute("locations", locations);
 
@@ -54,11 +58,11 @@ public class LocationController {
     public String addLocation(@Valid Location location, BindingResult result, HttpServletRequest request) {
 
         if (result.hasErrors()) {
-            service.validateLocation(location);
+            locationService.validateLocation(location);
             return "redirect:location";
         }
 
-        service.addLocation(location);
+        locationService.addLocation(location);
 
         return "redirect:allLocations";
     }
@@ -66,7 +70,7 @@ public class LocationController {
     @GetMapping("editLocation")
     public String editLocation(Integer locationId, Model model) {
 
-        Location location = service.getLocationById(locationId);
+        Location location = locationService.getLocationById(locationId);
 
         model.addAttribute("location", location);
         return "/location/editLocation";
@@ -80,7 +84,7 @@ public class LocationController {
             return "/location/editLocation";
         }
 
-        service.updateLocation(location);
+        locationService.updateLocation(location);
 
         redirectAttributes.addAttribute("locationId", location.getId());
         return "redirect:locationDetails";
@@ -89,15 +93,15 @@ public class LocationController {
     @GetMapping("editLocationHero")
     public String editLocationHero(Integer locationId, Integer heroId, Model model) {
 
-        List<Hero> locationheros = service.getLocationDetails(locationId).getHeros();
+        List<Hero> locationheros = locationService.getLocationDetails(locationId).getHeros();
 
-        List<Hero> allheros = service.getAllHeros();
+        List<Hero> allheros = heroService.getAllHeros();
 
         locationheros.stream().filter(l -> (allheros.contains(l))).filter(l -> (l.getId() != locationId)).forEachOrdered(l -> {
             allheros.remove(l);
         });
 
-        Location location = service.getLocationById(locationId);
+        Location location = locationService.getLocationById(locationId);
 
         model.addAttribute("heros", allheros);
         model.addAttribute("heroId", heroId);
@@ -109,11 +113,11 @@ public class LocationController {
     @PostMapping("editLocationHero")
     public String performEditLocationHero(Integer newHeroId, Integer locationId, Integer heroId, RedirectAttributes redirectAttributes) {
 
-        Location location = service.getLocationById(locationId);
+        Location location = locationService.getLocationById(locationId);
 
-        Hero hero = service.getHeroById(newHeroId);
+        Hero hero = heroService.getHeroById(newHeroId);
 
-        service.updateLocationHero(hero, location, heroId);
+        locationService.updateLocationHero(hero, location, heroId);
 
         redirectAttributes.addAttribute("locationId", location.getId());
 
@@ -131,7 +135,7 @@ public class LocationController {
     @GetMapping("deleteLocation")
     public String deleteLocation(Integer locationId) {
 
-        service.deleteLocationById(locationId);
+        locationService.deleteLocationById(locationId);
 
         return "redirect:allLocations";
     }
@@ -148,11 +152,11 @@ public class LocationController {
     @GetMapping("deleteLocationHero")
     public String deleteLocationHero(Integer heroId, Integer locationId, Model model, RedirectAttributes redirectAttributes) {
 
-        Hero hero = service.getHeroById(heroId);
+        Hero hero = heroService.getHeroById(heroId);
 
-        Location location = service.getLocationById(locationId);
+        Location location = locationService.getLocationById(locationId);
 
-        service.deleteHeroLocation(hero, location);
+        heroService.deleteHeroLocation(hero, location);
 
         redirectAttributes.addAttribute("locationId", location.getId());
 
@@ -162,7 +166,7 @@ public class LocationController {
     @GetMapping("locationDetails")
     public String locationDetails(Integer locationId, Model model) {
 
-        Location location = service.getLocationDetails(locationId);
+        Location location = locationService.getLocationDetails(locationId);
 
         model.addAttribute("locationDetails", location);
 

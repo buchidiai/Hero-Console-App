@@ -78,20 +78,6 @@ public class HeroDaoDB implements HeroDao {
     }
 
     @Override
-    public void insertHeroOrganization(Hero hero) {
-
-        final String INSERT_HERO_ORGANIZATION = "INSERT INTO hero_has_organization(hero_id, organization_id) VALUES(?,?)";
-
-        for (Organization organization : hero.getOrganizations()) {
-
-            jdbc.update(INSERT_HERO_ORGANIZATION,
-                    hero.getId(),
-                    organization.getId());
-        }
-
-    }
-
-    @Override
     @Transactional
     public void updateHero(Hero hero) {
 
@@ -113,12 +99,12 @@ public class HeroDaoDB implements HeroDao {
         if (hero.getLocations() != null) {
             final String INSERT_HERO_ORGANIZATION = "INSERT INTO sighting (hero_id, location_id, date) VALUES(?,?,?)";
 
-            for (Location location : hero.getLocations()) {
+            hero.getLocations().forEach(location -> {
                 jdbc.update(INSERT_HERO_ORGANIZATION,
                         hero.getId(),
                         location.getId(),
                         location.getLocalDate());
-            }
+            });
 
         }
 
@@ -167,9 +153,7 @@ public class HeroDaoDB implements HeroDao {
 
         getHeroLocations(id, hero);
 
-        if (hero.getSuperPower_id() != -1) {
-            getHeroSuperPower(hero);
-        }
+        getHeroSuperPower(hero);
 
         return hero;
 
@@ -230,35 +214,10 @@ public class HeroDaoDB implements HeroDao {
     }
 
     @Override
-    public void updateHeroOrganization(Hero hero, Organization organization, int originalId) {
-
-        final String UPDATE_HERO_ORGANIZATION = "UPDATE  hero_has_organization  SET hero_id = ?, organization_id = ?  WHERE hero_id = ? AND organization_id = ? ";
-
-        jdbc.update(UPDATE_HERO_ORGANIZATION, hero.getId(), organization.getId(), hero.getId(), originalId);
-    }
-
-    @Override
-    public void deleteHeroOrganization(Hero hero, Organization organization) {
-
-        final String DELETE_ORGANIZATION_HERO = "DELETE FROM hero_has_organization WHERE hero_id = ? AND organization_id = ?";
-        jdbc.update(DELETE_ORGANIZATION_HERO, hero.getId(), organization.getId());
-
-    }
-
-    @Override
     public void deleteHeroLocation(Hero hero, Location location) {
 
         final String DELETE_ORGANIZATION_HERO = "DELETE FROM sighting WHERE id = ?";
         jdbc.update(DELETE_ORGANIZATION_HERO, location.getSightingId());
-
-    }
-
-    @Override
-    public void updateHeroLocation(Hero hero, Location location, int originalId) {
-
-        final String UPDATE_HERO_LOCATION = "UPDATE sighting SET hero_id = ?,  location_id = ?   WHERE hero_id = ?  AND  location_id = ?";
-
-        jdbc.update(UPDATE_HERO_LOCATION, hero.getId(), location.getId(), hero.getId(), originalId);
 
     }
 

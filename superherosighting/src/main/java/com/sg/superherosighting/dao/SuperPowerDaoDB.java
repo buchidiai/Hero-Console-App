@@ -77,7 +77,7 @@ public class SuperPowerDaoDB implements SuperPowerDao {
                 + "VALUES(?)";
 
         jdbc.update(INSERT_SUPERPOWER,
-                superPower.getName().toLowerCase());
+                superPower.getName());
         int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
 
         superPower.setId(newId);
@@ -95,7 +95,7 @@ public class SuperPowerDaoDB implements SuperPowerDao {
                     + "WHERE id = ?";
 
             jdbc.update(UPDATE_SUPERPOWER,
-                    superPower.getName().toLowerCase(),
+                    superPower.getName(),
                     superPower.getId());
 
             updateHerosSuperPower(superPower);

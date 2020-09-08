@@ -80,8 +80,6 @@
                                             <th class='text-light'>Latitude</th>
                                             <th class='text-light'>Longitude</th>
                                             <th class='text-light'>Date</th>
-                                            <th class='text-light'>Edit</th>
-                                            <th class='text-light'>Delete</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -98,15 +96,6 @@
                                     <div th:if="${location.localDate != null}">
                                         <td th:text="${location.localDate}">date</td>
                                     </div>
-                                    <td> 
-                                        <a th:href="@{/editHeroLocation(  locationId=${location.id} , heroId=${heroDetails.id} , sightingId=${location.sightingId} )}" class="fas fa-edit text-primary">
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a th:href="@{/deleteHeroLocationConfirm( locationId=${location.id}, heroId=${heroDetails.id} , sightingId=${location.sightingId} )}"  class="fas fa-trash-alt text-danger">
-                                        </a>
-                                    </td>
-
                                     </tr>
                                     </tbody>
                                 </table>

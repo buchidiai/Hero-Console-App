@@ -110,10 +110,17 @@ public class SightingDaoDB implements SightingDao {
     }
 
     @Override
-    public void deleteSightingById(int heroId, int locationId, int sightingId) {
+    public void deleteSightingByIds(int heroId, int locationId, int sightingId) {
         final String DELETE_SIGHTING = "DELETE FROM sighting  WHERE id = ? AND location_id = ? AND  hero_id = ?";
 
         jdbc.update(DELETE_SIGHTING, sightingId, locationId, heroId);
+    }
+
+    @Override
+    public void deleteSightingById(int sightingId) {
+
+        final String DELETE_LOCATION_HERO = "DELETE FROM sighting WHERE id = ?";
+        jdbc.update(DELETE_LOCATION_HERO, sightingId);
     }
 
     public static final class SightingMapper implements RowMapper<Sighting> {

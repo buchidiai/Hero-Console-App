@@ -7,7 +7,8 @@ package com.sg.superherosighting.controller;
 
 import com.sg.superherosighting.entities.Hero;
 import com.sg.superherosighting.entities.Organization;
-import com.sg.superherosighting.service.ServiceLayer;
+import com.sg.superherosighting.service.HeroSeviceLayer;
+import com.sg.superherosighting.service.OrganizationSeviceLayer;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -28,12 +29,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class OrganizationController {
 
     @Autowired
-    private ServiceLayer service;
+    private OrganizationSeviceLayer organizationService;
+
+    @Autowired
+    private HeroSeviceLayer heroService;
 
     @GetMapping("organization")
     public String getOrganizationPage(Model model) {
 
-        model.addAttribute("errors", service.getOrganizationViolations());
+        model.addAttribute("errors", organizationService.getOrganizationViolations());
 
         return "/organization/organization";
     }
@@ -41,7 +45,7 @@ public class OrganizationController {
     @GetMapping("allOrganizations")
     public String getAllOrganizations(Model model) {
 
-        List<Organization> organizations = service.getAllOrganizations();
+        List<Organization> organizations = organizationService.getAllOrganizations();
 
         model.addAttribute("organizations", organizations);
 
@@ -52,11 +56,11 @@ public class OrganizationController {
     public String addOrganization(@Valid Organization organization, BindingResult result, HttpServletRequest request) {
 
         if (result.hasErrors()) {
-            service.validateOrganization(organization);
+            organizationService.validateOrganization(organization);
             return "redirect:organization";
         }
 
-        service.addOrganization(organization);
+        organizationService.addOrganization(organization);
 
         return "redirect:allOrganizations";
     }
@@ -64,12 +68,12 @@ public class OrganizationController {
     @GetMapping("editOrganization")
     public String editOrganization(Integer organizationId, Model model) {
 
-        Organization organization = service.getOrganizationById(organizationId);
-        List<Hero> heros = service.getAllHeros();
+        Organization organization = organizationService.getOrganizationById(organizationId);
+        List<Hero> heros = heroService.getAllHeros();
 
         model.addAttribute("heros", heros);
         model.addAttribute("organization", organization);
-        model.addAttribute("errors", service.getSuperPowerViolations());
+        model.addAttribute("errors", organizationService.getOrganizationViolations());
 
         return "/organization/editOrganization";
     }
@@ -79,7 +83,7 @@ public class OrganizationController {
             HttpServletRequest request) {
 
         if (result.hasErrors()) {
-            service.validateOrganization(organization);
+            organizationService.validateOrganization(organization);
             redirectAttributes.addAttribute("organizationId", organization.getId());
             return "/organization/editOrganization";
         }
@@ -90,7 +94,7 @@ public class OrganizationController {
         //get and set heros
         getAndSetHeros(heroIds, organization);
 
-        service.updateOrganization(organization);
+        organizationService.updateOrganization(organization);
 
         redirectAttributes.addAttribute("organizationId", organization.getId());
 
@@ -108,7 +112,7 @@ public class OrganizationController {
     @GetMapping("deleteOrganization")
     public String deleteOrganization(Integer organizationId) {
 
-        service.deleteOrganizationById(organizationId);
+        organizationService.deleteOrganizationById(organizationId);
 
         return "redirect:allOrganizations";
     }
@@ -116,7 +120,7 @@ public class OrganizationController {
     @GetMapping("organizationDetails")
     public String organizationDetails(Integer organizationId, Model model) {
 
-        Organization organization = service.getOrganizationDetails(organizationId);
+        Organization organization = organizationService.getOrganizationDetails(organizationId);
 
         model.addAttribute("organizationDetails", organization);
 
@@ -132,7 +136,7 @@ public class OrganizationController {
             //get heros
             for (String heroId : heroIds) {
 
-                heros.add(service.getHeroById(Integer.parseInt(heroId)));
+                heros.add(heroService.getHeroById(Integer.parseInt(heroId)));
             }
             //set orgs
             organization.setHeros(heros);
