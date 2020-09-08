@@ -42,18 +42,6 @@ public class OrganizationDaoDB implements OrganizationDao {
     }
 
     @Override
-    public void insertOrganizationHero(Organization organization) {
-        final String INSERT_ORGANIZATION_HERO = "INSERT INTO hero_has_organization(hero_id, organization_id) VALUES(?,?)";
-
-        for (Hero hero : organization.getHeros()) {
-
-            jdbc.update(INSERT_ORGANIZATION_HERO,
-                    hero.getId(),
-                    organization.getId());
-        }
-    }
-
-    @Override
     public List<Organization> getAllOrganizations() {
         final String SELECT_ALL_ORGANIZATIONS = "SELECT * FROM organization";
         return jdbc.query(SELECT_ALL_ORGANIZATIONS, new OrganizationMapper());
@@ -157,7 +145,6 @@ public class OrganizationDaoDB implements OrganizationDao {
     public void updateOrganizationHero(Hero hero, Organization organization, int originalId) {
 
         final String UPDATE_ORGANIZATION_HERO = "UPDATE hero_has_organization SET hero_id = ?,  organization_id = ?   WHERE hero_id = ?  AND  organization_id = ?";
-
         jdbc.update(UPDATE_ORGANIZATION_HERO, hero.getId(), organization.getId(), originalId, organization.getId());
     }
 

@@ -45,20 +45,6 @@ public class LocationDaoDB implements LocationDao {
     }
 
     @Override
-    public void insertLocationHero(Location location) {
-
-        final String INSERT_LOCATION_HERO = "INSERT INTO sighting (location_id, hero_id, date) VALUES(?,?,?)";
-
-        for (Hero hero : location.getHeros()) {
-
-            jdbc.update(INSERT_LOCATION_HERO,
-                    location.getId(),
-                    hero.getId(),
-                    location.getLocalDate());
-        }
-    }
-
-    @Override
     public List<Location> getAllLocations() {
 
         try {
@@ -149,9 +135,7 @@ public class LocationDaoDB implements LocationDao {
             location.setLocalDate(heroLocation.getLocalDate());
             heros.add(foundHero);
         }
-
         location.setHeros(heros);
-
     }
 
     @Override

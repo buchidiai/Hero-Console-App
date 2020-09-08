@@ -17,8 +17,6 @@ public interface LocationDao {
 
     Location getLocationById(int id);
 
-    void insertLocationHero(Location location);
-
     void updateLocationHero(Hero hero, Location location, int originalId);
 
     Location getLocationDetails(int id);

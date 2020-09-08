@@ -21,17 +21,11 @@ public interface SuperPowerDao {
 
     List<Hero> getSuperPowerDetails(int superPowerId);
 
-    void insertSuperPowerHero(SuperPower superPower);
-
     List<SuperPower> getAllSuperPowers();
 
     SuperPower addSuperPower(SuperPower superPower);
 
     void updateSuperPower(SuperPower superPower);
-
-    void updateSuperPowerHero(Hero hero, int oldHeroId);
-
-    void deleteSuperPowerHero(Hero hero);
 
     void deleteSuperPowerById(int id);
 

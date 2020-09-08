@@ -47,7 +47,6 @@ public class HeroDaoDB implements HeroDao {
     }
 
     @Override
-    @Transactional
     public List<Hero> getAllHeros() {
 
         try {
@@ -62,7 +61,6 @@ public class HeroDaoDB implements HeroDao {
     }
 
     @Override
-    @Transactional
     public Hero addHero(Hero hero) {
 
         final String INSERT_HERO = "INSERT INTO hero (name, description, superPower_id) "
@@ -203,13 +201,9 @@ public class HeroDaoDB implements HeroDao {
 
         List<Organization> organizations = new ArrayList<>();
         for (HeroOrganization heroOrganization : heroOrganizations) {
-
             Organization organization = jdbc.queryForObject(SELECT_ORGANIZATION_BY_ID, new OrganizationDaoDB.OrganizationMapper(), heroOrganization.getOrganizationId());
-
             organizations.add(organization);
-
         }
-
         hero.setOrganizations(organizations);
     }
 
@@ -245,7 +239,7 @@ public class HeroDaoDB implements HeroDao {
             hero.setId(rs.getInt("id"));
             hero.setName(rs.getString("name"));
             hero.setDescription(rs.getString("description"));
-            hero.setSuperPower_id(rs.getString("superPower_id") == null ? -1 : Integer.valueOf(rs.getString("superPower_id")));
+            hero.setSuperPower_id(Integer.valueOf(rs.getString("superPower_id")));
 
             return hero;
         }
