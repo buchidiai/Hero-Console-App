@@ -106,7 +106,6 @@ public class HeroDaoDB implements HeroDao {
 
         updateHeroOrganization(hero);
         updateHeroLocation(hero);
-
     }
 
     private void updateHeroLocation(Hero hero) {

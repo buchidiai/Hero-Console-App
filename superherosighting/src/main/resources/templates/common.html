@@ -126,9 +126,9 @@
                 </div>
                 <div class='col pt-2'>
                     <u><p th:text="${'About ' + sighting.hero.name + ':' }"> </p></u>
-                    <p th:text="${sighting.location.description}">  </p>
+                    <p th:text="${sighting.hero.description}">  </p>
                     <u><p> Description: </p></u>
-                    <p class=' text-dark' th:text="${sighting.hero.description}" ></p>
+                    <p class=' text-dark' th:text="${sighting.location.description}" ></p>
                 </div>
                 <hr />
             </div>

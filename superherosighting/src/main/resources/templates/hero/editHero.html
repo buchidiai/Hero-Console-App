@@ -79,7 +79,9 @@
                                 Locations (optional)</label>
                             <div class="col-9">
                                 <select   id="locationId" name="locationId" class="form-control" >
-                                    
+                                    <option  hidden >
+                                       Select a location
+                                    </option>
                                     <option th:each="location : ${locations}" 
                                             th:value="${location.id}" 
                                             th:text="${location.name}"

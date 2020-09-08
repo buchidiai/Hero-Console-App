@@ -55,14 +55,27 @@ public class HeroController {
     @PostMapping("addHero")
     public String addHero(@Valid Hero hero, BindingResult result, HttpServletRequest request) {
 
+        //check for errors
         if (result.hasErrors()) {
             service.validateHero(hero);
             return "redirect:hero";
         }
 
+        //add hero
         service.addHero(hero);
 
         return "redirect:allHeros";
+    }
+
+    @GetMapping("heroDetails")
+    public String heroDetails(Integer id, Model model) {
+
+        //get hero details
+        Hero hero = service.getHeroDetails(id);
+
+        model.addAttribute("heroDetails", hero);
+
+        return "/hero/heroDetails";
     }
 
     @GetMapping("editHero")
@@ -138,23 +151,15 @@ public class HeroController {
         return "redirect:allHeros";
     }
 
-    @GetMapping("heroDetails")
-    public String heroDetails(Integer id, Model model) {
-
-        Hero hero = service.getHeroDetails(id);
-
-        model.addAttribute("heroDetails", hero);
-
-        return "/hero/heroDetails";
-    }
-
     @GetMapping("editHeroLocation")
     public String editHeroLocation(Integer locationId, Integer heroId, Model model) {
 
+        //get hero details
         List<Location> heroLocations = service.getHeroDetails(heroId).getLocations();
-
+        //get all locations
         List<Location> allLocations = service.getAllLocations();
 
+        //return only location that are not already associated with this hero
         heroLocations.stream().filter(l -> (allLocations.contains(l))).filter(l -> (l.getId() != locationId)).forEachOrdered(l -> {
             allLocations.remove(l);
         });
@@ -171,10 +176,11 @@ public class HeroController {
     @PostMapping("editHeroLocation")
     public String performEditHeroLocation(Integer newLocationId, Integer locationId, Integer heroId, RedirectAttributes redirectAttributes) {
 
+        //get hero
         Hero hero = service.getHeroById(heroId);
-
+        //get location
         Location location = service.getLocationById(newLocationId);
-
+        //update
         service.updateHeroLocation(hero, location, locationId);
 
         redirectAttributes.addAttribute("id", hero.getId());
@@ -195,12 +201,15 @@ public class HeroController {
     @GetMapping("deleteHeroLocation")
     public String deleteHeroLocation(Integer heroId, Integer locationId, Integer sightingId, Model model,
             RedirectAttributes redirectAttributes) {
-
+        //get hero
         Hero hero = service.getHeroById(heroId);
 
+        //get location
         Location location = service.getLocationById(locationId);
+        //add sighting to location
         location.setSightingId(sightingId);
 
+        //delete location
         service.deleteHeroLocation(hero, location);
 
         redirectAttributes.addAttribute("id", hero.getId());
