@@ -19,22 +19,44 @@
             <!-- form -->
             <div class='d-flex justify-content-center'>
                 <div class='border border-secondary col-7 '>
+                    <div class="col-12 m-1 text-center" th:if="${!errors.isEmpty()}">
+                        <p class="alert alert-danger" th:each="error : ${errors}" 
+                           th:text="${error.message}">Error message</p>
+                    </div>
                     <form class='p-5'  action="editSuperPower" method="POST">
                         <div class="form-group row" >
                             <label for="name" class="col-sm-2  col-form-label">Name</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" name="name" th:value="${superPower.name}">
-                                <div  th:if="${#fields.hasErrors('superPower.name')}">
-                                    <p th:each="error : ${#fields.errors('superPower.name')}" class="alert alert-danger text-center"
-                                       th:text="${error}"> Bad name </p>
+                                <div th:if="${#fields.hasErrors('superPower.name')}">
+                                    <p th:each="error : ${#fields.errors('superPower.name')}" 
+                                       class="alert alert-danger" th:text="${error}">
+                                        Bad name </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="heros" class="col-2 col-form-label">Heros (optional)</label>
+                            <div class="col-10">
+                                <select multiple  id="heroId" name="heroId" class="form-control" >
+
+                                    <option th:each="hero : ${heros}" 
+                                            th:value="${hero.id}" 
+                                            th:text="${hero.name}"
+                                            >
+                                    </option>
+                                </select>
+                                <div class=' row pl-4'>
+                                    <span class='text-center pt-2 pr-2'>Can't find a hero ? </span>
+                                    <a class='text-center pt-2 text-primary' th:href="@{/hero}"> Create Hero </a>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group row d-flex justify-content-center ">
                             <div class="col-sm-10">
                                 <input type="hidden" name="id" th:value="${superPower.id}"/>
-                                 <button type="submit" class="btn btn-primary btn-lg btn-block ">OK</button>
-                                 <a  th:href="@{/superPowerDetails(superPowerId=${superPower.id})}" class="btn btn-danger btn-lg btn-block ">CANCEL</a>
+                                <button type="submit" class="btn btn-primary btn-lg btn-block ">OK</button>
+                                <a  th:href="@{/superPowerDetails(superPowerId=${superPower.id})}" class="btn btn-danger btn-lg btn-block ">CANCEL</a>
                             </div>
                         </div>
                     </form>

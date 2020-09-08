@@ -53,34 +53,12 @@ public class HeroController {
     }
 
     @PostMapping("addHero")
-    public String addHero(HttpServletRequest request) {
+    public String addHero(@Valid Hero hero, BindingResult result, HttpServletRequest request) {
 
-        //hero name
-        String name = request.getParameter("name");
-        //hero description
-        String description = request.getParameter("description");
-        //super power
-        String heroSuperPower = request.getParameter("superPower");
-
-        //create super power object
-        SuperPower superPower = new SuperPower();
-
-        //check if super is empty
-        if (heroSuperPower.isEmpty()) {
-            superPower.setId(0);
-            superPower.setName("none");
-        } else {
-            superPower.setName(heroSuperPower);
+        if (result.hasErrors()) {
+            service.validateHero(hero);
+            return "redirect:hero";
         }
-        //add super power to db
-        superPower = service.addSuperPower(superPower);
-
-        //create hero object
-        Hero hero = new Hero();
-        hero.setName(name);
-        hero.setDescription(description);
-        hero.setSuperPower(superPower.getName());
-        hero.setSuperPower_id(superPower.getId());
 
         //check if hero is empty then add
         if (service.validateHero(hero).isEmpty()) {
@@ -98,15 +76,19 @@ public class HeroController {
         Hero hero = service.getHeroById(id);
         List<Organization> organizations = service.getAllOrganizations();
         List<Location> locations = service.getAllLocations();
+        List<SuperPower> superPowers = service.getAllSuperPowers();
 
+        model.addAttribute("superPowers", superPowers);
         model.addAttribute("locations", locations);
         model.addAttribute("organizations", organizations);
         model.addAttribute("locations", locations);
         model.addAttribute("hero", hero);
 
-        if (hero.getSuperPower() != null) {
-            model.addAttribute("superPower", hero.getSuperPower());
-        }
+        //check if super power is not null in case it was deleted
+//        if (hero.getSuperPower() != null) {
+//            model.addAttribute("superPower", hero.getSuperPower());
+//        }
+        model.addAttribute("errors", service.getHeroViolations());
 
         return "/hero/editHero";
     }
@@ -115,14 +97,19 @@ public class HeroController {
     public String performEditHero(@Valid Hero hero, BindingResult result, RedirectAttributes redirectAttributes,
             HttpServletRequest request, Model model) {
 
-        //super power
-        String super_Power = request.getParameter("superPower");
+        //check for errors
+        if (result.hasErrors()) {
+            //validate
+            service.validateHero(hero);
+            //redirect with id
+            redirectAttributes.addAttribute("id", hero.getId());
+            return "redirect:editHero";
+        }
+
         //organization ids
         String[] organizationIds = request.getParameterValues("organizationIds");
 
-        System.out.println("super_Power " + super_Power);
-
-        //location ids
+        //location id
         String locationId = request.getParameter("locationId");
 
         //date
@@ -136,20 +123,6 @@ public class HeroController {
 
         //get and set locations
         getAndSetLocationAndDate(locationId, date, hero);
-
-        //set super power to none if empty
-        if (super_Power.isEmpty()) {
-            super_Power = "none";
-        }
-
-        //set super power
-        hero.setSuperPower(super_Power);
-
-        //check for errors
-        if (result.hasErrors()) {
-
-            return "/hero/editHero";
-        }
 
         service.updateHero(hero);
 
@@ -313,7 +286,7 @@ public class HeroController {
         List<Location> locations = new ArrayList<>();
 
         //check if date and location id is not null
-        if (locationId != null && date != null) {
+        if (locationId != null && !date.isBlank()) {
 
             //parse date
             LocalDateTime sightingDate = LocalDateTime.parse(date);
@@ -325,8 +298,10 @@ public class HeroController {
             location.setLocalDate(sightingDate);
             //add location to location array
             locations.add(location);
+            //set location to hero
+            hero.setLocations(locations);
         }
-        //set location to hero
-        hero.setLocations(locations);
+
     }
+
 }

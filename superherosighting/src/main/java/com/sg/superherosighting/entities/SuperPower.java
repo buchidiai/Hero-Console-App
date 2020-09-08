@@ -5,7 +5,10 @@
  */
 package com.sg.superherosighting.entities;
 
+import java.util.List;
 import java.util.Objects;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -14,11 +17,13 @@ import java.util.Objects;
 public class SuperPower {
 
     private int id;
-//    @NotBlank(message = "Super Power must not be empty.")
-//    @Size(max = 45, message = "Super Power must be less than 45 characters.")
+    @NotBlank(message = "Super Power must not be empty.")
+    @Size(max = 45, message = "Super Power must be less than 45 characters.")
     private String name;
 
     private Hero hero;
+
+    private List<Hero> heros;
 
     public int getId() {
         return id;
@@ -44,11 +49,21 @@ public class SuperPower {
         this.hero = hero;
     }
 
+    public List<Hero> getHeros() {
+        return heros;
+    }
+
+    public void setHeros(List<Hero> heros) {
+        this.heros = heros;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 89 * hash + this.id;
-        hash = 89 * hash + Objects.hashCode(this.name);
+        int hash = 7;
+        hash = 97 * hash + this.id;
+        hash = 97 * hash + Objects.hashCode(this.name);
+        hash = 97 * hash + Objects.hashCode(this.hero);
+        hash = 97 * hash + Objects.hashCode(this.heros);
         return hash;
     }
 
@@ -70,12 +85,17 @@ public class SuperPower {
         if (!Objects.equals(this.name, other.name)) {
             return false;
         }
+        if (!Objects.equals(this.hero, other.hero)) {
+            return false;
+        }
+        if (!Objects.equals(this.heros, other.heros)) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "SuperPower{" + "id=" + id + ", superPower=" + name + '}';
+        return "SuperPower{" + "id=" + id + ", name=" + name + ", hero=" + hero + ", heros=" + heros + '}';
     }
-
 }

@@ -10,9 +10,11 @@ import com.sg.superherosighting.entities.Location;
 import com.sg.superherosighting.entities.Organization;
 import com.sg.superherosighting.entities.Sighting;
 import com.sg.superherosighting.entities.SuperPower;
+import com.sg.superherosighting.exceptions.SuperHeroDuplicateKeyException;
 import java.util.List;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
+import org.springframework.validation.BindingResult;
 
 /**
  *
@@ -106,9 +108,9 @@ public interface ServiceLayer {
 
     SuperPower addSuperPower(SuperPower superPower);
 
-    void updateSuperPower(SuperPower superPower);
+    void updateSuperPower(SuperPower superPower, BindingResult result) throws SuperHeroDuplicateKeyException;
 
-    Hero getSuperPowerDetails(int superPowerId);
+    List<Hero> getSuperPowerDetails(int superPowerId);
 
     void updateSuperPowerHero(Hero hero, int oldHeroId);
 

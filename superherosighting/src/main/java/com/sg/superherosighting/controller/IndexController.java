@@ -36,10 +36,6 @@ public class IndexController {
         });
 
         model.addAttribute("sightings", sightings);
-
-        sightings.forEach(sighting -> {
-            System.out.println(" sighting.getHero() " + sighting);
-        });
         return "index";
     }
 

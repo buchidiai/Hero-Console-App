@@ -95,30 +95,18 @@ public class HeroDaoDB implements HeroDao {
     @Transactional
     public void updateHero(Hero hero) {
 
-        final String UPDATE_HERO = "UPDATE  hero  SET name = ?, description = ? "
+        final String UPDATE_HERO = "UPDATE  hero  SET name = ?, description = ?, superPower_id = ? "
                 + "WHERE id = ?";
         jdbc.update(UPDATE_HERO,
                 hero.getName(),
                 hero.getDescription(),
-                hero.getId());
+                hero.getSuperPower_id(),
+                hero.getId()
+        );
 
-        updateHeroSuperPower(hero);
         updateHeroOrganization(hero);
         updateHeroLocation(hero);
 
-    }
-
-    private void updateHeroSuperPower(Hero hero) {
-
-        final String GET_HERO_SUPER_POWER = "SELECT  superPower_id FROM  hero  WHERE hero.id = ?";
-
-        String id = jdbc.queryForObject(GET_HERO_SUPER_POWER, new Object[]{hero.getId()}, String.class);
-
-        final String UPDATE_HERO_SUPER_POWER = "UPDATE  superPower  SET name = ? "
-                + "WHERE id = ?";
-        jdbc.update(UPDATE_HERO_SUPER_POWER,
-                hero.getSuperPower(),
-                id);
     }
 
     private void updateHeroLocation(Hero hero) {
@@ -288,7 +276,7 @@ public class HeroDaoDB implements HeroDao {
             hero.setDescription(rs.getString("description"));
             hero.setSuperPower(rs.getString("s.name") == null ? "null" : rs.getString("s.name"));
 
-            System.out.println("HeroMapper " + hero.toString());
+//            System.out.println("HeroMapper " + hero.toString());
             return hero;
         }
     }

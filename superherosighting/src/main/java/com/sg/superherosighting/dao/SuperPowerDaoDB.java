@@ -9,7 +9,6 @@ import com.sg.superherosighting.entities.Hero;
 import com.sg.superherosighting.entities.SuperPower;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +41,20 @@ public class SuperPowerDaoDB implements SuperPowerDao {
     }
 
     @Override
+    public List<SuperPower> getSuperPowerByName(String name) {
+
+        try {
+            final String FIND_SUPER_POWER = "SELECT * FROM superPower WHERE name = ?";
+
+            return jdbc.query(FIND_SUPER_POWER, new SuperPowerMapper(), name);
+
+        } catch (DataAccessException ex) {
+            return null;
+        }
+
+    }
+
+    @Override
     public void insertSuperPowerHero(SuperPower superPower) {
         final String INSERT_SUPERPOWER_HERO = "UPDATE hero SET superPower_id = ?  WHERE id = ?";
 
@@ -57,78 +70,77 @@ public class SuperPowerDaoDB implements SuperPowerDao {
     }
 
     @Override
+    @Transactional
     public SuperPower addSuperPower(SuperPower superPower) {
-<<<<<<< HEAD
 
         final String INSERT_SUPERPOWER = "INSERT INTO superPower(name)"
                 + "VALUES(?)";
-=======
->>>>>>> temp-branch-two
 
-        try {
-            final String INSERT_SUPERPOWER = "INSERT INTO superPower(name)"
-                    + "VALUES(?)";
+        jdbc.update(INSERT_SUPERPOWER,
+                superPower.getName().toLowerCase());
+        int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
 
-            System.out.println(" statement " + jdbc.update(INSERT_SUPERPOWER,
-                    superPower.getName().toLowerCase()));
-
-            int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
-
-            System.out.println("newId" + newId);
-
-            superPower.setId(newId);
-
-            throw new SQLIntegrityConstraintViolationException("no duplicates");
-        } catch (SQLIntegrityConstraintViolationException e) {
-
-//            if (ex instanceof SQLIntegrityConstraintViolationException) {
-//
-//            }
-        } catch (SQLException e) {
-            // Other SQL Exception
-        }
+        superPower.setId(newId);
 
         return superPower;
+
     }
 
     @Override
     public void updateSuperPower(SuperPower superPower) {
-        final String UPDATE_SUPERPOWER = "UPDATE superPower SET name = ? "
-                + "WHERE id = ?";
-        jdbc.update(UPDATE_SUPERPOWER,
-                superPower.getName().toLowerCase(),
-                superPower.getId());
+
+        try {
+
+            final String UPDATE_SUPERPOWER = "UPDATE superPower SET name = ? "
+                    + "WHERE id = ?";
+
+            jdbc.update(UPDATE_SUPERPOWER,
+                    superPower.getName().toLowerCase(),
+                    superPower.getId());
+
+            updateHerosSuperPower(superPower);
+
+        } catch (DataAccessException ex) {
+
+        }
+
+    }
+
+    private void updateHerosSuperPower(SuperPower superPower) {
+
+        if (superPower.getHeros() != null) {
+
+            final String UPDATE_SUPER_POWER_HERO = "UPDATE hero SET superPower_id = ? "
+                    + "WHERE id = ?";
+
+            for (Hero hero : superPower.getHeros()) {
+                jdbc.update(UPDATE_SUPER_POWER_HERO,
+                        superPower.getId(),
+                        hero.getId());
+            }
+        }
     }
 
     @Override
     @Transactional
     public void deleteSuperPowerById(int id) {
 
-        //create empty super power placeholder for hero who lost power
-//        final String INSERT_SUPERPOWER = "INSERT INTO superPower(name) VALUES(?)";
-//        jdbc.update(INSERT_SUPERPOWER, "none");
-//        int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
-//        final String DELETE_SUPER_POWER_HERO = "UPDATE hero SET superPower_id = ? WHERE superPower_id = ?";
-//        jdbc.update(DELETE_SUPER_POWER_HERO, newId, id);
-        final String UPDATE_SUPER_POWER_HERO = "UPDATE hero SET superPower_id = ? WHERE superPower_id = ?";
-        jdbc.update(UPDATE_SUPER_POWER_HERO, null, id);
-
         final String DELETE_SUPERPOWER = "DELETE FROM superPower WHERE id = ?";
         jdbc.update(DELETE_SUPERPOWER, id);
     }
 
     @Override
-    public Hero getSuperPowerDetails(int superPowerId) {
+    public List<Hero> getSuperPowerDetails(int superPowerId) {
 
-        final String GET_SUPER_POWER_HERO = "SELECT h.id, h.name, h.description, s.name FROM  hero h JOIN superPower s On h.superPower_id = s.id WHERE superPower_id = ?";
+        final String GET_ALL_SUPER_POWER_HERO = "SELECT h.id, h.name, h.description, s.name FROM  hero h JOIN superPower s On h.superPower_id = s.id WHERE superPower_id = ?";
 
-        List<Hero> heros = jdbc.query(GET_SUPER_POWER_HERO, new HeroDaoDB.HeroMapper(), superPowerId);
+        List<Hero> heros = jdbc.query(GET_ALL_SUPER_POWER_HERO, new HeroDaoDB.HeroMapper(), superPowerId);
 
         if (heros.isEmpty()) {
             return null;
 
         } else {
-            return heros.get(0);
+            return heros;
         }
     }
 
@@ -159,6 +171,7 @@ public class SuperPowerDaoDB implements SuperPowerDao {
 
     @Override
     public void deleteSuperPowerHero(Hero hero) {
+
         final String DELETE_SUPER_POWER_HERO = "DELETE superPower_id FROM hero WHERE id = ?";
         jdbc.update(DELETE_SUPER_POWER_HERO, hero.getId());
 

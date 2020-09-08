@@ -17,7 +17,9 @@ public interface SuperPowerDao {
 
     SuperPower getSuperPowerById(int id);
 
-    Hero getSuperPowerDetails(int superPowerId);
+    List<SuperPower> getSuperPowerByName(String name);
+
+    List<Hero> getSuperPowerDetails(int superPowerId);
 
     void insertSuperPowerHero(SuperPower superPower);
 

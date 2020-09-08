@@ -26,6 +26,7 @@ public class Hero {
     @Size(max = 255, message = "Description must be less than 255 characters.")
     @NotNull(message = "Description cannot be null")
     private String description;
+
     private String superPower;
     private int superPower_id;
 
