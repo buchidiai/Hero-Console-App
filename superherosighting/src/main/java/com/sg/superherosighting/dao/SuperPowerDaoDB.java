@@ -161,7 +161,6 @@ public class SuperPowerDaoDB implements SuperPowerDao {
                 newId,
                 oldHeroId);
 
-        System.out.println("hero updateSuperPowerHero " + hero.toString());
         final String UPDATE_SUPER_POWER_HERO = "UPDATE hero SET superPower_id = ? "
                 + "WHERE id = ?";
         jdbc.update(UPDATE_SUPER_POWER_HERO,

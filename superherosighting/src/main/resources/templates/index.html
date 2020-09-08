@@ -22,6 +22,10 @@
                 <div class='col text-center  p-3'>
                     <h6>There are currently no Sightings</h6>
                 </div>
+                
+                 <div class="col-12 text-center p-5">
+                <a class=' text-primary ' th:href="@{/sighting}" >Add a Sighting</a>
+            </div>
             </div>
             <div th:if="${!sightings.empty}">
                 <div class='col border border-secondary'>

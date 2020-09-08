@@ -33,9 +33,6 @@ public class OrganizationController {
     @GetMapping("organization")
     public String getOrganizationPage(Model model) {
 
-        List<Hero> heros = service.getAllHeros();
-
-        model.addAttribute("heros", heros);
         model.addAttribute("errors", service.getOrganizationViolations());
 
         return "/organization/organization";
@@ -52,48 +49,14 @@ public class OrganizationController {
     }
 
     @PostMapping("addOrganization")
-    public String addOrganization(HttpServletRequest request) {
+    public String addOrganization(@Valid Organization organization, BindingResult result, HttpServletRequest request) {
 
-        //organization parms from client
-        String name = request.getParameter("name");
-        String description = request.getParameter("description");
-        String address = request.getParameter("address");
-
-        //heros ids
-        String[] herosIds = request.getParameterValues("herosId");
-
-        Organization organization = new Organization();
-
-        organization.setName(name);
-        organization.setDescription(description);
-        organization.setAddress(address);
-
-        List<Hero> heros = new ArrayList<>();
-
-        if (herosIds != null) {
-            for (String heroId : herosIds) {
-                heros.add(service.getHeroById(Integer.parseInt(heroId)));
-            }
+        if (result.hasErrors()) {
+            service.validateOrganization(organization);
+            return "redirect:organization";
         }
 
-        //check if empty then add
-        if (service.validateOrganization(organization).isEmpty()) {
-
-            if (herosIds != null) {
-                //set orgs
-                organization.setHeros(heros);
-
-            }
-
-            //add organization
-            service.addOrganization(organization);
-            //add bridge table relationship
-
-            if (herosIds != null) {
-                service.insertOrganizationHero(organization);
-            }
-
-        }
+        service.addOrganization(organization);
 
         return "redirect:allOrganizations";
     }
@@ -102,17 +65,30 @@ public class OrganizationController {
     public String editOrganization(Integer organizationId, Model model) {
 
         Organization organization = service.getOrganizationById(organizationId);
+        List<Hero> heros = service.getAllHeros();
 
+        model.addAttribute("heros", heros);
         model.addAttribute("organization", organization);
+        model.addAttribute("errors", service.getSuperPowerViolations());
+
         return "/organization/editOrganization";
     }
 
     @PostMapping("editOrganization")
-    public String performEditOrganization(@Valid Organization organization, BindingResult result, RedirectAttributes redirectAttributes) {
+    public String performEditOrganization(@Valid Organization organization, BindingResult result, RedirectAttributes redirectAttributes,
+            HttpServletRequest request) {
 
         if (result.hasErrors()) {
+            service.validateOrganization(organization);
+            redirectAttributes.addAttribute("organizationId", organization.getId());
             return "/organization/editOrganization";
         }
+
+        //heros ids
+        String[] heroIds = request.getParameterValues("heroIds");
+
+        //get and set heros
+        getAndSetHeros(heroIds, organization);
 
         service.updateOrganization(organization);
 
@@ -147,59 +123,21 @@ public class OrganizationController {
         return "/organization/organizationDetails";
     }
 
-    @GetMapping("editOrganizationHero")
-    public String editOrganizationHero(Integer organizationId, Integer heroId, Model model) {
+    private void getAndSetHeros(String[] heroIds, Organization organization) {
 
-        List<Hero> organizationHeros = service.getOrganizationDetails(organizationId).getHeros();
+        List<Hero> heros = new ArrayList<>();
 
-        List<Hero> allHeros = service.getAllHeros();
+        if (heroIds != null) {
 
-        organizationHeros.stream().filter(h -> (allHeros.contains(h))).filter(h -> (h.getId() != heroId)).forEachOrdered(h -> {
-            allHeros.remove(h);
-        });
+            //get heros
+            for (String heroId : heroIds) {
 
-        model.addAttribute("heros", allHeros);
-        model.addAttribute("organizationId", organizationId);
-        model.addAttribute("heroId", heroId);
+                heros.add(service.getHeroById(Integer.parseInt(heroId)));
+            }
+            //set orgs
+            organization.setHeros(heros);
+        }
 
-        return "/organization/editOrganizationHero";
     }
 
-    @PostMapping("editOrganizationHero")
-    public String performEditOrganizationHero(Model model, Integer newHeroId, Integer heroId, Integer organizationId,
-            RedirectAttributes redirectAttributes) {
-
-        Organization organization = service.getOrganizationById(organizationId);
-
-        Hero hero = service.getHeroById(newHeroId);
-
-        service.updateOrganizationHero(hero, organization, heroId);
-
-        redirectAttributes.addAttribute("organizationId", organization.getId());
-
-        return "redirect:organizationDetails";
-    }
-
-    @GetMapping("deleteOrganizationHeroConfirm")
-    public String deleteOrganizationHeroConfirm(Integer heroId, Integer organizationId, Model model) {
-
-        model.addAttribute("heroId", heroId);
-        model.addAttribute("organizationId", organizationId);
-
-        return "/organization/deleteOrganizationHeroConfirm";
-    }
-
-    @GetMapping("deleteOrganizationHero")
-    public String deleteOrganizationHero(Integer heroId, Integer organizationId, RedirectAttributes redirectAttributes) {
-
-        Hero hero = service.getHeroById(heroId);
-
-        Organization organization = service.getOrganizationById(organizationId);
-
-        service.deleteHeroOrganization(hero, organization);
-
-        redirectAttributes.addAttribute("organizationId", organization.getId());
-
-        return "redirect:organizationDetails";
-    }
 }

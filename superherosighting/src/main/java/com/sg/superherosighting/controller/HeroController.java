@@ -60,11 +60,7 @@ public class HeroController {
             return "redirect:hero";
         }
 
-        //check if hero is empty then add
-        if (service.validateHero(hero).isEmpty()) {
-            //add hero
-            service.addHero(hero);
-        }
+        service.addHero(hero);
 
         return "redirect:allHeros";
     }
@@ -81,13 +77,8 @@ public class HeroController {
         model.addAttribute("superPowers", superPowers);
         model.addAttribute("locations", locations);
         model.addAttribute("organizations", organizations);
-        model.addAttribute("locations", locations);
         model.addAttribute("hero", hero);
 
-        //check if super power is not null in case it was deleted
-//        if (hero.getSuperPower() != null) {
-//            model.addAttribute("superPower", hero.getSuperPower());
-//        }
         model.addAttribute("errors", service.getHeroViolations());
 
         return "/hero/editHero";
@@ -152,58 +143,9 @@ public class HeroController {
 
         Hero hero = service.getHeroDetails(id);
 
-        System.out.println("hero getLocations " + hero.getLocations());
         model.addAttribute("heroDetails", hero);
 
         return "/hero/heroDetails";
-    }
-
-    @GetMapping("editHeroOrganization")
-    public String editHeroOrganization(Integer organizationId, Integer heroId, Model model) {
-        List<Organization> organizations = service.getAllOrganizations();
-        model.addAttribute("organizations", organizations);
-        model.addAttribute("organizationId", organizationId);
-        model.addAttribute("heroId", heroId);
-
-        return "hero/editHeroOrganization";
-    }
-
-    @PostMapping("editHeroOrganization")
-    public String performEditHeroOrganization(Model model, Integer newOrganizationId, Integer heroId, Integer organizationId,
-            RedirectAttributes redirectAttributes) {
-
-        Hero hero = service.getHeroById(heroId);
-
-        Organization organization = service.getOrganizationById(newOrganizationId);
-
-        service.updateHeroOrganization(hero, organization, organizationId);
-
-        redirectAttributes.addAttribute("id", hero.getId());
-
-        return "redirect:heroDetails";
-    }
-
-    @GetMapping("deleteHeroOrganizationConfirm")
-    public String deleteHeroOrganizationConfirm(Integer heroId, Integer organizationId, Model model) {
-
-        model.addAttribute("heroId", heroId);
-        model.addAttribute("organizationId", organizationId);
-
-        return "/hero/deleteHeroOrganizationConfirm";
-    }
-
-    @GetMapping("deleteHeroOrganization")
-    public String deleteHeroOrganization(Integer heroId, Integer organizationId, Model model, RedirectAttributes redirectAttributes) {
-
-        Hero hero = service.getHeroById(heroId);
-
-        Organization organization = service.getOrganizationById(organizationId);
-
-        service.deleteHeroOrganization(hero, organization);
-
-        redirectAttributes.addAttribute("id", hero.getId());
-
-        return "redirect:heroDetails";
     }
 
     @GetMapping("editHeroLocation")

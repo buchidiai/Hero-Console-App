@@ -93,10 +93,9 @@ public class SightingDaoDB implements SightingDao {
 
         for (Hero hero : sighting.getHeros()) {
 
-            jdbc.update(INSERT_INTO_SIGHTING, sighting.getLocation().getId(), hero.getId(), sighting.getLocalDate());
+            jdbc.update(INSERT_INTO_SIGHTING, sighting.getLocationId(), hero.getId(), sighting.getLocalDate());
 
         }
-
         return sighting;
 
     }

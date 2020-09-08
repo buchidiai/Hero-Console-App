@@ -50,9 +50,6 @@
                                             <th class='text-light'>Name</th>
                                             <th class='text-light'>Description</th>
                                             <th class='text-light'>address</th>
-                                            <th class='text-light'>Edit</th>
-                                            <th class='text-light'>Delete</th>
-
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -61,14 +58,6 @@
                                             <td th:text="${organization.name}">name</td>
                                             <td th:text="${organization.description}">description</td>
                                             <td th:text="${organization.address}">address</td>
-                                            <td> 
-                                                <a th:href="@{/editHeroOrganization(organizationId=${organization.id}, heroId=${heroDetails.id})}" class="fas fa-edit text-primary">
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <a th:href="@{/deleteHeroOrganizationConfirm(organizationId=${organization.id}, heroId=${heroDetails.id})}"  class="fas fa-trash-alt text-danger">
-                                                </a>
-                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>

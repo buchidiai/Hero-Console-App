@@ -75,6 +75,7 @@ public class OrganizationDaoDB implements OrganizationDao {
     }
 
     @Override
+    @Transactional
     public void updateOrganization(Organization organization) {
         final String UPDATE_ORGANIZATION = "UPDATE organization SET name = ?, description = ?, address = ? "
                 + "WHERE id = ?";
@@ -84,6 +85,27 @@ public class OrganizationDaoDB implements OrganizationDao {
                 organization.getAddress(),
                 organization.getId()
         );
+
+        updateHeroOrganizations(organization);
+    }
+
+    private void updateHeroOrganizations(Organization organization) {
+
+        final String UPDATE_HERO_ORGANIZATION = "DELETE FROM hero_has_organization WHERE organization_id = ?";
+        jdbc.update(UPDATE_HERO_ORGANIZATION, organization.getId());
+
+        if (organization.getHeros() != null) {
+
+            final String INSERT_ORGANIZATION_HERO = "INSERT INTO hero_has_organization(hero_id, organization_id) VALUES(?,?)";
+
+            for (Hero hero : organization.getHeros()) {
+
+                jdbc.update(INSERT_ORGANIZATION_HERO,
+                        hero.getId(),
+                        organization.getId());
+            }
+        }
+
     }
 
     @Override
@@ -126,7 +148,7 @@ public class OrganizationDaoDB implements OrganizationDao {
 
             organization.setHeros(heros);
         } catch (DataAccessException ex) {
-            System.out.println("ex " + ex);
+
         }
 
     }

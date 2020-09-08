@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Objects;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
 /**
@@ -39,7 +38,7 @@ public class Location {
 
     private List<Hero> heros;
 
-    @Past(message = "Date must be today or in the past.")
+//    @Past(message = "Date must be today or in the past.")
     private LocalDateTime localDate;
 
     private int sightingId;

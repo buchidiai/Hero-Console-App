@@ -10,7 +10,6 @@ import com.sg.superherosighting.entities.Location;
 import com.sg.superherosighting.entities.Organization;
 import com.sg.superherosighting.entities.Sighting;
 import com.sg.superherosighting.entities.SuperPower;
-import com.sg.superherosighting.exceptions.SuperHeroDuplicateKeyException;
 import java.util.List;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
@@ -108,7 +107,7 @@ public interface ServiceLayer {
 
     SuperPower addSuperPower(SuperPower superPower);
 
-    void updateSuperPower(SuperPower superPower, BindingResult result) throws SuperHeroDuplicateKeyException;
+    void updateSuperPower(SuperPower superPower, BindingResult result);
 
     List<Hero> getSuperPowerDetails(int superPowerId);
 

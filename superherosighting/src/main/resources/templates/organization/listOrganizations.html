@@ -15,9 +15,13 @@
             <div class="col-12 text-center p-3">
                 <a class=' text-primary ' th:href="@{/organization}">Go Back</a>
             </div>
-   
+
+            <div  th:if="${organizations.empty}" class="col-12  d-flex justify-content-center p-5">
+                <h6>There are currently no Organizations.</h6>
+            </div>
+
             <!-- table Organization start-->
-            <div class="row p-2">
+            <div class="row p-2"  th:if="${!organizations.empty}">
 
                 <div class="col text-center  d-flex justify-content-center">
                     <table class="table table-striped w-75 border border-dark ">

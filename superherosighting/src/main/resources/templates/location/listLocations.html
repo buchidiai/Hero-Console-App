@@ -6,22 +6,26 @@
         <div th:insert="common :: navBar"></div>
         <!-- Main Body of Page -->
         <div class='container'>
-              <!-- Header -->
+            <!-- Header -->
             <div th:insert="common :: pageHeader(title='Locations')"></div>
             <!-- Header -->
-            <div th:insert="common :: sectionHeader(title='All Locations')" >
 
+            <div class="col-12" th:insert="common :: headerAndCount(title='All Locations', count=${locations})" >
             </div>
+
 
             <div class="col-12 text-center p-3">
                 <a class=' text-primary ' th:href="@{/location}" >Go Back</a>
             </div>
 
+            <div  th:if="${locations.empty}" class="col-12  d-flex justify-content-center p-5">
+                <h6>There are currently no Locations.</h6>
+            </div>
             <!-- Section Header-->
 
 
             <!-- table Location start-->
-            <div class="row p-2">
+            <div class="row p-2" th:if="${!locations.empty}">
 
                 <div class="col text-center  d-flex justify-content-center">
                     <table class="table table-striped w-75 border border-dark ">

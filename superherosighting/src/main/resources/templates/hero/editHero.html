@@ -79,6 +79,7 @@
                                 Locations (optional)</label>
                             <div class="col-9">
                                 <select   id="locationId" name="locationId" class="form-control" >
+                                    
                                     <option th:each="location : ${locations}" 
                                             th:value="${location.id}" 
                                             th:text="${location.name}"
@@ -94,7 +95,6 @@
 
                         <!--  create date start-->
                         <div class="form-group row ">
-
                             <label for="date" class="col-sm-3 col-form-label">Date (optional)</label>
                             <div class="col-9">
                                 <input 

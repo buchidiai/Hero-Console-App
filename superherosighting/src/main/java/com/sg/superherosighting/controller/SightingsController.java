@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,43 +57,22 @@ public class SightingsController {
     }
 
     @PostMapping("addSighting")
-    public String addSighting(Sighting sighting, HttpServletRequest request) {
+    public String addSighting(@Valid Sighting sighting, BindingResult result, HttpServletRequest request) {
 
-        //get values
-        String[] heroIds = request.getParameterValues("heroId");
-        String locationId = request.getParameter("locationId");
-        String date = request.getParameter("date");
-
-        List<Hero> heros = new ArrayList<>();
-        if (heroIds != null) {
-            for (String heroId : heroIds) {
-                heros.add(service.getHeroById(Integer.parseInt(heroId)));
-            }
-        }
-
-        //parse date
-        if (!(date == null)) {
-            LocalDateTime sightingDate = LocalDateTime.parse(date);
-            sighting.setLocalDate(sightingDate);
-        }
-
-        if (date == null || date.isEmpty()) {
-
+        if (result.hasErrors()) {
             service.validateSighting(sighting);
-
-            return "redirect:/sighting";
+            return "redirect:sighting";
         }
 
-        //set them
-        sighting.setHeros(heros);
+        //get hero values
+        String[] heroIds = request.getParameterValues("heroId");
 
-        sighting.setLocation(service.getLocationById((Integer.parseInt(locationId))));
+        //set and set heros to sighting object
+        getAndSetHeros(heroIds, sighting);
 
-        //check if empty then add
-        if (service.validateSighting(sighting).isEmpty()) {
-            //add to db
-            service.addSighting(sighting);
-        }
+        getandSetDate(sighting);
+
+        service.addSighting(sighting);
 
         return "redirect:allSightings";
     }
@@ -159,15 +139,48 @@ public class SightingsController {
 
         Sighting sightingDetails = null;
 
+        //get specific sighting details from list of all details
         for (Sighting sighting : sightings) {
+
             if (sighting.getId() == sightingId) {
                 sightingDetails = sighting;
-
+                break;
             }
         }
 
         model.addAttribute("sightingDetails", sightingDetails);
         return "/sighting/sightingDetails";
+    }
+
+    private void getAndSetHeros(String[] heroIds, Sighting sighting) {
+
+        List<Hero> heros = new ArrayList<>();
+
+        if (heroIds != null) {
+
+            //get heros
+            for (String heroId : heroIds) {
+
+                heros.add(service.getHeroById(Integer.parseInt(heroId)));
+            }
+            //set orgs
+            sighting.setHeros(heros);
+        }
+
+    }
+
+    private void getandSetDate(Sighting sighting) {
+
+        if (!sighting.getDate().isBlank()) {
+
+            //parse date
+            LocalDateTime sightingDate = LocalDateTime.parse(sighting.getDate());
+
+            //set date to location
+            sighting.setLocalDate(sightingDate);
+            //add location to location array
+        }
+
     }
 
 }

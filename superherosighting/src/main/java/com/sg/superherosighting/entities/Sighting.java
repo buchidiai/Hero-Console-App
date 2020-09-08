@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
@@ -25,10 +26,15 @@ public class Sighting {
     @NotNull
     @Min(value = 1, message = "Please select a Location")
     private int locationId;
+//    @NotNull(message = "Please select a Date")
+    @Past(message = "Date must be today or in the past.")
+////    @DateTimeFormat(pattern = "MM-dd-yyyy")
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDateTime localDate;
 
     @NotNull(message = "Please select a Date")
-    @Past(message = "Date must be today or in the past.")
-    private LocalDateTime localDate;
+    @NotBlank(message = "Date must not be empty.")
+    private String Date;
 
     private String timeAgo;
 
@@ -37,6 +43,14 @@ public class Sighting {
     private Hero hero;
 
     private Location location;
+
+    public String getDate() {
+        return Date;
+    }
+
+    public void setDate(String Date) {
+        this.Date = Date;
+    }
 
     public int getId() {
         return id;
@@ -104,15 +118,16 @@ public class Sighting {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 89 * hash + this.id;
-        hash = 89 * hash + this.heroId;
-        hash = 89 * hash + this.locationId;
-        hash = 89 * hash + Objects.hashCode(this.localDate);
-        hash = 89 * hash + Objects.hashCode(this.timeAgo);
-        hash = 89 * hash + Objects.hashCode(this.heros);
-        hash = 89 * hash + Objects.hashCode(this.hero);
-        hash = 89 * hash + Objects.hashCode(this.location);
+        int hash = 3;
+        hash = 59 * hash + this.id;
+        hash = 59 * hash + this.heroId;
+        hash = 59 * hash + this.locationId;
+        hash = 59 * hash + Objects.hashCode(this.localDate);
+        hash = 59 * hash + Objects.hashCode(this.Date);
+        hash = 59 * hash + Objects.hashCode(this.timeAgo);
+        hash = 59 * hash + Objects.hashCode(this.heros);
+        hash = 59 * hash + Objects.hashCode(this.hero);
+        hash = 59 * hash + Objects.hashCode(this.location);
         return hash;
     }
 
@@ -137,6 +152,9 @@ public class Sighting {
         if (this.locationId != other.locationId) {
             return false;
         }
+        if (!Objects.equals(this.Date, other.Date)) {
+            return false;
+        }
         if (!Objects.equals(this.timeAgo, other.timeAgo)) {
             return false;
         }
@@ -157,7 +175,7 @@ public class Sighting {
 
     @Override
     public String toString() {
-        return "Sighting{" + "id=" + id + ", heroId=" + heroId + ", locationId=" + locationId + ", localDate=" + localDate + ", timeAgo=" + timeAgo + ", heros=" + heros + ", hero=" + hero + ", location=" + location + '}';
+        return "Sighting{" + "id=" + id + ", heroId=" + heroId + ", locationId=" + locationId + ", localDate=" + localDate + ", Date=" + Date + ", timeAgo=" + timeAgo + ", heros=" + heros + ", hero=" + hero + ", location=" + location + '}';
     }
 
 }

@@ -8,8 +8,6 @@ package com.sg.superherosighting.controller;
 import com.sg.superherosighting.entities.Hero;
 import com.sg.superherosighting.entities.Location;
 import com.sg.superherosighting.service.ServiceLayer;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -53,45 +51,14 @@ public class LocationController {
     }
 
     @PostMapping("addLocation")
-    public String addLocation(HttpServletRequest request, @Valid Location location, BindingResult valResult) {
+    public String addLocation(@Valid Location location, BindingResult result, HttpServletRequest request) {
 
-        String date = request.getParameter("date");
-
-        //heros ids
-        String[] herosIds = request.getParameterValues("herosId");
-
-        List<Hero> heros = new ArrayList<>();
-
-        if (herosIds != null) {
-            for (String heroId : herosIds) {
-
-                heros.add(service.getHeroById(Integer.parseInt(heroId)));
-            }
+        if (result.hasErrors()) {
+            service.validateLocation(location);
+            return "redirect:location";
         }
 
-        //parse date
-        if (!(date.isEmpty())) {
-            LocalDateTime locationDate = LocalDateTime.parse(date);
-
-            location.setLocalDate(locationDate);
-
-        }
-
-        //check if empty then add
-        if (service.validateLocation(location).isEmpty()) {
-
-            if (herosIds != null) {
-                //set orgs
-                location.setHeros(heros);
-
-            }
-            //add location
-            service.addLocation(location);
-
-            if (herosIds != null) {
-                service.insertLocationHero(location);
-            }
-        }
+        service.addLocation(location);
 
         return "redirect:allLocations";
     }
@@ -100,12 +67,14 @@ public class LocationController {
     public String editLocation(Integer locationId, Model model) {
 
         Location location = service.getLocationById(locationId);
+
         model.addAttribute("location", location);
         return "/location/editLocation";
     }
 
     @PostMapping("editLocation")
-    public String performEditLocation(@Valid Location location, BindingResult result, RedirectAttributes redirectAttributes) {
+    public String performEditLocation(@Valid Location location, BindingResult result, RedirectAttributes redirectAttributes,
+            HttpServletRequest request) {
 
         if (result.hasErrors()) {
             return "/location/editLocation";

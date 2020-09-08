@@ -111,12 +111,10 @@ public class HeroDaoDB implements HeroDao {
 
     private void updateHeroLocation(Hero hero) {
 
-        System.out.println("here ");
         if (hero.getLocations() != null) {
             final String INSERT_HERO_ORGANIZATION = "INSERT INTO sighting (hero_id, location_id, date) VALUES(?,?,?)";
 
             for (Location location : hero.getLocations()) {
-                System.out.println("location " + location.toString());
                 jdbc.update(INSERT_HERO_ORGANIZATION,
                         hero.getId(),
                         location.getId(),
@@ -276,7 +274,6 @@ public class HeroDaoDB implements HeroDao {
             hero.setDescription(rs.getString("description"));
             hero.setSuperPower(rs.getString("s.name") == null ? "null" : rs.getString("s.name"));
 
-//            System.out.println("HeroMapper " + hero.toString());
             return hero;
         }
     }

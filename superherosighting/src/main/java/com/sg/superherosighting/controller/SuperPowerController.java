@@ -7,10 +7,8 @@ package com.sg.superherosighting.controller;
 
 import com.sg.superherosighting.entities.Hero;
 import com.sg.superherosighting.entities.SuperPower;
-import com.sg.superherosighting.exceptions.SuperHeroDuplicateKeyException;
 import com.sg.superherosighting.service.ServiceLayer;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -78,7 +76,7 @@ public class SuperPowerController {
 
     @PostMapping("editSuperPower")
     public String performEditSuperPower(@Valid SuperPower superPower, BindingResult result, RedirectAttributes redirectAttributes,
-            HttpServletRequest request, Model model) throws SuperHeroDuplicateKeyException {
+            HttpServletRequest request, Model model) {
 
         if (result.hasErrors()) {
 
@@ -90,8 +88,6 @@ public class SuperPowerController {
 
         //heros ids
         String[] heroIds = request.getParameterValues("heroId");
-
-        System.out.println("heroIds " + Arrays.toString(heroIds));
 
         getAndSetHeros(heroIds, superPower);
 
@@ -142,40 +138,12 @@ public class SuperPowerController {
         return "superPower/superPowerDetails";
     }
 
-    @GetMapping("editSuperPowerHero")
-    public String editSuperPowerHero(Integer superPowerId, Integer heroId, Model model) {
-
-        List<Hero> heros = service.getAllHeros();
-        model.addAttribute("heros", heros);
-        model.addAttribute("heroId", heroId);
-        model.addAttribute("superPowerId", superPowerId);
-
-        return "superPower/editSuperPowerHero";
-    }
-
-    @PostMapping("editSuperPowerHero")
-    public String performSuperPowerHero(Model model, Integer newHeroId, Integer heroId, Integer superPowerId,
-            RedirectAttributes redirectAttributes) {
-
-        Hero hero = service.getHeroById(newHeroId);
-
-        SuperPower superPower = service.getSuperPowerById(superPowerId);
-
-        hero.setSuperPower(superPower.getName());
-        hero.setSuperPower_id(superPower.getId());
-
-        service.updateSuperPowerHero(hero, heroId);
-
-        redirectAttributes.addAttribute("superPowerId", superPower.getId());
-        return "redirect:superPowerDetails";
-    }
-
     private void getAndSetHeros(String[] heroIds, SuperPower superPower) {
 
         List<Hero> heros = new ArrayList<>();
 
         if (heroIds != null) {
-            System.out.println("no null");
+
             //get orgs
             for (String heroId : heroIds) {
 
@@ -184,8 +152,6 @@ public class SuperPowerController {
             //set orgs
             superPower.setHeros(heros);
         }
-
-        System.out.println("superPower -- " + superPower.toString());
 
     }
 }

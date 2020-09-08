@@ -42,8 +42,7 @@
                                             <th class='text-light'>ID</th>
                                             <th class='text-light'>Name</th>
                                             <th class='text-light'>Description</th>
-                                            <th class='text-light'>Edit</th>
-                                            <th class='text-light'>Delete</th>
+         
 
                                         </tr>
                                     </thead>
@@ -52,14 +51,7 @@
                                             <td th:text="${hero.id}">id</td>
                                             <td th:text="${hero.name}">name</td>
                                             <td th:text="${hero.description}">description</td>
-                                            <td> 
-                                                <a th:href="@{/editOrganizationHero( organizationId=${organizationDetails.id}, heroId=${hero.id})}" class="fas fa-edit text-primary">
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <a th:href="@{/deleteOrganizationHeroConfirm(organizationId=${organizationDetails.id}, heroId=${hero.id})}"  class="fas fa-trash-alt text-danger">
-                                                </a>
-                                            </td>
+ 
                                         </tr>
                                     </tbody>
                                 </table>

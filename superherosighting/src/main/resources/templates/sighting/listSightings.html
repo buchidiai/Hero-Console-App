@@ -15,9 +15,12 @@
             <div class="col-12 text-center p-3">
                 <a class=' text-primary ' th:href="@{/sighting}" >Go Back</a>
             </div>
+              <div  th:if="${sightings.empty}" class="col-12  d-flex justify-content-center p-5">
+                <h6>There are currently no Sightings.</h6>
+            </div>
 
             <!-- table Hero start-->
-            <div class="row p-2 d-flex justify-content-center">
+            <div class="row p-2 d-flex justify-content-center" th:if="${!sightings.empty}">
                 <div class=" text-center">
                     <table class="table table-striped border border-dark ">
                         <thead class='bg-dark'>

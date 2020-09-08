@@ -47,8 +47,6 @@ public class LocationDaoDB implements LocationDao {
     @Override
     public void insertLocationHero(Location location) {
 
-        System.out.println("locatin insert " + location.toString());
-
         final String INSERT_LOCATION_HERO = "INSERT INTO sighting (location_id, hero_id, date) VALUES(?,?,?)";
 
         for (Hero hero : location.getHeros()) {
@@ -80,7 +78,6 @@ public class LocationDaoDB implements LocationDao {
     @Transactional
     public Location addLocation(Location location) {
 
-        System.out.println("location " + location.toString());
         final String INSERT_LOCATION = "INSERT INTO location (name,description,address,latitude,longitude) "
                 + "VALUES(?,?,?,?,?)";
         jdbc.update(INSERT_LOCATION,
@@ -97,6 +94,7 @@ public class LocationDaoDB implements LocationDao {
     }
 
     @Override
+    @Transactional
     public void updateLocation(Location location) {
         final String UPDATE_LOCATION = "UPDATE location SET name = ?, description = ?, address = ?,latitude = ?,longitude = ? "
                 + "WHERE id = ?";
