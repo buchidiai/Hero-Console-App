@@ -104,14 +104,12 @@ public class SightingsController {
 
     /**
      *
-     * @param locationId
-     * @param heroId
      * @param sightingId
      * @param model
      * @return
      */
     @GetMapping("editSighting")
-    public String editSighting(Integer locationId, Integer heroId, Integer sightingId, Model model) {
+    public String editSighting(Integer sightingId, Model model) {
 
         Sighting sighting = sightingService.getSightingById(sightingId);
 
@@ -122,6 +120,9 @@ public class SightingsController {
         model.addAttribute("sightingId", sightingId);
         model.addAttribute("heros", heros);
         model.addAttribute("locations", locations);
+        model.addAttribute("errors", sightingService.getSightingViolations());
+
+        System.out.println("sightingId " + sightingId);
 
         return "/sighting/editSighting";
     }
@@ -136,21 +137,23 @@ public class SightingsController {
      * @return
      */
     @PostMapping("editSighting")
-    public String performEditSighting(Sighting sighting, BindingResult result, Integer sightingId, HttpServletRequest request,
-            RedirectAttributes redirectAttributes) {
+    public String performEditSighting(@Valid Sighting sighting, BindingResult result, HttpServletRequest request,
+            RedirectAttributes redirectAttributes, Model model) {
 
-        String date = request.getParameter("date");
-        String existingHeroId = request.getParameter("existingHeroId");
-        String existingLocationId = request.getParameter("existingLocationId");
+        if (result.hasErrors()) {
+            System.out.println("sighting erre " + sighting.toString());
+            sightingService.validateSighting(sighting);
+            redirectAttributes.addAttribute("sightingId", sighting.getId());
+            return "redirect:editSighting";
+        }
 
         //parse date
+        String date = request.getParameter("date");
         LocalDateTime sightingDate = LocalDateTime.parse(date);
-
         //set date to object
         sighting.setLocalDate(sightingDate);
-        sighting.setId(sightingId);
 
-        sightingService.updateSighting(sighting, Integer.parseInt(existingHeroId), Integer.parseInt(existingLocationId));
+        sightingService.updateSighting(sighting);
 
         redirectAttributes.addAttribute("sightingId", sighting.getId());
 

@@ -53,9 +53,9 @@ public class SightingSeviceLayerImpl implements SightingSeviceLayer {
     }
 
     @Override
-    public void updateSighting(Sighting sighting, Integer existingHeroId, Integer existingLocationId) {
+    public void updateSighting(Sighting sighting) {
 
-        sightingDao.updateSighting(sighting, existingHeroId, existingLocationId);
+        sightingDao.updateSighting(sighting);
     }
 
     @Override

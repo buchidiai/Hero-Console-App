@@ -11,8 +11,11 @@ import com.sg.superherosighting.entities.Sighting;
 import com.sg.superherosighting.entities.SuperPower;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -58,8 +61,6 @@ public class SightingDaoDBTest {
     @BeforeEach
     public void setUp() {
 
-        List<Hero> herosAtSighting = new ArrayList<>();
-
         List<Hero> heros = heroDao.getAllHeros();
 
         heros.forEach(hero -> {
@@ -103,10 +104,6 @@ public class SightingDaoDBTest {
         hero2.setSuperPower_id(superPower.getId());
         hero2 = heroDao.addHero(hero2);
 
-        //add heros to arraylist
-        herosAtSighting.add(hero1);
-        herosAtSighting.add(hero2);
-
         //addd location
         location = new Location();
         location.setName("East La");
@@ -117,35 +114,36 @@ public class SightingDaoDBTest {
         location = locationDao.addLocation(location);
 
         //parse date
-        LocalDateTime sightingDate = LocalDateTime.parse("2020-09-02T18:32");
+        LocalDateTime sightingDate = LocalDateTime.parse("2019-09-02T18:32");
 
         LocalDateTime sightingDate1 = LocalDateTime.parse("2020-10-03T18:32");
 
         sighting = new Sighting();
-        sighting.setHeros(herosAtSighting);
+        sighting.setHeros(new ArrayList<Hero>(Arrays.asList(hero1)));
         sighting.setLocalDate(sightingDate);
         sighting.setLocationId(location.getId());
 
         sighting1 = new Sighting();
-        sighting1.setHeros(herosAtSighting);
+        sighting1.setHeros(new ArrayList<Hero>(Arrays.asList(hero2)));
         sighting1.setLocalDate(sightingDate1);
         sighting1.setLocationId(location.getId());
 
     }
 
-//    @Test
-//    public void testAddGetSighting() {
-//
-//        //add sighting
-//        sighting = sightingDao.addSighting(sighting);
-//
-//        //get sighting
-//        Sighting foundSighting = sightingDao.getSightingById(sighting.getId());
-//
-//        assertEquals(sighting.getId(), foundSighting.getId());
-//        assertEquals(sighting.getLocationId(), foundSighting.getLocationId());
-//        assertEquals(sighting.getLocalDate(), foundSighting.getLocalDate());
-//    }
+    @Test
+    public void testAddGetSighting() {
+
+        //add sighting
+        sighting = sightingDao.addSighting(sighting);
+
+        //get sighting
+        Sighting foundSighting = sightingDao.getSightingById(sighting.getId());
+
+        assertEquals(sighting.getId(), foundSighting.getId());
+        assertEquals(sighting.getLocationId(), foundSighting.getLocationId());
+        assertEquals(sighting.getLocalDate(), foundSighting.getLocalDate());
+    }
+
     @Test
     public void testGetAllSightings() {
 
@@ -154,10 +152,57 @@ public class SightingDaoDBTest {
 
         sighting1 = sightingDao.addSighting(sighting1);
 
-        List<Sighting> sighting = sightingDao.getAllSightings();
+        List<Sighting> allSighting = sightingDao.getAllSightings();
 
-        assertEquals(4, sighting.size());
+        Sighting retrivedSighting1 = allSighting.get(0);
+        Sighting retrivedSighting2 = allSighting.get(1);
 
+        assertEquals(2, allSighting.size());
+
+        assertEquals(sighting.getId(), retrivedSighting2.getId());
+        assertEquals(sighting.getLocationId(), retrivedSighting2.getLocationId());
+        assertEquals(sighting.getLocalDate(), retrivedSighting2.getLocalDate());
+
+        assertEquals(sighting1.getId(), retrivedSighting1.getId());
+        assertEquals(sighting1.getLocationId(), retrivedSighting1.getLocationId());
+        assertEquals(sighting1.getLocalDate(), retrivedSighting1.getLocalDate());
+
+    }
+
+    @Test
+    public void testDeleteSightings() {
+
+        //add sighting
+        sighting = sightingDao.addSighting(sighting);
+
+        List<Sighting> allSighting = sightingDao.getAllSightings();
+
+        Sighting retrivedSighting1 = allSighting.get(0);
+
+        assertEquals(1, allSighting.size());
+
+        sightingDao.deleteSightingById(retrivedSighting1.getId());
+
+        assertTrue(sightingDao.getAllSightings().isEmpty());
+
+    }
+
+    @Test
+    public void testUpdateSightings() {
+
+        //add sighting
+        sighting = sightingDao.addSighting(sighting);
+
+        Sighting retrivedSighting = sightingDao.getSightingById(sighting.getId());
+
+        retrivedSighting.setHeroId(hero2.getId());
+
+        sightingDao.updateSighting(retrivedSighting);
+
+        Sighting updatedSighting = sightingDao.getSightingById(sighting.getId());
+
+        assertTrue(sighting.getHeros().get(0).getId() != updatedSighting.getHeroId());
+        assertNotEquals(sighting.getHeros(), updatedSighting.getHero());
     }
 
 }

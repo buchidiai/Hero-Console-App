@@ -57,9 +57,6 @@ public class SightingDaoDB implements SightingDao {
         try {
             final String SELECT_HERO_BY_ID = "SELECT h.id, h.name, h.description, s.name FROM  hero h JOIN superPower s On h.superPower_id = s.id WHERE h.id = ?";
             Hero hero = jdbc.queryForObject(SELECT_HERO_BY_ID, new HeroDaoDB.HeroMapper(), id);
-            int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
-            hero.setId(newId);
-
             return hero;
         } catch (DataAccessException ex) {
             return null;
@@ -96,18 +93,17 @@ public class SightingDaoDB implements SightingDao {
         for (Hero hero : sighting.getHeros()) {
 
             jdbc.update(INSERT_INTO_SIGHTING, sighting.getLocationId(), hero.getId(), sighting.getLocalDate());
+            int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
 
+            sighting.setId(newId);
         }
 
-        int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
-
-        sighting.setId(newId);
         return sighting;
 
     }
 
     @Override
-    public void updateSighting(Sighting sighting, Integer existingHeroId, Integer existingLocationId) {
+    public void updateSighting(Sighting sighting) {
 
         final String UPDATE_SIGHTING = "UPDATE sighting SET location_id = ?, hero_id = ?  WHERE id = ?";
 

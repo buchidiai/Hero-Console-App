@@ -11,7 +11,6 @@ import java.util.Objects;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 
 /**
  *
@@ -26,10 +25,7 @@ public class Sighting {
     @NotNull
     @Min(value = 1, message = "Please select a Location")
     private int locationId;
-//    @NotNull(message = "Please select a Date")
-    @Past(message = "Date must be today or in the past.")
-////    @DateTimeFormat(pattern = "MM-dd-yyyy")
-//    @DateTimeFormat(pattern = "yyyy-MM-dd")
+
     private LocalDateTime localDate;
 
     @NotNull(message = "Please select a Date")
