@@ -30,24 +30,22 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class HeroDaoDBTest {
 
     @Autowired
-    SuperPowerDao superPowerDao;
+    private SuperPowerDao superPowerDao;
 
     @Autowired
-    HeroDao heroDao;
+    private HeroDao heroDao;
 
     @Autowired
-    LocationDao locationDao;
+    private LocationDao locationDao;
 
     @Autowired
-    OrganizationDao organizationDao;
+    private OrganizationDao organizationDao;
 
-    @Autowired
-    SightingDao sightingDao;
-
-    SuperPower superPower = null;
-    Hero hero1 = null;
-    Hero hero2 = null;
-    Organization organization1 = null;
+    private SuperPower superPower = null;
+    private Hero hero1 = null;
+    private Hero hero2 = null;
+    private Organization organization1 = null;
+    private Location location = null;
 
     public HeroDaoDBTest() {
     }
@@ -99,6 +97,13 @@ public class HeroDaoDBTest {
         organization1.setName("Justice League");
         organization1.setDescription("Org for best Heros");
         organization1.setAddress("Space");
+
+        location = new Location();
+        location.setName("East La");
+        location.setDescription("Shopping center");
+        location.setAddress("12 east ln");
+        location.setLatitude("45.5454");
+        location.setLongitude("54.5454");
 
     }
 
@@ -158,7 +163,6 @@ public class HeroDaoDBTest {
         assertEquals(hero1.getName(), heros.get(1).getName());
 
     }
-//
 
     @Test
     public void testUpdateHero() {
@@ -206,7 +210,7 @@ public class HeroDaoDBTest {
     }
 
     @Test
-    public void testInsertHeroToOrganization() {
+    public void testAddOrganizationToHero() {
 
         //add org
         organization1 = organizationDao.addOrganization(organization1);
@@ -229,6 +233,33 @@ public class HeroDaoDBTest {
         Hero heroFound = heroDao.getHeroDetails(hero1.getId());
 
         assertEquals(organizations, heroFound.getOrganizations());
+
+    }
+
+    @Test
+    public void testAddLocationToHero() {
+
+        //add location
+        location = locationDao.addLocation(location);
+
+        //add hero
+        hero1 = heroDao.addHero(hero1);
+
+        //get org
+        location = locationDao.getLocationById(location.getId());
+
+        List<Location> locations = new ArrayList<>();
+        locations.add(location);
+
+        //set location to hero object
+        hero1.setLocations(locations);
+
+        //add org - hero to bridge table
+        heroDao.updateHero(hero1);
+
+        Hero heroFound = heroDao.getHeroDetails(hero1.getId());
+
+        assertEquals(locations.get(0).getId(), heroFound.getLocations().get(0).getId());
 
     }
 

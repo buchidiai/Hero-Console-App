@@ -16,8 +16,6 @@ import javax.validation.ConstraintViolation;
  */
 public interface SightingSeviceLayer {
 
-    void deleteSuperPowerById(int id);
-
     Sighting getSightingById(int id);
 
     List<Sighting> getAllSightings();
@@ -26,7 +24,7 @@ public interface SightingSeviceLayer {
 
     void updateSighting(Sighting sighting, Integer existingHeroId, Integer existingLocationId);
 
-    void deleteSightingById(int heroId, int locationId, int sightingId);
+    void deleteSightingById(int sightingId);
 
     Set<ConstraintViolation<Sighting>> getSightingViolations();
 

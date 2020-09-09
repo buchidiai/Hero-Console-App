@@ -33,6 +33,11 @@ public class LocationController {
     @Autowired
     private HeroSeviceLayer heroService;
 
+    /**
+     *
+     * @param model
+     * @return
+     */
     @GetMapping("location")
     public String getLocationPage(Model model) {
 
@@ -44,6 +49,11 @@ public class LocationController {
         return "/location/location";
     }
 
+    /**
+     *
+     * @param model
+     * @return
+     */
     @GetMapping("allLocations")
     public String getAllLocations(Model model) {
 
@@ -54,6 +64,13 @@ public class LocationController {
         return "/location/listLocations";
     }
 
+    /**
+     *
+     * @param location
+     * @param result
+     * @param request
+     * @return
+     */
     @PostMapping("addLocation")
     public String addLocation(@Valid Location location, BindingResult result, HttpServletRequest request) {
 
@@ -67,6 +84,12 @@ public class LocationController {
         return "redirect:allLocations";
     }
 
+    /**
+     *
+     * @param locationId
+     * @param model
+     * @return
+     */
     @GetMapping("editLocation")
     public String editLocation(Integer locationId, Model model) {
 
@@ -76,6 +99,14 @@ public class LocationController {
         return "/location/editLocation";
     }
 
+    /**
+     *
+     * @param location
+     * @param result
+     * @param redirectAttributes
+     * @param request
+     * @return
+     */
     @PostMapping("editLocation")
     public String performEditLocation(@Valid Location location, BindingResult result, RedirectAttributes redirectAttributes,
             HttpServletRequest request) {
@@ -90,6 +121,13 @@ public class LocationController {
         return "redirect:locationDetails";
     }
 
+    /**
+     *
+     * @param locationId
+     * @param heroId
+     * @param model
+     * @return
+     */
     @GetMapping("editLocationHero")
     public String editLocationHero(Integer locationId, Integer heroId, Model model) {
 
@@ -110,6 +148,14 @@ public class LocationController {
         return "/location/editLocationHero";
     }
 
+    /**
+     *
+     * @param newHeroId
+     * @param locationId
+     * @param heroId
+     * @param redirectAttributes
+     * @return
+     */
     @PostMapping("editLocationHero")
     public String performEditLocationHero(Integer newHeroId, Integer locationId, Integer heroId, RedirectAttributes redirectAttributes) {
 
@@ -124,6 +170,12 @@ public class LocationController {
         return "redirect:locationDetails";
     }
 
+    /**
+     *
+     * @param locationId
+     * @param model
+     * @return
+     */
     @GetMapping("deleteLocationConfirm")
     public String deleteLocationConfirm(Integer locationId, Model model) {
 
@@ -132,6 +184,11 @@ public class LocationController {
         return "/location/deleteLocationConfirm";
     }
 
+    /**
+     *
+     * @param locationId
+     * @return
+     */
     @GetMapping("deleteLocation")
     public String deleteLocation(Integer locationId) {
 
@@ -140,6 +197,13 @@ public class LocationController {
         return "redirect:allLocations";
     }
 
+    /**
+     *
+     * @param heroId
+     * @param locationId
+     * @param model
+     * @return
+     */
     @GetMapping("deleteLocationHeroConfirm")
     public String deleteLocationHeroConfirm(Integer heroId, Integer locationId, Model model) {
 
@@ -149,6 +213,14 @@ public class LocationController {
         return "/location/deleteLocationHeroConfirm";
     }
 
+    /**
+     *
+     * @param heroId
+     * @param locationId
+     * @param model
+     * @param redirectAttributes
+     * @return
+     */
     @GetMapping("deleteLocationHero")
     public String deleteLocationHero(Integer heroId, Integer locationId, Model model, RedirectAttributes redirectAttributes) {
 
@@ -163,6 +235,12 @@ public class LocationController {
         return "redirect:locationDetails";
     }
 
+    /**
+     *
+     * @param locationId
+     * @param model
+     * @return
+     */
     @GetMapping("locationDetails")
     public String locationDetails(Integer locationId, Model model) {
 

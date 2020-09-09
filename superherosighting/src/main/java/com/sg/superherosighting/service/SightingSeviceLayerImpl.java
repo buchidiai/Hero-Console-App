@@ -47,19 +47,15 @@ public class SightingSeviceLayerImpl implements SightingSeviceLayer {
     }
 
     @Override
-    public void deleteSightingById(int heroId, int locationId, int sightingId) {
-        sightingDao.deleteSightingByIds(heroId, locationId, sightingId);
+    public void deleteSightingById(int sightingId) {
+
+        sightingDao.deleteSightingById(sightingId);
     }
 
     @Override
     public void updateSighting(Sighting sighting, Integer existingHeroId, Integer existingLocationId) {
 
         sightingDao.updateSighting(sighting, existingHeroId, existingLocationId);
-    }
-
-    @Override
-    public void deleteSuperPowerById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

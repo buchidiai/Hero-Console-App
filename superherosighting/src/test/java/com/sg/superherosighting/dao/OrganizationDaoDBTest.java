@@ -5,7 +5,10 @@
  */
 package com.sg.superherosighting.dao;
 
+import com.sg.superherosighting.entities.Hero;
 import com.sg.superherosighting.entities.Organization;
+import com.sg.superherosighting.entities.SuperPower;
+import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -27,20 +30,43 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class OrganizationDaoDBTest {
 
     @Autowired
-    OrganizationDao organizationDao;
+    private SuperPowerDao superPowerDao;
 
     @Autowired
-    SuperPowerDao superPowerDao;
+    private OrganizationDao organizationDao;
 
-    Organization organization1 = null;
+    @Autowired
+    private HeroDao heroDao;
 
-    Organization organization2 = null;
+    private Organization organization1 = null;
+
+    private Organization organization2 = null;
+
+    private Hero hero1 = null;
+
+    private Hero hero2 = null;
+
+    private SuperPower superPower = null;
+
+    private SuperPower superPower1 = null;
 
     public OrganizationDaoDBTest() {
     }
 
     @BeforeEach
     public void setUp() {
+
+        List<Hero> heros = heroDao.getAllHeros();
+
+        heros.forEach(hero -> {
+            heroDao.deleteHeroById(hero.getId());
+        });
+
+        List<SuperPower> superPowers = superPowerDao.getAllSuperPowers();
+
+        superPowers.forEach(superPower -> {
+            superPowerDao.deleteSuperPowerById(superPower.getId());
+        });
 
         List<Organization> organizations = organizationDao.getAllOrganizations();
 
@@ -59,6 +85,27 @@ public class OrganizationDaoDBTest {
         organization2.setName("Evil Villian Club");
         organization2.setDescription("Haven for villans");
         organization2.setAddress("20000 evil dr, California, La 90201");
+
+        //add super power
+        superPower = new SuperPower();
+        superPower.setName("Xray");
+        superPower = superPowerDao.addSuperPower(superPower);
+
+        superPower1 = new SuperPower();
+        superPower1.setName("Strength");
+        superPower1 = superPowerDao.addSuperPower(superPower1);
+
+        //add hero
+        hero1 = new Hero();
+        hero1.setName("Super Man");
+        hero1.setDescription("born on the planet Krypton and was given the name Kal-El.");
+        hero1.setSuperPower_id(superPower.getId());
+
+        //add hero
+        hero2 = new Hero();
+        hero2.setName("Iron Man");
+        hero2.setDescription("tech genius.");
+        hero2.setSuperPower_id(superPower1.getId());
 
     }
 
@@ -135,6 +182,31 @@ public class OrganizationDaoDBTest {
         Organization deletedOrganization = organizationDao.getOrganizationById(organization1.getId());
 
         assertNull(deletedOrganization);
+
+    }
+
+    @Test
+    public void testAddHeroToOrganization() {
+
+        hero1 = heroDao.addHero(hero1);
+
+        hero2 = heroDao.addHero(hero2);
+
+        List<Hero> heros = new ArrayList<>();
+        heros.add(hero1);
+        heros.add(hero2);
+
+        //add organization
+        organization1 = organizationDao.addOrganization(organization1);
+
+        organization1.setHeros(heros);
+
+        organizationDao.updateOrganization(organization1);
+
+        Organization organization = organizationDao.getOrganizationDetails(organization1.getId());
+
+        List<Hero> addedHeros = organization.getHeros();
+        assertEquals(2, addedHeros.size());
 
     }
 

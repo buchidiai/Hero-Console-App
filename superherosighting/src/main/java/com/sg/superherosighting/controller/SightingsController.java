@@ -40,6 +40,11 @@ public class SightingsController {
     @Autowired
     private LocationSeviceLayer locationService;
 
+    /**
+     *
+     * @param model
+     * @return
+     */
     @GetMapping("sighting")
     public String getSightingPage(Model model) {
 
@@ -55,6 +60,11 @@ public class SightingsController {
         return "/sighting/sighting";
     }
 
+    /**
+     *
+     * @param model
+     * @return
+     */
     @GetMapping("allSightings")
     public String getAllSightings(Model model) {
 
@@ -64,6 +74,13 @@ public class SightingsController {
         return "sighting/listSightings";
     }
 
+    /**
+     *
+     * @param sighting
+     * @param result
+     * @param request
+     * @return
+     */
     @PostMapping("addSighting")
     public String addSighting(@Valid Sighting sighting, BindingResult result, HttpServletRequest request) {
 
@@ -85,6 +102,14 @@ public class SightingsController {
         return "redirect:allSightings";
     }
 
+    /**
+     *
+     * @param locationId
+     * @param heroId
+     * @param sightingId
+     * @param model
+     * @return
+     */
     @GetMapping("editSighting")
     public String editSighting(Integer locationId, Integer heroId, Integer sightingId, Model model) {
 
@@ -101,6 +126,15 @@ public class SightingsController {
         return "/sighting/editSighting";
     }
 
+    /**
+     *
+     * @param sighting
+     * @param result
+     * @param sightingId
+     * @param request
+     * @param redirectAttributes
+     * @return
+     */
     @PostMapping("editSighting")
     public String performEditSighting(Sighting sighting, BindingResult result, Integer sightingId, HttpServletRequest request,
             RedirectAttributes redirectAttributes) {
@@ -123,23 +157,40 @@ public class SightingsController {
         return "redirect:sightingDetails";
     }
 
+    /**
+     *
+     * @param sightingId
+     * @param model
+     * @return
+     */
     @GetMapping("deleteSightingConfirm")
-    public String deleteSightingConfirm(Integer heroId, Integer locationId, Integer sightingId, Model model) {
+    public String deleteSightingConfirm(Integer sightingId, Model model) {
 
-        model.addAttribute("heroId", heroId);
-        model.addAttribute("locationId", locationId);
         model.addAttribute("sightingId", sightingId);
 
         return "/sighting/deleteSightingConfirm";
     }
 
+    /**
+     *
+     * @param heroId
+     * @param locationId
+     * @param sightingId
+     * @return
+     */
     @GetMapping("deleteSighting")
-    public String deleteSighting(Integer heroId, Integer locationId, Integer sightingId) {
+    public String deleteSighting(Integer sightingId) {
 
-        sightingService.deleteSightingById(heroId, locationId, sightingId);
+        sightingService.deleteSightingById(sightingId);
         return "redirect:allSightings";
     }
 
+    /**
+     *
+     * @param sightingId
+     * @param model
+     * @return
+     */
     @GetMapping("sightingDetails")
     public String sightingDetails(Integer sightingId, Model model) {
 

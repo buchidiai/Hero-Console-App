@@ -34,6 +34,11 @@ public class SuperPowerController {
     @Autowired
     private HeroSeviceLayer heroService;
 
+    /**
+     *
+     * @param model
+     * @return
+     */
     @GetMapping("superPower")
     public String getSuperPowerPage(Model model) {
 
@@ -42,6 +47,11 @@ public class SuperPowerController {
         return "/superPower/superPower";
     }
 
+    /**
+     *
+     * @param model
+     * @return
+     */
     @GetMapping("allSuperPowers")
     public String getAllSuperPowers(Model model) {
 
@@ -52,6 +62,12 @@ public class SuperPowerController {
         return "/superPower/listSuperPowers";
     }
 
+    /**
+     *
+     * @param superPower
+     * @param result
+     * @return
+     */
     @PostMapping("addSuperPower")
     public String addSuperPower(@Valid SuperPower superPower, BindingResult result) {
 
@@ -65,6 +81,12 @@ public class SuperPowerController {
         return "redirect:allSuperPowers";
     }
 
+    /**
+     *
+     * @param superPowerId
+     * @param model
+     * @return
+     */
     @GetMapping("editSuperPower")
     public String editSuperPower(Integer superPowerId, Model model) {
 
@@ -78,6 +100,15 @@ public class SuperPowerController {
         return "/superPower/editSuperPower";
     }
 
+    /**
+     *
+     * @param superPower
+     * @param result
+     * @param redirectAttributes
+     * @param request
+     * @param model
+     * @return
+     */
     @PostMapping("editSuperPower")
     public String performEditSuperPower(@Valid SuperPower superPower, BindingResult result, RedirectAttributes redirectAttributes,
             HttpServletRequest request, Model model) {
@@ -112,6 +143,13 @@ public class SuperPowerController {
         return "redirect:superPowerDetails";
     }
 
+    /**
+     *
+     * @param superPowerId
+     * @param heroId
+     * @param model
+     * @return
+     */
     @GetMapping("deleteSuperPowerConfirm")
     public String deleteSuperPowerConfirm(Integer superPowerId, Integer heroId, Model model) {
 
@@ -121,6 +159,12 @@ public class SuperPowerController {
         return "/superPower/deleteSuperPowerConfirm";
     }
 
+    /**
+     *
+     * @param superPowerId
+     * @param heroId
+     * @return
+     */
     @GetMapping("deleteSuperPower")
     public String deleteSuperPower(Integer superPowerId, Integer heroId) {
 
@@ -129,6 +173,12 @@ public class SuperPowerController {
         return "redirect:allSuperPowers";
     }
 
+    /**
+     *
+     * @param superPowerId
+     * @param model
+     * @return
+     */
     @GetMapping("superPowerDetails")
     public String superPowerDetails(Integer superPowerId, Model model) {
 

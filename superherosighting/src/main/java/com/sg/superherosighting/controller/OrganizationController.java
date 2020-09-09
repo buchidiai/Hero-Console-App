@@ -34,6 +34,11 @@ public class OrganizationController {
     @Autowired
     private HeroSeviceLayer heroService;
 
+    /**
+     *
+     * @param model
+     * @return
+     */
     @GetMapping("organization")
     public String getOrganizationPage(Model model) {
 
@@ -42,6 +47,11 @@ public class OrganizationController {
         return "/organization/organization";
     }
 
+    /**
+     *
+     * @param model
+     * @return
+     */
     @GetMapping("allOrganizations")
     public String getAllOrganizations(Model model) {
 
@@ -52,6 +62,13 @@ public class OrganizationController {
         return "/organization/listOrganizations";
     }
 
+    /**
+     *
+     * @param organization
+     * @param result
+     * @param request
+     * @return
+     */
     @PostMapping("addOrganization")
     public String addOrganization(@Valid Organization organization, BindingResult result, HttpServletRequest request) {
 
@@ -65,6 +82,12 @@ public class OrganizationController {
         return "redirect:allOrganizations";
     }
 
+    /**
+     *
+     * @param organizationId
+     * @param model
+     * @return
+     */
     @GetMapping("editOrganization")
     public String editOrganization(Integer organizationId, Model model) {
 
@@ -78,6 +101,14 @@ public class OrganizationController {
         return "/organization/editOrganization";
     }
 
+    /**
+     *
+     * @param organization
+     * @param result
+     * @param redirectAttributes
+     * @param request
+     * @return
+     */
     @PostMapping("editOrganization")
     public String performEditOrganization(@Valid Organization organization, BindingResult result, RedirectAttributes redirectAttributes,
             HttpServletRequest request) {
@@ -101,6 +132,12 @@ public class OrganizationController {
         return "redirect:organizationDetails";
     }
 
+    /**
+     *
+     * @param organizationId
+     * @param model
+     * @return
+     */
     @GetMapping("deleteOrganizationConfirm")
     public String deleteOrganizationConfirm(Integer organizationId, Model model) {
 
@@ -109,6 +146,11 @@ public class OrganizationController {
         return "/organization/deleteOrganizationConfirm";
     }
 
+    /**
+     *
+     * @param organizationId
+     * @return
+     */
     @GetMapping("deleteOrganization")
     public String deleteOrganization(Integer organizationId) {
 
@@ -117,6 +159,12 @@ public class OrganizationController {
         return "redirect:allOrganizations";
     }
 
+    /**
+     *
+     * @param organizationId
+     * @param model
+     * @return
+     */
     @GetMapping("organizationDetails")
     public String organizationDetails(Integer organizationId, Model model) {
 

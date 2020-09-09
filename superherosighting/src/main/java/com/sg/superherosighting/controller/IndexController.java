@@ -24,6 +24,11 @@ public class IndexController {
     @Autowired
     private SightingSeviceLayer sightingService;
 
+    /**
+     *
+     * @param model
+     * @return
+     */
     @GetMapping("/")
     public String index(Model model) {
 

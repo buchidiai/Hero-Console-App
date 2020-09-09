@@ -22,8 +22,6 @@ public interface SightingDao {
 
     void updateSighting(Sighting sighting, Integer existingHeroId, Integer existingLocationId);
 
-    void deleteSightingByIds(int heroId, int locationId, int sightingId);
-
     void deleteSightingById(int sightingId);
 
 }

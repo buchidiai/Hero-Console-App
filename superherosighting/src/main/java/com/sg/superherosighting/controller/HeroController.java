@@ -45,6 +45,11 @@ public class HeroController {
     @Autowired
     private SuperPowerSeviceLayer superPowerService;
 
+    /**
+     *
+     * @param model
+     * @return hero page
+     */
     @GetMapping("hero")
     public String getHeroPage(Model model) {
 
@@ -54,6 +59,11 @@ public class HeroController {
         return "/hero/hero";
     }
 
+    /**
+     *
+     * @param model
+     * @return listheroPage
+     */
     @GetMapping("allHeros")
     public String getAllHeros(Model model) {
         //get all heros
@@ -64,6 +74,13 @@ public class HeroController {
         return "/hero/listHeros";
     }
 
+    /**
+     *
+     * @param hero - hero object from client
+     * @param result
+     * @param request
+     * @return allHeros page
+     */
     @PostMapping("addHero")
     public String addHero(@Valid Hero hero, BindingResult result, HttpServletRequest request) {
 
@@ -79,6 +96,12 @@ public class HeroController {
         return "redirect:allHeros";
     }
 
+    /**
+     *
+     * @param id
+     * @param model
+     * @return
+     */
     @GetMapping("heroDetails")
     public String heroDetails(Integer id, Model model) {
 
@@ -90,6 +113,12 @@ public class HeroController {
         return "/hero/heroDetails";
     }
 
+    /**
+     *
+     * @param id
+     * @param model
+     * @return
+     */
     @GetMapping("editHero")
     public String editHero(Integer id, Model model) {
 
@@ -109,6 +138,15 @@ public class HeroController {
         return "/hero/editHero";
     }
 
+    /**
+     *
+     * @param hero
+     * @param result
+     * @param redirectAttributes
+     * @param request
+     * @param model
+     * @return
+     */
     @PostMapping("editHero")
     public String performEditHero(@Valid Hero hero, BindingResult result, RedirectAttributes redirectAttributes,
             HttpServletRequest request, Model model) {
@@ -147,6 +185,12 @@ public class HeroController {
         return "redirect:heroDetails";
     }
 
+    /**
+     *
+     * @param id
+     * @param model
+     * @return
+     */
     @GetMapping("deleteHeroConfirm")
     public String deleteHeroConfirm(Integer id, Model model) {
 
@@ -155,6 +199,11 @@ public class HeroController {
         return "/hero/deleteHeroConfirm";
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     @GetMapping("deleteHero")
     public String deleteHero(Integer id) {
 
